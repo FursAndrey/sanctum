@@ -1,6 +1,9 @@
 <template>
     <div>
         App
+        <h1 class="text-3xl font-bold underline">
+            Hello world!
+        </h1>
         <div class="flex justify-between p-8 w-96 mx-auto">
 
             <router-link :to="{ name: 'Index'}" class="p-2">Index</router-link>
