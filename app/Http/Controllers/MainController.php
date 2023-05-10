@@ -8,11 +8,11 @@ class MainController extends Controller
 {
     public function openTest()
     {
-        return 'openTest';
+        return response()->json(['text' => 'openTest']);
     }
 
     public function closeTest()
     {
-        return 'closeTest';
+        return response()->json(['text' => 'closeTest']);
     }
 }
