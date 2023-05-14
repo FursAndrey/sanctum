@@ -1,7 +1,6 @@
 <template>
     <div>
         <div class="w-96 mx-auto mb-16">
-
             <div>
                 <input v-model="name" type="name" placeholder="name"
                        class="w-96 p-2 mb-2 border border-inherit rounded-lg">

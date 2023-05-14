@@ -1,5 +1,10 @@
 <template>
     <div>
+        <div class="admin-menu">
+            <div class="flex justify-between w-96 mx-auto">
+                <router-link :to="{ name: 'post.index'}" class="p-2">Posts</router-link>
+            </div>
+        </div>
         <div class="header-menu">
             <div class="flex justify-between w-96 mx-auto">
                 <router-link :to="{ name: 'Index'}" class="p-2">Index</router-link>
@@ -28,5 +33,8 @@ export default {
 <style scoped>
 div.header-menu {
     background-color: black;
+}
+div.admin-menu {
+    background-color: #211c3c;
 }
 </style>
