@@ -10,8 +10,20 @@
         <div>
             <textarea v-model="body" rows="4" class="block p-3 mb-2 w-full rounded-lg border border-gray-300" placeholder="Write body your post here..."></textarea>
         </div>
+        <div class="flex space-x-8">
+            <div>
+                <input @change="storeImage" ref="file" type="file" class="hidden">
+                <span class="block w-48 p-2 mb-2 bg-teal-700 text-white rounded-lg text-center cursor-pointer" @click.prevent="selectFile()">Image</span>
+            </div>
+            <div v-if="image" @click="image = null" class="block w-44 p-2 mb-2 ml-2 bg-orange-500 text-white rounded-lg hover:bg-orange-700 text-center">
+                Cancel
+            </div>
+        </div>
+        <div v-if="image" class="mb-2">
+            <img :src="image.url"/>
+        </div>
         <div class="flex justify-between">
-            <router-link :to="{ name: 'post.index'}" class="block w-48 p-2 font-bold bg-amber-600 text-white rounded-lg text-center">Return to posts</router-link>
+            <router-link :to="{ name: 'post.index'}" class="block w-48 p-2 bg-amber-600 text-white rounded-lg text-center">Return to posts</router-link>
             <input @click.prevent="store" type="submit" value="Store" class="w-32 p-2 bg-lime-600 text-white rounded-lg cursor-pointer">
         </div>
     </div>
@@ -26,6 +38,7 @@ export default {
             errorMessage: null,
             title: null,
             body: null,
+            image: null,
         }
     },
 
@@ -38,6 +51,31 @@ export default {
                 })
                 .catch(err => {
                     this.errorMessage = err.response.data.message;
+                })
+        },
+        
+        selectFile() {
+            this.fileInput = this.$refs.file;
+            this.fileInput.click();
+        },
+        
+        storeImage(e) {
+            let file = e.target.files[0];
+            const formData = new FormData();
+            formData.append('image', file);
+            
+            axios.post(
+                '/api/preview', 
+                formData, 
+                {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                })
+                .then(res => {
+                    this.image = res.data.data;
+                }).catch(error=>{
+                    this.errorMessage = error.response.data.message;
                 })
         },
     }

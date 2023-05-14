@@ -10,7 +10,7 @@
             <input v-model="password" type="password" placeholder="password" class="w-96 p-2 mb-2 border border-inherit rounded-lg">
         </div>
         <div>
-            <input @click.prevent="login" type="submit" value="login" class="block mx-auto w-32 p-2 bg-sky-400 text-white rounded-lg">
+            <input @click.prevent="login" type="submit" value="login" class="block mx-auto w-32 p-2 bg-sky-700 text-white rounded-lg cursor-pointer">
         </div>
     </div>
 </template>

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\PostController;
+use App\Http\Controllers\Admin\PreviewController;
 use App\Http\Controllers\MainController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -20,4 +21,6 @@ Route::group(['middleware' => 'auth:sanctum'], function() {
     Route::get('/close', [MainController::class, 'closeTest']);
 });
 Route::get('/open', [MainController::class, 'openTest']);
+
 Route::apiResource('/posts', PostController::class);
+Route::post('/preview', [PreviewController::class, 'store']);

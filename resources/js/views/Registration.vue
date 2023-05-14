@@ -18,7 +18,7 @@
                        class="w-96 p-2 mb-2 border border-inherit rounded-lg">
             </div>
             <input @click.prevent="register" type="submit" value="register"
-                   class="block mx-auto w-32 p-2 bg-sky-400 text-white rounded-lg">
+                   class="block mx-auto w-32 p-2 bg-sky-700 text-white rounded-lg cursor-pointer">
         </div>
     </div>
 </template>
