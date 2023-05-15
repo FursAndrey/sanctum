@@ -9,6 +9,7 @@
                         <table class="min-w-full text-center text-sm font-light">
                             <thead class="border-b bg-neutral-800 font-medium text-white dark:border-neutral-500 dark:bg-neutral-900">
                                 <tr>
+                                    <th scope="col" class=" px-6 py-4">Preview</th>
                                     <th scope="col" class=" px-6 py-4">Title</th>
                                     <th scope="col" class=" px-6 py-4">Published</th>
                                     <th scope="col"></th>
@@ -16,6 +17,7 @@
                             </thead>
                             <tbody>
                                 <tr v-for="post in posts" :key="post.id" class="border-b dark:border-neutral-500">
+                                    <td class="whitespace-nowrap px-6 py-4"><img class="mx-auto w-28" v-if="post.preview" :src="post.preview.url" :alt="post.title"/></td>
                                     <td class="whitespace-nowrap px-6 py-4 text-left">
                                         <router-link :to="{ name: 'post.show', params:{ id: post.id } }" class="p-2 me-6 font-bold bg-sky-700 text-white rounded-lg text-center">learn more</router-link>
                                         {{ post.title }}

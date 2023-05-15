@@ -14,9 +14,6 @@
                 <span v-if="token" @click.prevent="logout" class="p-2 cursor-pointer">Logout</span>
             </div>
         </div>
-        <h1 class="text-3xl font-bold underline">
-            Hello world!
-        </h1>
         
         <router-view></router-view>
     </div>

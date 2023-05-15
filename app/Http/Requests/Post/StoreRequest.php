@@ -24,7 +24,7 @@ class StoreRequest extends FormRequest
         return [
             'title' => 'required|string',
             'body' => 'required|string',
-            // 'image_id' => 'nullable|integer|exists:post_images,id',
+            'image_id' => 'nullable|integer|exists:previews,id',
         ];
     }
 }

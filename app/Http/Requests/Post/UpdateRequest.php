@@ -24,6 +24,7 @@ class UpdateRequest extends FormRequest
         return [
             'title' => 'required|string',
             'body' => 'required|string',
+            'image_id' => 'nullable|integer|exists:previews,id',
         ];
     }
 }

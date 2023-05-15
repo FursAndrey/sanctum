@@ -13,7 +13,7 @@
         <div class="flex space-x-8">
             <div>
                 <input @change="storeImage" ref="file" type="file" class="hidden">
-                <span class="block w-48 p-2 mb-2 bg-teal-700 text-white rounded-lg text-center cursor-pointer" @click.prevent="selectFile()">Image</span>
+                <span class="block w-48 p-2 mb-2 bg-teal-700 text-white rounded-lg text-center cursor-pointer" @click.prevent="selectFile()">Preview</span>
             </div>
             <div v-if="image" @click="image = null" class="block w-44 p-2 mb-2 ml-2 bg-orange-500 text-white rounded-lg hover:bg-orange-700 text-center">
                 Cancel
@@ -44,7 +44,9 @@ export default {
 
     methods: {
         store() {
-            axios.post('/api/posts', {title: this.title, body: this.body})
+            const image_id = this.image? this.image.id: null;
+
+            axios.post('/api/posts', {title: this.title, body: this.body, image_id: image_id})
                 .then(r => {
                     // console.log(r);
                     this.$router.push({name: 'post.index'})

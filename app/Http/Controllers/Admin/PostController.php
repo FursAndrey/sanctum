@@ -2,11 +2,19 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Actions\Preview\cutImageIdAction;
+use App\Actions\Preview\destroyAllUnjoinedPreviews;
+use App\Actions\Preview\destroyOnePreview;
+use App\Actions\Preview\joinPostPreview;
+
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Post\StoreRequest;
 use App\Http\Requests\Post\UpdateRequest;
 use App\Http\Resources\PostResource;
 use App\Models\Post;
+use Exception;
+use Illuminate\Support\Facades\DB;
+// use Illuminate\Support\Facades\Log;
 
 class PostController extends Controller
 {
@@ -25,8 +33,21 @@ class PostController extends Controller
      */
     public function store(StoreRequest $request)
     {
-        $data = $request->validated();
-        $post = Post::create($data);
+        // Log::info('This is some useful information.');
+        try {
+            DB::beginTransaction();
+            
+            $data = $request->validated();
+            $imageId = (new cutImageIdAction)($data);
+            $post = Post::create($data);
+            (new joinPostPreview)($post->id, $imageId);
+            (new destroyAllUnjoinedPreviews)();
+
+            DB::commit();
+        } catch (Exception $exception) {
+            DB::rollBack();
+            return response()->json(['error' => $exception->getMessage()]);
+        }
         
         return new PostResource($post);
     }
@@ -44,8 +65,22 @@ class PostController extends Controller
      */
     public function update(UpdateRequest $request, Post $post)
     {
-        $post->fill($request->validated())->save();
-        
+        try {
+            DB::beginTransaction();
+
+            (new destroyOnePreview)($post->preview);
+
+            $data = $request->validated();
+            $imageId = (new cutImageIdAction)($data);
+            $post->fill($data)->save();
+            (new joinPostPreview)($post->id, $imageId);
+            (new destroyAllUnjoinedPreviews)();
+            
+            DB::commit();
+        } catch (Exception $exception) {
+            DB::rollBack();
+            return response()->json(['error' => $exception->getMessage()]);
+        }
         return new PostResource($post);
     }
 
@@ -54,6 +89,7 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
+        (new destroyOnePreview)($post->preview);
         $post->delete();
 
         return response()->noContent();

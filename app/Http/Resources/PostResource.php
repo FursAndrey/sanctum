@@ -19,6 +19,7 @@ class PostResource extends JsonResource
             'title' => $this->title,
             'body' => $this->body,
             'published' => $this->published,
+            'preview' => new PreviewResource($this->whenLoaded('preview')),
         ];
     }
 }
