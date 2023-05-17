@@ -38,49 +38,69 @@
 </template>
 
 <script>
+import { onMounted } from 'vue';
+import usePosts from '../../../composition/posts';
 export default {
     name: 'PostIndex',
 
     data() {
         return {
             posts: null,
-            errors: [],
         }
     },
 
-    mounted() {
-        this.getPosts()
+    // mounted() {
+    //     this.getPosts()
+    // },
+    
+    setup() {
+        const { posts, getPosts, destroyPost } = usePosts();
+
+        onMounted(getPosts);
+
+        const deletePost = async (id) => {
+            if (!window.confirm('Are you sure?')) {
+                return false;
+            }
+
+            await destroyPost(id);
+            await getPosts();
+        }
+
+        return {
+            posts,
+            deletePost
+        }
     },
 
     methods: {
-        getPosts() {
-            axios.get('/api/posts').then(res => {
-                this.posts = res.data.data;
-            }).catch(error=>{
-                if (error.response.status == 401) {
-                    // console.log(error);
-                } else {
-                    // console.log(error);
-                }
-            })
-        },
+        // getPosts() {
+        //     axios.get('/api/posts').then(res => {
+        //         this.posts = res.data.data;
+        //     }).catch(error=>{
+        //         if (error.response.status == 401) {
+        //             // console.log(error);
+        //         } else {
+        //             // console.log(error);
+        //         }
+        //     })
+        // },
 
-        deletePost(id) {
-            console.log(id);
-            if (!confirm('Are you sure?')) {
-                return false;
-            }
-            axios.delete('/api/posts/'+id)
-                .then((response) => {
-                    if (response.status == 204) {
-                        this.posts = this.posts.filter(p => p.id !== id);
-                    }
-                })
-                .catch((error) => {
-                    // console.log('error remove post');
-                    // console.log(error);
-                });
-        }
+        // deletePost(id) {
+        //     if (!confirm('Are you sure?')) {
+        //         return false;
+        //     }
+        //     axios.delete('/api/posts/'+id)
+        //         .then((response) => {
+        //             if (response.status == 204) {
+        //                 this.posts = this.posts.filter(p => p.id !== id);
+        //             }
+        //         })
+        //         .catch((error) => {
+        //             // console.log('error remove post');
+        //             // console.log(error);
+        //         });
+        // }
     }
 }
 </script>

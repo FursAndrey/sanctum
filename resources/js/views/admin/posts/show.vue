@@ -9,20 +9,31 @@
 </template>
 
 <script>
+import { onMounted } from 'vue';
+import usePosts from '../../../composition/posts';
 export default {
     name: "PostShow",
 
-    data() {
-        return {
-            postId: this.$route.params.id,
-            post: null,
+    props: {
+        id: {
+            required: true,
+            type: String
         }
     },
 
-    async mounted() {
-        let result = await axios.get('/api/posts/'+this.postId);
-        this.post = result.data.data;
-    },
+    setup(props) {
+        const { post, getPost } = usePosts();
+        
+        const getCurrentPost = () => {
+            getPost(props.id);
+        }
+        
+        onMounted(getCurrentPost);
+
+        return {
+            post
+        }
+    }
 }
 </script>
 

@@ -37,11 +37,13 @@ const router = createRouter({
             path: '/admin/posts/show/:id',
             component: () => import('../views/admin/posts/show.vue'),
             name: 'post.show',
+            props: true
         },
         {
             path: '/admin/posts/edit/:id',
             component: () => import('../views/admin/posts/edit.vue'),
             name: 'post.edit',
+            props: true
         },
     ],
 });

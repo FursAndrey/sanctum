@@ -5,80 +5,67 @@
             {{ errorMessage }}
         </div>
         <div>
-            <input v-model="title" type="text" placeholder="title" class="w-96 p-2 mb-2 border border-inherit rounded-lg">
+            <input v-model="post.title" type="text" placeholder="title" class="w-96 p-2 mb-2 border border-inherit rounded-lg">
         </div>
         <div>
-            <textarea v-model="body" rows="4" class="block p-3 mb-2 w-full rounded-lg border border-gray-300" placeholder="Write body your post here..."></textarea>
+            <textarea v-model="post.body" rows="4" class="block p-3 mb-2 w-full rounded-lg border border-gray-300" placeholder="Write body your post here..."></textarea>
         </div>
         <div class="flex space-x-8">
             <div>
                 <input @change="storeImage" ref="file" type="file" class="hidden">
                 <span class="block w-48 p-2 mb-2 bg-teal-700 text-white rounded-lg text-center cursor-pointer" @click.prevent="selectFile()">Preview</span>
             </div>
-            <div v-if="image" @click="image = null" class="block w-44 p-2 mb-2 ml-2 bg-orange-500 text-white rounded-lg hover:bg-orange-700 text-center">
+            <div v-if="image && image.url" @click="cancelSelectPreview()" class="block w-44 p-2 mb-2 ml-2 bg-orange-500 text-white rounded-lg hover:bg-orange-700 text-center cursor-pointer">
                 Cancel
             </div>
         </div>
-        <div v-if="image" class="mb-2">
+        <div v-if="image && image.url" class="mb-2">
             <img :src="image.url"/>
         </div>
         <div class="flex justify-between">
             <router-link :to="{ name: 'post.index'}" class="block w-48 p-2 bg-amber-600 text-white rounded-lg text-center">Return to posts</router-link>
-            <input @click.prevent="store" type="submit" value="Store" class="w-32 p-2 bg-lime-600 text-white rounded-lg cursor-pointer">
+            <input @click.prevent="createPost" type="submit" value="Store" class="w-32 p-2 bg-lime-600 text-white rounded-lg cursor-pointer">
         </div>
     </div>
 </template>
 
 <script>
+import { reactive } from '@vue/runtime-core';
+import usePosts from '../../../composition/posts';
 export default {
     name: "PostCreate",
-    
-    data() {
+
+    setup() {
+        let post = reactive({
+            'title': '',
+            'body': '',
+            'image_id': null,
+        });
+
+        const { errorMessage, image, storePost, cancelSelectPreview, saveImage } = usePosts();
+
+        const createPost = async () => {
+            await storePost({...post});
+        }
+
+        const storeImage = (e) => {
+            saveImage(e);
+        }
+
         return {
-            errorMessage: null,
-            title: null,
-            body: null,
-            image: null,
+            post,
+            image,
+            errorMessage,
+            createPost,
+            storeImage,
+            cancelSelectPreview
         }
     },
 
     methods: {
-        store() {
-            const image_id = this.image? this.image.id: null;
-
-            axios.post('/api/posts', {title: this.title, body: this.body, image_id: image_id})
-                .then(r => {
-                    // console.log(r);
-                    this.$router.push({name: 'post.index'})
-                })
-                .catch(err => {
-                    this.errorMessage = err.response.data.message;
-                })
-        },
-        
         selectFile() {
             this.fileInput = this.$refs.file;
             this.fileInput.click();
-        },
-        
-        storeImage(e) {
-            let file = e.target.files[0];
-            const formData = new FormData();
-            formData.append('image', file);
-            
-            axios.post(
-                '/api/preview', 
-                formData, 
-                {
-                    headers: {
-                        'Content-Type': 'multipart/form-data'
-                    }
-                })
-                .then(res => {
-                    this.image = res.data.data;
-                }).catch(error=>{
-                    this.errorMessage = error.response.data.message;
-                })
         },
     }
 }

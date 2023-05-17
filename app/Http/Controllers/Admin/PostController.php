@@ -68,7 +68,9 @@ class PostController extends Controller
         try {
             DB::beginTransaction();
 
-            (new destroyOnePreview)($post->preview);
+            if (isset($post->preview)) {
+                (new destroyOnePreview)($post->preview);
+            }
 
             $data = $request->validated();
             $imageId = (new cutImageIdAction)($data);
@@ -89,7 +91,9 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        (new destroyOnePreview)($post->preview);
+        if (isset($post->preview)) {
+            (new destroyOnePreview)($post->preview);
+        }
         $post->delete();
 
         return response()->noContent();
