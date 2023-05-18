@@ -57,6 +57,16 @@ router.beforeEach((to, from, next) => {
                 localStorage.key('x_xsrf_token') ? localStorage.removeItem('x_xsrf_token') : '';
             }
         })
+
+    //моя проверка авторизации
+    axios.get('/api/close')
+        .then(res => {
+        })
+        .catch(err => {
+            if (err.response.status === 401) {
+                localStorage.key('x_xsrf_token') ? localStorage.removeItem('x_xsrf_token') : '';
+            }
+        })
     const token = localStorage.getItem('x_xsrf_token')
     
     if (!token) {
