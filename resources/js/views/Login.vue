@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="w-96 mx-auto mb-16 mt-8">
         <div v-if="errorMessage" class="w-96 p-2 mb-2 border border-red-600 rounded-lg text-red-600 bg-red-100">
             {{ errorMessage }}
         </div>
