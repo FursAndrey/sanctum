@@ -68,11 +68,11 @@ class PostController extends Controller
         try {
             DB::beginTransaction();
 
-            if (isset($post->preview)) {
+            $data = $request->validated();
+            if (isset($post->preview) && $post->preview->id != $data->image_id) {
                 (new destroyOnePreview)($post->preview);
             }
 
-            $data = $request->validated();
             $imageId = (new cutImageIdAction)($data);
             $post->fill($data)->save();
             (new joinPostPreview)($post->id, $imageId);

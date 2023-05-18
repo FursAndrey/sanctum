@@ -32,7 +32,6 @@
 </template>
 
 <script>
-import { reactive } from '@vue/runtime-core';
 import { onMounted } from 'vue';
 import usePosts from '../../../composition/posts';
 export default {
@@ -53,7 +52,7 @@ export default {
         }
 
         const storeImage = (e) => {
-            saveImage(post, e);
+            saveImage(e);
         }
 
         const getCurrentPost = () => {

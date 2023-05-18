@@ -49,10 +49,6 @@ export default {
         }
     },
 
-    // mounted() {
-    //     this.getPosts()
-    // },
-    
     setup() {
         const { posts, getPosts, destroyPost } = usePosts();
 
@@ -72,36 +68,6 @@ export default {
             deletePost
         }
     },
-
-    methods: {
-        // getPosts() {
-        //     axios.get('/api/posts').then(res => {
-        //         this.posts = res.data.data;
-        //     }).catch(error=>{
-        //         if (error.response.status == 401) {
-        //             // console.log(error);
-        //         } else {
-        //             // console.log(error);
-        //         }
-        //     })
-        // },
-
-        // deletePost(id) {
-        //     if (!confirm('Are you sure?')) {
-        //         return false;
-        //     }
-        //     axios.delete('/api/posts/'+id)
-        //         .then((response) => {
-        //             if (response.status == 204) {
-        //                 this.posts = this.posts.filter(p => p.id !== id);
-        //             }
-        //         })
-        //         .catch((error) => {
-        //             // console.log('error remove post');
-        //             // console.log(error);
-        //         });
-        // }
-    }
 }
 </script>
 

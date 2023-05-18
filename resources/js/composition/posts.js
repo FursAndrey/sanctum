@@ -12,6 +12,7 @@ export default function usePosts() {
     const getPost = async (id) => {
         let response = await axios.get('/api/posts/' + id);
         post.value = response.data.data;
+        image.value = response.data.data.preview;
     }
 
     const getPosts = async () => {

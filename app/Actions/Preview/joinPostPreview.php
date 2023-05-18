@@ -9,9 +9,11 @@ class joinPostPreview
     {
         if (isset($imageId)) {
             $preview = Preview::find($imageId);
-            $preview->update([
-                'post_id' =>$postId,
-            ]);
+            if (isset($preview)) {
+                $preview->update([
+                    'post_id' =>$postId,
+                ]);
+            }
         }
     }
 }

@@ -18,9 +18,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::group(['middleware' => 'auth:sanctum'], function() {
+    Route::apiResource('/posts', PostController::class);
+    Route::post('/preview', [PreviewController::class, 'store']);
+    
     Route::get('/close', [MainController::class, 'closeTest']);
 });
 Route::get('/open', [MainController::class, 'openTest']);
-
-Route::apiResource('/posts', PostController::class);
-Route::post('/preview', [PreviewController::class, 'store']);
