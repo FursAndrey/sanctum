@@ -16,7 +16,7 @@
         </style>
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body>
+    <body style="min-width: 430px;">
         <header>
             <div id="logo"><a href="/"></a></div>
         </header>
