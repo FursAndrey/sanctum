@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\Admin\PreviewController;
+use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\MainController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -18,6 +19,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::group(['middleware' => 'auth:sanctum'], function() {
+    Route::apiResource('/roles', RoleController::class);
     Route::apiResource('/posts', PostController::class);
     Route::post('/preview', [PreviewController::class, 'store']);
     

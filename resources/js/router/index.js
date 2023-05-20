@@ -45,6 +45,28 @@ const router = createRouter({
             name: 'post.edit',
             props: true
         },
+        {
+            path: '/admin/roles',
+            component: () => import('../views/admin/roles/index.vue'),
+            name: 'role.index',
+        },
+        {
+            path: '/admin/roles/create',
+            component: () => import('../views/admin/roles/create.vue'),
+            name: 'role.create',
+        },
+        {
+            path: '/admin/roles/show/:id',
+            component: () => import('../views/admin/roles/show.vue'),
+            name: 'role.show',
+            props: true
+        },
+        {
+            path: '/admin/roles/edit/:id',
+            component: () => import('../views/admin/roles/edit.vue'),
+            name: 'role.edit',
+            props: true
+        },
     ],
 });
 
