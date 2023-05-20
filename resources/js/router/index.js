@@ -67,6 +67,23 @@ const router = createRouter({
             name: 'role.edit',
             props: true
         },
+        {
+            path: '/admin/users',
+            component: () => import('../views/admin/users/index.vue'),
+            name: 'user.index',
+        },
+        {
+            path: '/admin/users/show/:id',
+            component: () => import('../views/admin/users/show.vue'),
+            name: 'user.show',
+            props: true
+        },
+        // {
+        //     path: '/admin/users/edit/:id',
+        //     component: () => import('../views/admin/users/edit.vue'),
+        //     name: 'user.edit',
+        //     props: true
+        // },
     ],
 });
 

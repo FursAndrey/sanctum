@@ -12,6 +12,11 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    public function getCreatedAttribute()
+    {
+        return $this->created_at->diffForHumans();
+    }
+
     /**
      * The attributes that are mass assignable.
      *
