@@ -20,11 +20,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::group(['middleware' => 'auth:sanctum'], function() {
-    Route::apiResource('/users', UserController::class)->only(['index','show','destroy']);
+    Route::apiResource('/users', UserController::class)->only(['index','show','update','destroy']);
+    Route::get('/roles/forForm', [RoleController::class, 'forForm'])->name('forForm');
     Route::apiResource('/roles', RoleController::class);
     Route::apiResource('/posts', PostController::class);
-    Route::post('/preview', [PreviewController::class, 'store']);
+    Route::post('/preview', [PreviewController::class, 'store'])->name('store');
     
-    Route::get('/close', [MainController::class, 'closeTest']);
+    Route::get('/close', [MainController::class, 'closeTest'])->name('closeTest');
 });
 Route::get('/open', [MainController::class, 'openTest']);

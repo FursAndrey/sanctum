@@ -9,8 +9,9 @@
                         <table class="min-w-full text-center text-sm font-light">
                             <thead class="border-b bg-neutral-800 font-medium text-white dark:border-neutral-500 dark:bg-neutral-900">
                                 <tr>
-                                    <th scope="col" class=" px-6 py-4">Title</th>
-                                    <th scope="col" class=" px-6 py-4">Discription</th>
+                                    <th scope="col" class="px-6 py-4">Title</th>
+                                    <th scope="col" class="px-6 py-4">Discription</th>
+                                    <th scope="col" class="px-6 py-4">Users</th>
                                     <th scope="col"></th>
                                 </tr>
                             </thead>
@@ -21,6 +22,11 @@
                                         {{ role.title }}
                                     </td>
                                     <td class="whitespace-nowrap px-6 py-4">{{ role.discription }}</td>
+                                    <td class="whitespace-nowrap px-6 py-4">
+                                        <div v-for="user in role.users" :key="user.id">
+                                            {{ user.email }}
+                                        </div>
+                                    </td>
                                     <td>
                                         <router-link :to="{ name: 'role.edit', params:{ id: role.id } }" class="p-2 me-6 font-bold bg-amber-600 text-white rounded-lg text-center">Edit</router-link>
                                         <span @click="deleteRole(role.id)" class="p-2 me-6 font-bold bg-red-700 text-white rounded-lg text-center cursor-pointer">Delete</span>

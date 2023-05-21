@@ -17,6 +17,11 @@ export default function useRoles() {
         let response = await axios.get('/api/roles');
         roles.value = response.data.data;
     }
+
+    const getRolesForForm = async () => {
+        let response = await axios.get('/api/roles/forForm');
+        roles.value = response.data.data;
+    }
     
     const storeRole = async (data) => {
         errorMessage.value = '';
@@ -52,6 +57,7 @@ export default function useRoles() {
         getRoles,
         storeRole,
         updateRole,
-        destroyRole
+        destroyRole,
+        getRolesForForm
     }
 }

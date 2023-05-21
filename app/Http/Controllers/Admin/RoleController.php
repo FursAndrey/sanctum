@@ -15,7 +15,7 @@ class RoleController extends Controller
      */
     public function index()
     {
-        $roles = Role::get();
+        $roles = Role::with(['users'])->get();
         
         return RoleResource::collection($roles);
     }
@@ -36,6 +36,7 @@ class RoleController extends Controller
      */
     public function show(Role $role)
     {
+        $role = Role::with(['users'])->find($role->id);
         return new RoleResource($role);
     }
 
@@ -58,5 +59,12 @@ class RoleController extends Controller
         $role->delete();
 
         return response()->noContent();
+    }
+    
+    public function forForm()
+    {
+        $roles = Role::get();
+        
+        return RoleResource::collection($roles);
     }
 }

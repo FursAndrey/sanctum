@@ -10,6 +10,7 @@
                                 <tr>
                                     <th scope="col" class=" px-6 py-4">Name</th>
                                     <th scope="col" class=" px-6 py-4">Email</th>
+                                    <th scope="col" class=" px-6 py-4">Roles</th>
                                     <th scope="col" class=" px-6 py-4">Created</th>
                                     <th scope="col"></th>
                                 </tr>
@@ -21,9 +22,14 @@
                                         {{ user.name }}
                                     </td>
                                     <td class="whitespace-nowrap px-6 py-4">{{ user.email }}</td>
+                                    <td class="whitespace-nowrap px-6 py-4">
+                                        <div v-for="role in user.roles" :key="role.id">
+                                            {{ role.title }}
+                                        </div>
+                                    </td>
                                     <td class="whitespace-nowrap px-6 py-4">{{ user.created }}</td>
                                     <td>
-                                        <!-- <router-link :to="{ name: 'user.edit', params:{ id: user.id } }" class="p-2 me-6 font-bold bg-amber-600 text-white rounded-lg text-center">Edit</router-link> -->
+                                        <router-link :to="{ name: 'user.edit', params:{ id: user.id } }" class="p-2 me-6 font-bold bg-amber-600 text-white rounded-lg text-center">Edit</router-link>
                                         <span @click="deleteUser(user.id)" class="p-2 me-6 font-bold bg-red-700 text-white rounded-lg text-center cursor-pointer">Delete</span>
                                     </td>
                                 </tr>

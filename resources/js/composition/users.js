@@ -18,16 +18,16 @@ export default function useUsers() {
         users.value = response.data.data;
     }
     
-    // const updateUser = async (id) => {
-    //     errorMessage.value = '';
+    const updateUser = async (id) => {
+        errorMessage.value = '';
         
-    //     try {
-    //         await axios.put('/api/users/' + id, {title: user.value.title, discription: user.value.discription});
-    //         await router.push({ name: 'user.index' });
-    //     } catch(e) {
-    //         errorMessage.value = e.response.data.message;
-    //     }
-    // }
+        try {
+            await axios.put('/api/users/' + id, {roles: user.value.roles});
+            await router.push({ name: 'user.index' });
+        } catch(e) {
+            errorMessage.value = e.response.data.message;
+        }
+    }
     
     const destroyUser = async (id) => {
         await axios.delete('/api/users/'+id);
@@ -39,7 +39,7 @@ export default function useUsers() {
         errorMessage,
         getUser,
         getUsers,
-        // updateUser,
+        updateUser,
         destroyUser
     }
 }

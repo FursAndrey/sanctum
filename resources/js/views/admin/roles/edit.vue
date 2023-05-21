@@ -1,6 +1,6 @@
 <template>
     <div class="w-96 mx-auto mb-16">
-        <h1 class="text-3xl font-bold text-center mb-6">Edit this role</h1>
+        <h1 class="text-3xl font-bold text-center mb-6">Edit this role: {{ role.title }}</h1>
         <div v-if="errorMessage" class="w-96 p-2 mb-2 border border-red-600 rounded-lg text-red-600 bg-red-100">
             {{ errorMessage }}
         </div>

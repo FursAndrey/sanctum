@@ -78,12 +78,12 @@ const router = createRouter({
             name: 'user.show',
             props: true
         },
-        // {
-        //     path: '/admin/users/edit/:id',
-        //     component: () => import('../views/admin/users/edit.vue'),
-        //     name: 'user.edit',
-        //     props: true
-        // },
+        {
+            path: '/admin/users/edit/:id',
+            component: () => import('../views/admin/users/edit.vue'),
+            name: 'user.edit',
+            props: true
+        },
     ],
 });
 

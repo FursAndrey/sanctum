@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Actions\User\prepareRolesBeforeSync;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\User\UpdateRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
-use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -14,7 +15,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::get();
+        $users = User::with(['roles'])->get();
         
         return UserResource::collection($users);
     }
@@ -22,25 +23,30 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
-        //
-    }
+    // public function store(Request $request)
+    // {
+    //     //
+    // }
 
     /**
      * Display the specified resource.
      */
     public function show(User $user)
     {
+        $user = User::with(['roles'])->find($user->id);
+        
         return new UserResource($user);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, User $user)
+    public function update(UpdateRequest $request, User $user)
     {
-        //
+        $preparedRoles = (new prepareRolesBeforeSync)($request->validated());
+        $user->roles()->sync($preparedRoles);
+
+        return new UserResource($user);
     }
 
     /**

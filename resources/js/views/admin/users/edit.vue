@@ -1,11 +1,15 @@
 <template>
     <div class="w-96 mx-auto mb-16">
-        <h1 class="text-3xl font-bold text-center mb-6">Edit this user</h1>
+        <h1 class="text-3xl font-bold text-center mb-6">Edit this user: {{ user.email }}</h1>
         <div v-if="errorMessage" class="w-96 p-2 mb-2 border border-red-600 rounded-lg text-red-600 bg-red-100">
             {{ errorMessage }}
         </div>
-        <div>
-            <textarea v-model="user.discription" rows="4" class="block p-3 mb-2 w-full rounded-lg border border-gray-300" placeholder="Write discription your user here..."></textarea>
+        <div class="my-4">
+            <p>All roles:</p>
+            <div v-for="role in roles" :key="role.id">
+                <input class="cursor-pointer" type="checkbox" :value="role" v-model="user.roles" :id="'role' + role.id">
+                <label class="ml-3 cursor-pointer" :for="'role' + role.id">{{ role.title }}</label><br>
+            </div>
         </div>
         
         <div class="flex justify-between">
@@ -18,6 +22,7 @@
 <script>
 import { onMounted } from 'vue';
 import useUsers from '../../../composition/users';
+import useRoles from '../../../composition/roles';
 export default {
     name: "UserEdit",
     
@@ -29,23 +34,26 @@ export default {
     },
 
     setup(props) {
-        const { user, errorMessage, getUser/*, updateUser*/ } = useUsers();
+        const { user, errorMessage, getUser, updateUser } = useUsers();
+        const { roles, getRolesForForm } = useRoles();
 
-        // const editUser = async () => {
-        //     await updateUser(props.id);
-        // }
+        const editUser = async () => {
+            await updateUser(props.id);
+        }
 
         const getCurrentUser = () => {
             getUser(props.id);
         }
-        
+
         onMounted(getCurrentUser);
+        onMounted(getRolesForForm);
 
         return {
             user,
+            roles,
             errorMessage,
             getUser,
-            // editUser
+            editUser
         }
     },
 }
