@@ -37,7 +37,7 @@ export default function usePosts() {
         const image_id = image.value.id? image.value.id: null;
         
         try {
-            await axios.put('/api/posts/' + id, {title: post.value.title, body: post.value.body, image_id: image.value.id});
+            await axios.put('/api/posts/' + id, {title: post.value.title, body: post.value.body, image_id: image_id});
             await router.push({ name: 'post.index' });
         } catch(e) {
             errorMessage.value = e.response.data.message;

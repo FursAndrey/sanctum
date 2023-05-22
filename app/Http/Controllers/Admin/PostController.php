@@ -69,7 +69,7 @@ class PostController extends Controller
             DB::beginTransaction();
 
             $data = $request->validated();
-            if (isset($post->preview) && $post->preview->id != $data->image_id) {
+            if (isset($post->preview) && $post->preview->id != $data['image_id']) {
                 (new destroyOnePreview)($post->preview);
             }
 
