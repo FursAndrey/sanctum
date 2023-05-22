@@ -23,7 +23,7 @@
 
 <script>
 export default {
-    name: "Registration",
+    name: "registration",
 
     data() {
         return {
@@ -47,7 +47,7 @@ export default {
                     })
                     .then( res => {
                         localStorage.setItem('x_xsrf_token', res.config.headers['X-XSRF-TOKEN'])
-                        this.$router.push({name: 'Index'})
+                        this.$router.push({name: 'postList'})
                     })
                     .catch(err => {
                             console.log(err);

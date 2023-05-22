@@ -17,7 +17,7 @@
 
 <script>
 export default {
-    name: "Login",
+    name: "login",
     
     data() {
         return {
@@ -34,7 +34,7 @@ export default {
                     axios.post('/login', {email: this.email, password: this.password})
                         .then(r => {
                             localStorage.setItem('x_xsrf_token', r.config.headers['X-XSRF-TOKEN'])
-                            this.$router.push({name: 'Index'})
+                            this.$router.push({name: 'postList'})
                         })
                         .catch(err => {
                             this.errorMessage = err.response.data.message;

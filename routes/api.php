@@ -23,9 +23,9 @@ Route::group(['middleware' => 'auth:sanctum'], function() {
     Route::apiResource('/users', UserController::class)->only(['index','show','update','destroy']);
     Route::get('/roles/forForm', [RoleController::class, 'forForm'])->name('forForm');
     Route::apiResource('/roles', RoleController::class);
-    Route::apiResource('/posts', PostController::class);
+    Route::apiResource('/posts', PostController::class)->only(['store','update','destroy']);
     Route::post('/preview', [PreviewController::class, 'store'])->name('store');
     
     Route::get('/close', [MainController::class, 'closeTest'])->name('closeTest');
 });
-Route::get('/open', [MainController::class, 'openTest']);
+Route::apiResource('/posts', PostController::class)->only(['index','show']);

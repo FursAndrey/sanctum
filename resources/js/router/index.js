@@ -4,9 +4,15 @@ const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
     routes: [
         {
-            path: '/index',
-            component: () => import('../views/Index.vue'),
-            name: 'Index',
+            path: '/',
+            component: () => import('../views/postList.vue'),
+            name: 'postList',
+        },
+        {
+            path: '/post/:id',
+            component: () => import('../views/postPage.vue'),
+            name: 'postPage',
+            props: true
         },
         {
             path: '/page',
@@ -15,12 +21,12 @@ const router = createRouter({
         },
         {
             path: '/login/login',
-            component: () => import('../views/Login.vue'),
+            component: () => import('../views/login.vue'),
             name: 'login',
         },
         {
             path: '/login/registration',
-            component: () => import('../views/Registration.vue'),
+            component: () => import('../views/registration.vue'),
             name: 'registration',
         },
         {
@@ -113,14 +119,15 @@ router.beforeEach((to, from, next) => {
             return next()
         } else {
             return next({
-                name: 'login'
+                // name: 'login'
+                name: 'postList'
             })
         }
     }
 
     if (to.name === 'login' || to.name === 'registration' && token) {
         return next({
-            name: 'Index'
+            name: 'postList'
         })
     }
 
