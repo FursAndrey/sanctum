@@ -94,14 +94,14 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-    axios.get('/api/user')
-        .then(res => {
-        })
-        .catch(e => {
-            if (e.response.status === 401) {
-                localStorage.key('x_xsrf_token') ? localStorage.removeItem('x_xsrf_token') : '';
-            }
-        })
+    // axios.get('/api/user')
+    //     .then(res => {
+    //     })
+    //     .catch(e => {
+    //         if (e.response.status === 401) {
+    //             localStorage.key('x_xsrf_token') ? localStorage.removeItem('x_xsrf_token') : '';
+    //         }
+    //     })
 
     //моя проверка авторизации
     axios.get('/api/close')
@@ -114,25 +114,17 @@ router.beforeEach((to, from, next) => {
         })
     const token = localStorage.getItem('x_xsrf_token')
     
-    if (!token) {
-        if (to.name === 'login' || to.name === 'registration') {
-            return next()
+    const fullPath = to.fullPath;
+    //если не авторизованый пользователь лезет в админку - отправить на страницу логина
+    if (fullPath.indexOf('admin/') != -1) {
+        if (!token) {
+            return next({name: 'login'});
         } else {
-            return next({
-                // name: 'login'
-                name: 'postList'
-            })
+            return next();
         }
     }
 
-    if (to.name === 'login' || to.name === 'registration' && token) {
-        return next({
-            name: 'postList'
-        })
-    }
-
     next()
-
 })
 
 export default router;
