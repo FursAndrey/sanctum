@@ -1,5 +1,5 @@
 <template>
-    <div v-if="post" class="mx-auto w-3/5 mb-16 px-8">
+    <div v-if="post" class="mb-16 px-8">
         <h1 class="text-3xl font-bold text-center mb-6">{{ post.title }}</h1>
         <div class="text-sm text-right text-slate-400">{{ post.published }}</div>
         <div><img class="mb-3 mx-auto w-80" v-if="post.preview" :src="post.preview.url" :alt="post.title"/></div>

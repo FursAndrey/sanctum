@@ -1,5 +1,5 @@
 <template>
-    <div class="mx-auto w-3/5">
+    <div>
         <h1 class="text-3xl font-bold text-center">Home page: Post list</h1>
         <div class="flex justify-between flex-wrap">
             <div class="mx-auto w-64 m-4 p-4 text-justify border border-indigo-600" v-for="post in posts" :key="post.id">
