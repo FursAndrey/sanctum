@@ -33,6 +33,8 @@ class PostController extends Controller
      */
     public function store(StoreRequest $request)
     {
+        $this->authorize('create', Post::class);
+
         // Log::info('This is some useful information.');
         try {
             DB::beginTransaction();
@@ -65,6 +67,8 @@ class PostController extends Controller
      */
     public function update(UpdateRequest $request, Post $post)
     {
+        $this->authorize('update', $post);
+
         try {
             DB::beginTransaction();
 
@@ -91,6 +95,8 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
+        $this->authorize('delete', $post);
+        
         if (isset($post->preview)) {
             (new destroyOnePreview)($post->preview);
         }

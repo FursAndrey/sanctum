@@ -15,6 +15,8 @@ class UserController extends Controller
      */
     public function index()
     {
+        $this->authorize('viewAny', User::class);
+
         $users = User::with(['roles'])->get();
         
         return UserResource::collection($users);
@@ -33,6 +35,8 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
+        $this->authorize('view', $user);
+
         $user = User::with(['roles'])->find($user->id);
         
         return new UserResource($user);
@@ -43,6 +47,8 @@ class UserController extends Controller
      */
     public function update(UpdateRequest $request, User $user)
     {
+        $this->authorize('update', $user);
+
         $preparedRoles = (new prepareRolesBeforeSync)($request->validated());
         $user->roles()->sync($preparedRoles);
 
@@ -54,6 +60,8 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
+        $this->authorize('delete', $user);
+
         $user->delete();
 
         return response()->noContent();
