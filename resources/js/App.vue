@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div v-if="token && this.isAdmin()" class="admin-hamburger-menu">
+        <div v-if="token && isAdmin()" class="admin-hamburger-menu">
             <input id="admin_menu__toggle" type="checkbox" />
             <label class="menu__btn" for="admin_menu__toggle">
                 <span></span>
