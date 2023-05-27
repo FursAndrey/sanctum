@@ -29,3 +29,4 @@ Route::group(['middleware' => 'auth:sanctum'], function() {
     Route::get('/close', [MainController::class, 'closeTest'])->name('closeTest');
 });
 Route::apiResource('/posts', PostController::class)->only(['index','show']);
+Route::get('/currentUser', [UserController::class, 'getCurrentUserForMenu'])->name('getCurrentUserForMenu');

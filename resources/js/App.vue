@@ -1,12 +1,6 @@
 <template>
     <div>
-        <!-- <div v-if="token" class="admin-menu">
-            <div class="flex justify-between w-96 mx-auto">
-                <router-link :to="{ name: 'post.index'}" class="p-2">Posts</router-link>
-            </div>
-        </div> -->
-        
-        <div v-if="token" class="admin-hamburger-menu">
+        <div v-if="token && this.isAdmin()" class="admin-hamburger-menu">
             <input id="admin_menu__toggle" type="checkbox" />
             <label class="menu__btn" for="admin_menu__toggle">
                 <span></span>
@@ -19,15 +13,6 @@
                 <li class="p-2"><router-link :to="{ name: 'user.index'}" class="menu__item">Users</router-link></li>
             </ul>
         </div>
-        <!-- <div class="header-menu">
-            <div class="flex justify-between w-96 mx-auto">
-                <router-link :to="{ name: 'Index'}" class="p-2">Index</router-link>
-                <router-link :to="{ name: 'Page'}" class="p-2">Page</router-link>
-                <router-link v-if="!token" :to="{ name: 'login'}" class="p-2">Login</router-link>
-                <router-link v-if="!token" :to="{ name: 'registration'}" class="p-2">Registration</router-link>
-                <span v-if="token" @click.prevent="logout" class="p-2 cursor-pointer">Logout</span>
-            </div>
-        </div> -->
 
         <div class="header-hamburger-menu">
             <input id="header_menu__toggle" type="checkbox" />
@@ -41,7 +26,10 @@
                 <li class="p-2"><router-link :to="{ name: 'Page'}" class="menu__item">Page</router-link></li>
                 <li v-if="!token" class="p-2"><router-link :to="{ name: 'login'}" class="menu__item">Login</router-link></li>
                 <li v-if="!token" class="p-2"><router-link :to="{ name: 'registration'}" class="menu__item">Registration</router-link></li>
-                <li v-if="token" class="p-2"><span @click.prevent="logout" class="menu__item cursor-pointer">Logout</span></li>
+                <li v-if="token" class="p-2">
+                    <span v-if="currentUserForMenu">Hi, {{ currentUserForMenu.name }}. </span>
+                    <span @click.prevent="logout" class="menu__item cursor-pointer">Logout</span>
+                </li>
             </ul>
         </div>
         
@@ -54,18 +42,46 @@ export default {
     name: "App",
     data() {
         return {
-            token: null
+            token: null,
+            currentUserForMenu: ''
         }
     },
     
     mounted() {
-        this.getToken()
+        this.getToken();
     },
 
     watch: {
         $route(to, from) {
-            this.getToken()
-        }
+
+            //моя проверка авторизации
+            axios.get('/api/currentUser')
+                .then( res => {
+                    this.currentUserForMenu = res.data.data;
+                    
+                    if (this.currentUserForMenu.name == undefined) {
+                        localStorage.key('x_xsrf_token') ? localStorage.removeItem('x_xsrf_token') : '';
+                    }
+                    
+                    this.getToken();
+
+                    const fullPath = to.fullPath;
+                    //если не авторизованый пользователь лезет в админку - отправить на страницу логина
+                    if (fullPath.indexOf('admin/') != -1) {
+                        if (!this.token) {
+                            this.$router.push({name: 'login'})
+                        }
+                    }
+
+                    //если пользователь авторизован, но не имеет роли "админ" и лезет в админку
+                    if (fullPath.indexOf('admin/') != -1) {
+                        if (!this.isAdmin()) {
+                            this.$router.push({name: 'errors.403'})
+                        }
+                    }
+                });
+                
+        },
     },
 
     methods: {
@@ -79,6 +95,24 @@ export default {
                     localStorage.removeItem('x_xsrf_token')
                     this.$router.push({name: 'postList'})
                 })
+        },
+
+        getCurrentUserForMenu() {
+            axios.get('/api/currentUser')
+                .then( res => {
+                    this.currentUserForMenu = res.data.data;
+                });
+        },
+
+        isAdmin() {
+            if (this.currentUserForMenu.roles == undefined) {
+                return false;
+            }
+            if (this.currentUserForMenu.roles.includes("Admin")) {
+                return true;
+            } else {
+                return false;
+            }
         }
     }
 }

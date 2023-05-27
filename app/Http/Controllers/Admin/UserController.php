@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Actions\User\prepareRolesBeforeSync;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\UpdateRequest;
+use App\Http\Resources\CurrentUserForMenuResource;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 
@@ -65,5 +66,10 @@ class UserController extends Controller
         $user->delete();
 
         return response()->noContent();
+    }
+
+    public function getCurrentUserForMenu()
+    {
+        return new CurrentUserForMenuResource(auth()->user());
     }
 }

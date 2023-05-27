@@ -90,6 +90,11 @@ const router = createRouter({
             name: 'user.edit',
             props: true
         },
+        {
+            path: '/403',
+            component: () => import('../views/errors/403.vue'),
+            name: 'errors.403'
+        },
     ],
 });
 
@@ -103,26 +108,26 @@ router.beforeEach((to, from, next) => {
     //         }
     //     })
 
-    //моя проверка авторизации
-    axios.get('/api/close')
-        .then(res => {
-        })
-        .catch(err => {
-            if (err.response.status === 401) {
-                localStorage.key('x_xsrf_token') ? localStorage.removeItem('x_xsrf_token') : '';
-            }
-        })
-    const token = localStorage.getItem('x_xsrf_token')
+    // //моя проверка авторизации
+    // axios.get('/api/close')
+    //     .then(res => {
+    //     })
+    //     .catch(err => {
+    //         if (err.response.status === 401) {
+    //             localStorage.key('x_xsrf_token') ? localStorage.removeItem('x_xsrf_token') : '';
+    //         }
+    //     })
+    // const token = localStorage.getItem('x_xsrf_token')
     
-    const fullPath = to.fullPath;
-    //если не авторизованый пользователь лезет в админку - отправить на страницу логина
-    if (fullPath.indexOf('admin/') != -1) {
-        if (!token) {
-            return next({name: 'login'});
-        } else {
-            return next();
-        }
-    }
+    // const fullPath = to.fullPath;
+    // //если не авторизованый пользователь лезет в админку - отправить на страницу логина
+    // if (fullPath.indexOf('admin/') != -1) {
+    //     if (!token) {
+    //         return next({name: 'login'});
+    //     } else {
+    //         return next();
+    //     }
+    // }
 
     next()
 })
