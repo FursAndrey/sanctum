@@ -25,8 +25,6 @@ Route::group(['middleware' => 'auth:sanctum'], function() {
     Route::apiResource('/roles', RoleController::class);
     Route::apiResource('/posts', PostController::class)->only(['store','update','destroy']);
     Route::post('/preview', [PreviewController::class, 'store'])->name('store');
-    
-    Route::get('/close', [MainController::class, 'closeTest'])->name('closeTest');
 });
 Route::apiResource('/posts', PostController::class)->only(['index','show']);
 Route::get('/currentUser', [UserController::class, 'getCurrentUserForMenu'])->name('getCurrentUserForMenu');
