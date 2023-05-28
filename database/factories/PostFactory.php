@@ -17,7 +17,7 @@ class PostFactory extends Factory
     public function definition(): array
     {
         return [
-            'title' => fake()->jobTitle(),
+            'title' => ucfirst($this->faker->words(rand(5, 15), true)),
             'body' => fake()->realText(8000),
         ];
     }
