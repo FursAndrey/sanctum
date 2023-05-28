@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\Admin\PostController;
+use App\Http\Controllers\Admin\PreviewController;
+use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\MainController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -15,11 +19,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
 Route::group(['middleware' => 'auth:sanctum'], function() {
-    Route::get('/close', [MainController::class, 'closeTest']);
+    Route::apiResource('/users', UserController::class)->only(['index','show','update','destroy']);
+    Route::get('/roles/forForm', [RoleController::class, 'forForm'])->name('forForm');
+    Route::apiResource('/roles', RoleController::class);
+    Route::apiResource('/posts', PostController::class)->only(['store','update','destroy']);
+    Route::post('/preview', [PreviewController::class, 'store'])->name('store');
 });
-Route::get('/open', [MainController::class, 'openTest']);
+Route::apiResource('/posts', PostController::class)->only(['index','show']);
+Route::get('/currentUser', [UserController::class, 'getCurrentUserForMenu'])->name('getCurrentUserForMenu');
