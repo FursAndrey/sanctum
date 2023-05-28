@@ -23,7 +23,7 @@
 
             <ul class="menu__box">
                 <li class="p-2"><router-link :to="{ name: 'postList'}" class="menu__item">Post list</router-link></li>
-                <li class="p-2"><router-link :to="{ name: 'Page'}" class="menu__item">Page</router-link></li>
+                <li class="p-2"><router-link :to="{ name: 'about'}" class="menu__item">About</router-link></li>
                 <li v-if="!token" class="p-2"><router-link :to="{ name: 'login'}" class="menu__item">Login</router-link></li>
                 <li v-if="!token" class="p-2"><router-link :to="{ name: 'registration'}" class="menu__item">Registration</router-link></li>
                 <li v-if="token" class="p-2">
