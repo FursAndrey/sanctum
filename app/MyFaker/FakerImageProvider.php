@@ -15,6 +15,6 @@ final class FakerImageProvider extends Base
             $name,
             file_get_contents("https://loremflickr.com/$width/$height")
         );
-        return /*'/storage/'.*/$name;
+        return $name;
     }
 }
