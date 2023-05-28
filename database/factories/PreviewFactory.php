@@ -22,7 +22,7 @@ class PreviewFactory extends Factory
         return [
             'path' => $this->faker->loremflickr('preview'),
             'post_id' => $posts->first()->id,
-            'user_id' => 2,
+            'user_id' => 1,
         ];
     }
 }

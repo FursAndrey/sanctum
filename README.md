@@ -3,12 +3,19 @@
 <ul>
     <li>клонировать с гитхаба: git clone https://github.com/FursAndrey/sanctum.git</li>
     <li>загрузить Laravel: composer install</li>
-    <li>копировать .env.example в .env: copy .env.example .env</li>
+    <li>копировать .env.example в .env: cp .env.example .env</li>
     <li>создать новый ключ для проекта команда: php artisan key:generate</li>
     <li>создаю базу данных для проекта</li>
+    <li>открать .env для редактирования командой: vi .env</li>
     <li>в файле .env настроить подключение к базу данных</li>
+    <li>для сохранения изменений нажать: ESC, затем ввести: :wq</li>
+    <li>для проверки что изменения сохранены, ввести: cat .env</li>
     <li>создать таблицы и запустить минграции: php artisan migrate --seed</li>
+    <li>создать симлинк на папку storage: php artisan storage:link</li>
+    <li>в router/index.js history: createWebHistory(import.meta.env.BASE_URL) заменить на history: createWebHistory()</li>
     <li>загрузить в папку public JS файлы для VUE.JS</li>
+    <li>сделать симлинки на index.php build storage: ln -s `адрес файла на который нужно состаться` `имя файла-ссылки`</li>
+    <li>создать пользователя (можно через интерфейс)</li>
 </ul>
 <h3>Описание функционала проекта</h3>
 <ol>
