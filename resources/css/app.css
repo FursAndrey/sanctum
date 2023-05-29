@@ -5,6 +5,7 @@
 body {
     background-color: #1e1b20;
     color: white;
+    min-width: 200px;
 }
 
 header {
@@ -19,12 +20,15 @@ header {
 
 div#logo {
     display: block;
-    height: 125px;
-    width: 336px;
     background-image: url('/storage/app/public/theme/mlogo.png');
     position: absolute;
     top: 40px;
     left: 20%;
+    max-height: 125px;
+    max-width: 336px;
+    height: 30vw;
+    width: 80%;
+    background-size: 100%;
 }
 
 div#logo > a {
@@ -35,4 +39,10 @@ div#logo > a {
 
 input[placeholder], textarea {
     color:black !important;
+}
+
+@media (max-width: 750px) {
+    div#logo {
+        left: 10%;
+    }
 }

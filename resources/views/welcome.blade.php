@@ -2,9 +2,11 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         <meta charset="utf-8">
+        <meta name="MobileOptimized" content="width" />
+        <meta name="HandheldFriendly" content="true" />
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Laravel</title>
+        <title>My test site</title>
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
@@ -16,7 +18,7 @@
         </style>
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body style="min-width: 430px;">
+    <body>
         <header>
             <div id="logo"><a href="/"></a></div>
         </header>
