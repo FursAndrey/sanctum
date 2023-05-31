@@ -1,7 +1,7 @@
 <?php
 namespace App\Actions\User;
 
-class prepareRolesBeforeSync
+class prepareRolesBeforeSyncAction
 {
     public function __invoke(array $data): array
     {

@@ -3,7 +3,7 @@ namespace App\Actions\Preview;
 
 use App\Models\Preview;
 
-class joinPostPreview
+class joinPostPreviewAction
 {
     public function __invoke(int $postId, ?int $imageId):void
     {

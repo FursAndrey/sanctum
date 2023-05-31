@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Actions\User\prepareRolesBeforeSync;
+use App\Actions\User\prepareRolesBeforeSyncAction;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\UpdateRequest;
 use App\Http\Resources\CurrentUserForMenuResource;
@@ -50,7 +50,7 @@ class UserController extends Controller
     {
         $this->authorize('update', $user);
 
-        $preparedRoles = (new prepareRolesBeforeSync)($request->validated());
+        $preparedRoles = (new prepareRolesBeforeSyncAction)($request->validated());
         $user->roles()->sync($preparedRoles);
 
         return new UserResource($user);

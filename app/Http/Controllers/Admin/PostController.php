@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Actions\Post\createPostWithPreviewAction;
 use App\Actions\Preview\cutImageIdAction;
-use App\Actions\Preview\destroyAllUnjoinedPreviews;
-use App\Actions\Preview\destroyOnePreview;
-use App\Actions\Preview\joinPostPreview;
+use App\Actions\Preview\destroyAllUnjoinedPreviewsAction;
+use App\Actions\Preview\destroyOnePreviewAction;
+use App\Actions\Preview\joinPostPreviewAction;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Post\StoreRequest;
@@ -43,8 +43,8 @@ class PostController extends Controller
             $data = $request->validated();
             $imageId = (new cutImageIdAction)($data);
             $post = Post::create($data);
-            (new joinPostPreview)($post->id, $imageId);
-            (new destroyAllUnjoinedPreviews)();
+            (new joinPostPreviewAction)($post->id, $imageId);
+            (new destroyAllUnjoinedPreviewsAction)();
 
             DB::commit();
         } catch (Exception $exception) {
@@ -75,13 +75,13 @@ class PostController extends Controller
 
             $data = $request->validated();
             if (isset($post->preview) && $post->preview->id != $data['image_id']) {
-                (new destroyOnePreview)($post->preview);
+                (new destroyOnePreviewAction)($post->preview);
             }
 
             $imageId = (new cutImageIdAction)($data);
             $post->fill($data)->save();
-            (new joinPostPreview)($post->id, $imageId);
-            (new destroyAllUnjoinedPreviews)();
+            (new joinPostPreviewAction)($post->id, $imageId);
+            (new destroyAllUnjoinedPreviewsAction)();
             
             DB::commit();
         } catch (Exception $exception) {
@@ -99,7 +99,7 @@ class PostController extends Controller
         $this->authorize('delete', $post);
         
         if (isset($post->preview)) {
-            (new destroyOnePreview)($post->preview);
+            (new destroyOnePreviewAction)($post->preview);
         }
         $post->delete();
 
