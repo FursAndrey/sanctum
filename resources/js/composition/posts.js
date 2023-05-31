@@ -74,6 +74,13 @@ export default function usePosts() {
             })
     }
 
+    const storeRandomPost = async () => {
+        await axios.post('/api/posts/storeRandomPost')
+            .then(res => {
+                getPosts();
+            });
+    }
+
     return {
         post,
         posts,
@@ -81,6 +88,7 @@ export default function usePosts() {
         errorMessage,
         getPost,
         getPosts,
+        storeRandomPost,
         storePost,
         updatePost,
         destroyPost,

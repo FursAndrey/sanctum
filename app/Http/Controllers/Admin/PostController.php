@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Actions\Post\createPostWithPreviewAction;
 use App\Actions\Preview\cutImageIdAction;
 use App\Actions\Preview\destroyAllUnjoinedPreviews;
 use App\Actions\Preview\destroyOnePreview;
@@ -103,5 +104,12 @@ class PostController extends Controller
         $post->delete();
 
         return response()->noContent();
+    }
+
+    public function storeRandomPost()
+    {
+        (new createPostWithPreviewAction)();
+        
+        return response(201);
     }
 }

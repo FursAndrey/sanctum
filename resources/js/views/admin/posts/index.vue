@@ -4,7 +4,10 @@
         <div class="flex flex-col">
             <div class="overflow-x-auto sm:-mx-4 lg:-mx-6">
                 <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
-                    <router-link :to="{ name: 'post.create'}" class="block mx-auto mb-4 w-48 p-2 font-bold bg-lime-600 text-white rounded-lg text-center">Create new post</router-link>
+                    <div class="flex mx-auto mb-4 w-96">
+                        <router-link :to="{ name: 'post.create'}" class="block p-2 w-44 me-4 font-bold bg-lime-600 text-white rounded-lg text-center">Create new post</router-link>
+                        <span @click="storeRandomPost()" class="block p-2 w-44 font-bold bg-amber-700 text-white rounded-lg text-center cursor-pointer">Create random post</span>
+                    </div>
                     <div class="overflow-hidden">
                         <table class="min-w-full text-center text-sm font-light">
                             <thead class="border-b bg-neutral-800 font-medium text-white dark:border-neutral-500 dark:bg-neutral-900">
@@ -50,7 +53,7 @@ export default {
     },
 
     setup() {
-        const { posts, getPosts, destroyPost } = usePosts();
+        const { posts, getPosts, destroyPost, storeRandomPost } = usePosts();
 
         onMounted(getPosts);
 
@@ -65,7 +68,8 @@ export default {
 
         return {
             posts,
-            deletePost
+            deletePost,
+            storeRandomPost
         }
     },
 }
