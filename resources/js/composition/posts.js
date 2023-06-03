@@ -6,6 +6,7 @@ export default function usePosts() {
     const image = ref([]);
     const post = ref([]);
     const posts = ref([]);
+    const meta = ref([]);
     const errorMessage = ref('');
     const router = useRouter();
     
@@ -15,9 +16,10 @@ export default function usePosts() {
         image.value = response.data.data.preview;
     }
 
-    const getPosts = async () => {
-        let response = await axios.get('/api/posts');
-        posts.value = response.data.data;
+    const getPosts = async (page) => {
+        let response = await axios.get('/api/posts', { params: {'page': page} });
+        posts.value = response.data.data.posts;
+        meta.value = response.data.data.meta;
     }
     
     const storePost = async (data) => {
@@ -84,6 +86,7 @@ export default function usePosts() {
     return {
         post,
         posts,
+        meta,
         image,
         errorMessage,
         getPost,
