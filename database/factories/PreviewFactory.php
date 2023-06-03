@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Post;
+use App\Models\Role;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -22,7 +23,7 @@ class PreviewFactory extends Factory
         return [
             'path' => $this->faker->loremflickr('preview'),
             'post_id' => $posts->first()->id,
-            'user_id' => 1,
+            'user_id' => Role::where('title', '=', 'Admin')->first()->users()->first()->id,
         ];
     }
 }

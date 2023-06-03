@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\MyFaker\FakerImageProvider;
+use Illuminate\Pagination\Paginator;
 use Faker\Factory;
 use Faker\Generator;
 use Illuminate\Support\ServiceProvider;
@@ -29,6 +30,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        //для пагинаций
+        Paginator::useBootstrap();
     }
 }
