@@ -15,6 +15,8 @@ class PreviewController extends Controller
      */
     public function store(StoreRequest $request)
     {
+        $this->authorize('store', Preview::class);
+
         $preview = $request->validated();
         $path = Storage::disk('public')->put('/preview', $preview['image']);
         $storedPreview = Preview::create([
