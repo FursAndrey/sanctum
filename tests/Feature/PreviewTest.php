@@ -15,6 +15,16 @@ class PreviewTest extends TestCase
 {
     use RefreshDatabase;
     
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->withHeaders(
+            [
+                'accept' => 'application/json',
+            ]
+        );
+    }
+
     public function test_an_image_can_not_be_stored_by_unauthorised_user(): void
     {
         Storage::fake('public');
@@ -22,7 +32,12 @@ class PreviewTest extends TestCase
 
         $response = $this->post('/api/preview', ['image' => $image]);
         
-        $response->assertStatus(302);
+        $response->assertStatus(401);
+        $response->assertJson(
+            [
+                "message"=>"Unauthenticated."
+            ]
+        );
     }
 
     public function test_an_image_is_file_for_stored(): void
@@ -45,8 +60,10 @@ class PreviewTest extends TestCase
         $response = $this->actingAs($user)->post('/api/preview', ['image' => $image]);
         
         $response
-            ->assertStatus(302)
-            ->assertRedirect()
+            ->assertStatus(422)
+            ->assertJsonValidationErrors([
+                'image' => 'The image field must be an image.'
+            ])
             ->assertInvalid('image');
     }
 
@@ -258,7 +275,11 @@ class PreviewTest extends TestCase
         $response = $this->actingAs($user)->post('/api/posts', $post);
         unset($post['image_id']);
 
-        $response->assertStatus(302);
+        $response
+            ->assertStatus(422)
+            ->assertJsonValidationErrors([
+                'image_id' => 'The selected image id is invalid.'
+            ]);
         $this->assertDatabaseCount('posts', 0);
         $this->assertDatabaseMissing('posts', $post);
     }
@@ -311,7 +332,11 @@ class PreviewTest extends TestCase
         $response = $this->actingAs($user)->put('/api/posts/'.$post->id, $newPost);
         unset($newPost['image_id']);
         
-        $response->assertStatus(302);
+        $response
+            ->assertStatus(422)
+            ->assertJsonValidationErrors([
+                'image_id' => 'The selected image id is invalid.'
+            ]);
         $this->assertDatabaseHas('posts', $oldPost);
         $this->assertDatabaseMissing('posts', $newPost);
     }

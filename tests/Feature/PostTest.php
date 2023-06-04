@@ -12,9 +12,17 @@ use Tests\TestCase;
 class PostTest extends TestCase
 {
     use RefreshDatabase;
-    /**
-     * A basic feature test example.
-     */
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->withHeaders(
+            [
+                'accept' => 'application/json',
+            ]
+        );
+    }
+
     public function test_return_posts_if_not_exist_posts(): void
     {
         $response = $this->get('/api/posts');
@@ -38,29 +46,53 @@ class PostTest extends TestCase
 
     public function test_return_posts_if_exist_posts(): void
     {
-        Post::factory(5)->create();
+        $posts = Post::factory(5)->create();
         $response = $this->get('/api/posts');
         
+        $expectedJson = $posts->map(function ($post) {
+            return [
+                'id' => $post->id,
+                'title' => $post->title,
+                'body' => $post->body,
+                'published' => $post->published,
+            ];
+        })->toArray();
+        
         $response->assertStatus(200);
-        $response->assertJsonStructure(
+        //описанные аттрибуты должны быть обязательно, кроме них могут быть и другие
+        $response->assertJson(
             [
                 'data'=>[
-                    "posts"=>[
-                        '*'=>[
-                            'id',
-                            'title',
-                            'body'
-                        ]
-                    ],
+                    "posts"=>$expectedJson,
                     "meta"=>[
-                        "current_page",
-                        "from",
-                        "last_page",
-                        "path",
-                        "per_page",
-                        "to",
-                        "total"
+                        "current_page" => 1,
+                        "from" => 1,
+                        "last_page" => 1,
+                        "path" => 'http://localhost/api/posts',
+                        "per_page" => 10,
+                        "to" => 5,
+                        "total" => 5
                     ]
+                ]
+            ]
+        );
+    }
+
+    public function test_return_post_by_id()
+    {
+        $post = Post::factory(1)->create()->first();
+        $response = $this->get('/api/posts/'.$post->id);
+        
+        $response->assertStatus(200);
+        //точное соответствие
+        $response->assertExactJson(
+            [
+                'data'=>[
+                    'id' => $post->id,
+                    'title' => $post->title,
+                    'body' => $post->body,
+                    'published' => $post->published,
+                    'preview' => null,
                 ]
             ]
         );
@@ -88,9 +120,12 @@ class PostTest extends TestCase
         $response = $this->actingAs($user)->post('/api/posts', $post);
         
         $response
-            ->assertStatus(302)
-            ->assertRedirect()
-            ->assertInvalid('title');
+            ->assertStatus(422)
+            ->assertInvalid('title')
+            ->assertJsonValidationErrors([
+                'title' => 'The title field is required.'
+            ]);
+        // dd($response->getContent());
     }
 
     public function test_body_attribute_is_required_for_storing_post()
@@ -115,9 +150,11 @@ class PostTest extends TestCase
         $response = $this->actingAs($user)->post('/api/posts', $post);
         
         $response
-            ->assertStatus(302)
-            ->assertRedirect()
-            ->assertInvalid('body');
+            ->assertStatus(422)
+            ->assertInvalid('body')
+            ->assertJsonValidationErrors([
+                'body' => 'The body field is required.'
+            ]);
     }
 
     public function test_a_post_can_not_be_stored_without_image_by_unauthorised_user(): void
@@ -128,7 +165,12 @@ class PostTest extends TestCase
         ];
         $response = $this->post('/api/posts', $post);
         
-        $response->assertStatus(302);
+        $response->assertStatus(401);
+        $response->assertJson(
+            [
+                "message"=>"Unauthenticated."
+            ]
+        );
         $this->assertDatabaseCount('posts', 0);
         $this->assertDatabaseMissing('posts', $post);
     }
@@ -183,25 +225,13 @@ class PostTest extends TestCase
         $response = $this->actingAs($user)->post('/api/posts', $post);
         
         $response->assertStatus(403);
-        $this->assertDatabaseCount('posts', 0);
-        $this->assertDatabaseMissing('posts', $post);
-    }
-
-    public function test_return_post_by_id()
-    {
-        $post = Post::factory(1)->create()->first();
-        $response = $this->get('/api/posts/'.$post->id);
-        
-        $response->assertStatus(200);
-        $response->assertJsonStructure(
+        $response->assertJsonFragment(
             [
-                'data'=>[
-                    'id',
-                    'title',
-                    'body'
-                ]
+                "message"=>"This action is unauthorized."
             ]
         );
+        $this->assertDatabaseCount('posts', 0);
+        $this->assertDatabaseMissing('posts', $post);
     }
 
     public function test_a_post_can_be_updated_by_admin_user()
@@ -265,7 +295,11 @@ class PostTest extends TestCase
         //тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->put('/api/posts/'.$post->id, $newPost);
         
-        $response->assertStatus(302);
+        $response
+            ->assertStatus(422)
+            ->assertJsonValidationErrors([
+                'title' => 'The title field is required.'
+            ]);
         $this->assertDatabaseHas('posts', $oldPost);
         $this->assertDatabaseMissing('posts', $newPost);
     }
@@ -298,7 +332,11 @@ class PostTest extends TestCase
         //тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->put('/api/posts/'.$post->id, $newPost);
         
-        $response->assertStatus(302);
+        $response
+            ->assertStatus(422)
+            ->assertJsonValidationErrors([
+                'body' => 'The body field is required.'
+            ]);
         $this->assertDatabaseHas('posts', $oldPost);
         $this->assertDatabaseMissing('posts', $newPost);
     }
@@ -333,6 +371,11 @@ class PostTest extends TestCase
         $response = $this->actingAs($user)->put('/api/posts/'.$post->id, $newPost);
         
         $response->assertStatus(403);
+        $response->assertJsonFragment(
+            [
+                "message"=>"This action is unauthorized."
+            ]
+        );
         $this->assertDatabaseHas('posts', $oldPost);
         $this->assertDatabaseMissing('posts', $newPost);
     }
@@ -353,7 +396,12 @@ class PostTest extends TestCase
         //тестируемый запрос от имени пользователя
         $response = $this->put('/api/posts/'.$post->id, $newPost);
         
-        $response->assertStatus(302);
+        $response->assertStatus(401);
+        $response->assertJson(
+            [
+                "message"=>"Unauthenticated."
+            ]
+        );
         $this->assertDatabaseHas('posts', $oldPost);
         $this->assertDatabaseMissing('posts', $newPost);
     }
@@ -411,6 +459,11 @@ class PostTest extends TestCase
         $response = $this->actingAs($user)->delete('/api/posts/'.$post->id);
         
         $response->assertStatus(403);
+        $response->assertJsonFragment(
+            [
+                "message"=>"This action is unauthorized."
+            ]
+        );
         $this->assertDatabaseHas('posts', $oldPost);
     }
 
@@ -424,7 +477,12 @@ class PostTest extends TestCase
         ];
         $response = $this->delete('/api/posts/'.$post->id);
         
-        $response->assertStatus(302);
+        $response->assertStatus(401);
+        $response->assertJson(
+            [
+                "message"=>"Unauthenticated."
+            ]
+        );
         $this->assertDatabaseHas('posts', $oldPost);
     }
 }
