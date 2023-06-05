@@ -2,7 +2,6 @@
 
 namespace Tests\Feature\Preview;
 
-use App\Models\Post;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -174,6 +173,11 @@ class StoreTest extends TestCase
         $response = $this->actingAs($user)->post('/api/preview', ['image' => $image]);
         
         $response->assertStatus(403);
+        $response->assertJsonFragment(
+            [
+                "message"=>"This action is unauthorized."
+            ]
+        );
         $this->assertDatabaseCount('previews', 0);
         $this->assertDatabaseMissing(
             'previews', 
