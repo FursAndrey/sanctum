@@ -5,8 +5,8 @@ use App\Models\Preview;
 
 class createPostWithPreviewAction
 {
-    public function __invoke():void
+    public function __invoke():Preview
     {
-        Preview::factory(1)->create();
+        return Preview::factory(1)->create()->first();
     }
 }
