@@ -174,7 +174,7 @@ class UpdateTest extends TestCase
         $this->assertDatabaseMissing('roles', $newRole);
     }
 
-    public function test_a_post_can_not_be_updated_by_unauthorised_user()
+    public function test_a_role_can_not_be_updated_by_unauthorised_user()
     {
         $oldRoleArray = [
             'title'=>'some text',

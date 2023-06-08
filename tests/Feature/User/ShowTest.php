@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Role;
+namespace Tests\Feature\User;
 
 use App\Models\Role;
 use App\Models\User;
@@ -22,19 +22,12 @@ class ShowTest extends TestCase
         );
     }
 
-    public function test_can_not_return_role_by_id_for_unauthorised_user()
+    public function test_can_not_return_user_by_id_for_unauthorised_user()
     {
-        $role = Role::create(
-            [
-                'title'=>'not_admin',
-                'discription'=>'Creator of this site',
-                'created_at'=>null,
-                'updated_at'=>null
-            ]
-        );
+        $user = User::factory()->create();
 
         //тестируемый запрос от имени пользователя
-        $response = $this->get('/api/roles/'.$role->id);
+        $response = $this->get('/api/users/'.$user->id);
         
         $response->assertStatus(401);
         $response->assertJson(
@@ -44,7 +37,7 @@ class ShowTest extends TestCase
         );
     }
     
-    public function test_can_not_return_role_by_id_for_not_admin_user()
+    public function test_can_not_return_user_by_id_for_not_admin_user()
     {
         //создание пользователя и присвоение ему роли
         $role = Role::create(
@@ -59,7 +52,7 @@ class ShowTest extends TestCase
         $user->roles()->sync($role->id);
 
         //тестируемый запрос от имени пользователя
-        $response = $this->actingAs($user)->get('/api/roles/'.$role->id);
+        $response = $this->actingAs($user)->get('/api/users/'.$user->id);
         
         $response->assertStatus(403);
         $response->assertJsonFragment(
@@ -69,7 +62,7 @@ class ShowTest extends TestCase
         );
     }
     
-    public function test_can_return_role_by_id_for_admin_user()
+    public function test_can_return_user_by_id_for_admin_user()
     {
         //создание пользователя и присвоение ему роли
         $role = Role::create(
@@ -84,23 +77,23 @@ class ShowTest extends TestCase
         $user->roles()->sync($role->id);
 
         //тестируемый запрос от имени пользователя
-        $response = $this->actingAs($user)->get('/api/roles/'.$role->id);
+        $response = $this->actingAs($user)->get('/api/users/'.$user->id);
         
         $response->assertStatus(200);
         $response->assertJson(
             [
                 'data'=>[
-                    "id" => $role->id,
-                    "title" => $role->title,
-                    "discription" => $role->discription,
-                    "users" => [
+                    "id" => $user->id,
+                    "name" => $user->name,
+                    "email" => $user->email,
+                    "created" => $user->created,
+                    "roles" => [
                         [
-                            "id" => $user->id,
-                            "name" => $user->name,
-                            "email" => $user->email,
-                            "created" => $user->created,
+                            "id" => $role->id,
+                            "title" => $role->title,
+                            "discription" => $role->discription,
                         ]
-                    ]
+                    ],
                 ]
             ]
         );

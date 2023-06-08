@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Role;
+namespace Tests\Feature\User;
 
 use App\Models\Role;
 use App\Models\User;
@@ -8,7 +8,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-class ShowTest extends TestCase
+class IndexTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -22,20 +22,11 @@ class ShowTest extends TestCase
         );
     }
 
-    public function test_can_not_return_role_by_id_for_unauthorised_user()
+    public function test_can_not_return_users_for_unauthorised_user(): void
     {
-        $role = Role::create(
-            [
-                'title'=>'not_admin',
-                'discription'=>'Creator of this site',
-                'created_at'=>null,
-                'updated_at'=>null
-            ]
-        );
-
         //тестируемый запрос от имени пользователя
-        $response = $this->get('/api/roles/'.$role->id);
-        
+        $response = $this->get('/api/users');
+
         $response->assertStatus(401);
         $response->assertJson(
             [
@@ -43,8 +34,8 @@ class ShowTest extends TestCase
             ]
         );
     }
-    
-    public function test_can_not_return_role_by_id_for_not_admin_user()
+
+    public function test_can_not_return_users_for_not_admin_user(): void
     {
         //создание пользователя и присвоение ему роли
         $role = Role::create(
@@ -59,8 +50,8 @@ class ShowTest extends TestCase
         $user->roles()->sync($role->id);
 
         //тестируемый запрос от имени пользователя
-        $response = $this->actingAs($user)->get('/api/roles/'.$role->id);
-        
+        $response = $this->actingAs($user)->get('/api/users');
+
         $response->assertStatus(403);
         $response->assertJsonFragment(
             [
@@ -68,8 +59,8 @@ class ShowTest extends TestCase
             ]
         );
     }
-    
-    public function test_can_return_role_by_id_for_admin_user()
+
+    public function test_can_return_users_for_admin_user(): void
     {
         //создание пользователя и присвоение ему роли
         $role = Role::create(
@@ -84,23 +75,25 @@ class ShowTest extends TestCase
         $user->roles()->sync($role->id);
 
         //тестируемый запрос от имени пользователя
-        $response = $this->actingAs($user)->get('/api/roles/'.$role->id);
-        
+        $response = $this->actingAs($user)->get('/api/users');
+
         $response->assertStatus(200);
         $response->assertJson(
             [
                 'data'=>[
-                    "id" => $role->id,
-                    "title" => $role->title,
-                    "discription" => $role->discription,
-                    "users" => [
-                        [
-                            "id" => $user->id,
-                            "name" => $user->name,
-                            "email" => $user->email,
-                            "created" => $user->created,
-                        ]
-                    ]
+                    [
+                        "id" => $user->id,
+                        "name" => $user->name,
+                        "email" => $user->email,
+                        "created" => $user->created,
+                        "roles" => [
+                            [
+                                "id" => $role->id,
+                                "title" => $role->title,
+                                "discription" => $role->discription,
+                            ]
+                        ],
+                    ],
                 ]
             ]
         );
