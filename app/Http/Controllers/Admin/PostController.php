@@ -109,8 +109,9 @@ class PostController extends Controller
 
     public function storeRandomPost()
     {
-        (new createPostWithPreviewAction)();
-        
-        return response(201);
+        $this->authorize('create', Post::class);
+        $randomPreview = (new createPostWithPreviewAction)();
+
+        return new PostResource($randomPreview->post);
     }
 }

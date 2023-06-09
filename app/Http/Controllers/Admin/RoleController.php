@@ -73,7 +73,7 @@ class RoleController extends Controller
     
     public function forForm()
     {
-        $this->authorize('viewAny', Post::class);
+        $this->authorize('viewAny', Role::class);
 
         $roles = Role::get();
         
