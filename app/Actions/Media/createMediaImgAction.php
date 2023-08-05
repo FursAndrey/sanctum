@@ -16,8 +16,8 @@ class createMediaImgAction
             $name,
             file_get_contents("https://loremflickr.com/$width/$height/animals")
         );
-
-        $img = 'http://byfirst.xyz/storage/'.$name;
+        $hostname = env("APP_URL", "http://byfirst.xyz");
+        $img = $hostname.'/storage/'.$name;
         $post->addMediaFromUrl($img)->toMediaCollection('preview');
         
         Storage::disk('public')->delete($img);
