@@ -73,13 +73,15 @@ export default function usePosts() {
                 image.value = res.data.data;
             }).catch(e => {
                 errorMessage.value = e.response.data.message;
-            })
+            });
     }
 
     const storeRandomPost = async () => {
         await axios.post('/api/posts/storeRandomPost')
             .then(res => {
                 getPosts();
+            // }).catch(e => {
+            //     console.log(e);
             });
     }
 

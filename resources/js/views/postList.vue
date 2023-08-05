@@ -8,7 +8,7 @@
                 :to="{ name: 'postPage', params:{ id: post.id } }" 
                 class="mx-auto w-64 m-4 p-4 text-justify border border-indigo-600 shadow-md shadow-indigo-800"
                 >
-                <img class="mx-auto w-64 mb-3" v-if="post.preview" :src="post.preview.url" :alt="post.title"/>
+                <img class="mx-auto w-64 mb-3" v-if="post.preview" :src="post.preview.url_preview" :alt="post.title"/>
                 <div class="whitespace-nowrap pb-4 text-right text-sm text-gray-500">{{ post.published }}</div>
                 {{ post.title }}
             </router-link>

@@ -22,7 +22,7 @@ class StoreRandomTest extends TestCase
         );
     }
 
-    public function test_a_post_can_be_deleted_by_admin_user()
+    public function test_a_post_can_be_stored_by_admin_user()
     {
         //создание пользователя и присвоение ему роли
         $role = Role::create(
@@ -39,11 +39,11 @@ class StoreRandomTest extends TestCase
         //тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->post('/api/posts/storeRandomPost');
         
-        $response->assertStatus(200);
+        $response->assertStatus(201);
         $this->assertDatabaseCount('posts', 1);
     }
 
-    public function test_a_post_can_not_be_deleted_by_not_admin_user()
+    public function test_a_post_can_not_be_stored_by_not_admin_user()
     {
         //создание пользователя и присвоение ему роли
         $role = Role::create(
@@ -69,7 +69,7 @@ class StoreRandomTest extends TestCase
         $this->assertDatabaseCount('posts', 0);
     }
 
-    public function test_a_post_can_not_be_deleted_by_unauthorised_user()
+    public function test_a_post_can_not_be_stored_by_unauthorised_user()
     {
         $response = $this->post('/api/posts/storeRandomPost');
         

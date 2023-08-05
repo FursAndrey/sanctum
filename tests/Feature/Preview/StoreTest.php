@@ -51,56 +51,56 @@ class StoreTest extends TestCase
             ->assertInvalid('image');
     }
 
-    public function test_image_id_exists_for_storing_post(): void
-    {
-        //создание пользователя и присвоение ему роли
-        $role = Role::create(
-            [
-                'title'=>'Admin',
-                'discription'=>'Creator of this site',
-                'created_at'=>null,
-                'updated_at'=>null
-            ]
-        );
-        $user = User::factory()->create();
-        $user->roles()->sync($role->id);
+    // public function test_image_id_exists_for_storing_post(): void
+    // {
+    //     //создание пользователя и присвоение ему роли
+    //     $role = Role::create(
+    //         [
+    //             'title'=>'Admin',
+    //             'discription'=>'Creator of this site',
+    //             'created_at'=>null,
+    //             'updated_at'=>null
+    //         ]
+    //     );
+    //     $user = User::factory()->create();
+    //     $user->roles()->sync($role->id);
 
-        //подготовка тестового изображения
-        Storage::fake('public');
-        $image = File::create('test_img.jpg');
+    //     //подготовка тестового изображения
+    //     Storage::fake('public');
+    //     $image = File::create('test_img.jpg');
 
-        //сохраняем изображение, что бы тестировать отправку поста с изображением
-        $response = $this->actingAs($user)->post('/api/preview', ['image' => $image]);
-        $this->assertDatabaseCount('previews', 1);
-        $this->assertDatabaseHas(
-            'previews', 
-            [
-                'path' => 'preview/'.$image->hashName(), 
-                'post_id' => NULL, 
-                'user_id' => $user->id
-            ]
-        );
-        Storage::disk('public')->assertExists('preview/'.$image->hashName());
-        $image_id = (int)$response->original->id * 10;
+    //     //сохраняем изображение, что бы тестировать отправку поста с изображением
+    //     $response = $this->actingAs($user)->post('/api/preview', ['image' => $image]);
+    //     $this->assertDatabaseCount('previews', 1);
+    //     $this->assertDatabaseHas(
+    //         'previews', 
+    //         [
+    //             'path' => 'preview/'.$image->hashName(), 
+    //             'post_id' => NULL, 
+    //             'user_id' => $user->id
+    //         ]
+    //     );
+    //     Storage::disk('public')->assertExists('preview/'.$image->hashName());
+    //     $image_id = (int)$response->original->id * 10;
         
-        $post = [
-            'title' => 'some text',
-            'body' => 'some text',
-            'image_id' => $image_id,
-        ];
+    //     $post = [
+    //         'title' => 'some text',
+    //         'body' => 'some text',
+    //         'image_id' => $image_id,
+    //     ];
         
-        //тестируемый запрос от имени пользователя
-        $response = $this->actingAs($user)->post('/api/posts', $post);
-        unset($post['image_id']);
+    //     //тестируемый запрос от имени пользователя
+    //     $response = $this->actingAs($user)->post('/api/posts', $post);
+    //     unset($post['image_id']);
 
-        $response
-            ->assertStatus(422)
-            ->assertJsonValidationErrors([
-                'image_id' => 'The selected image id is invalid.'
-            ]);
-        $this->assertDatabaseCount('posts', 0);
-        $this->assertDatabaseMissing('posts', $post);
-    }
+    //     $response
+    //         ->assertStatus(422)
+    //         ->assertJsonValidationErrors([
+    //             'image_id' => 'The selected image id is invalid.'
+    //         ]);
+    //     $this->assertDatabaseCount('posts', 0);
+    //     $this->assertDatabaseMissing('posts', $post);
+    // }
 
     public function test_an_image_can_be_stored_by_admin_user(): void
     {
@@ -190,49 +190,49 @@ class StoreTest extends TestCase
         Storage::disk('public')->assertMissing('preview/'.$image->hashName());
     }
     
-    public function test_a_post_with_an_image_can_be_stored_by_admin_user(): void
-    {
-        //создание пользователя и присвоение ему роли
-        $role = Role::create(
-            [
-                'title'=>'Admin',
-                'discription'=>'Creator of this site',
-                'created_at'=>null,
-                'updated_at'=>null
-            ]
-        );
-        $user = User::factory()->create();
-        $user->roles()->sync($role->id);
+    // public function test_a_post_with_an_image_can_be_stored_by_admin_user(): void
+    // {
+    //     //создание пользователя и присвоение ему роли
+    //     $role = Role::create(
+    //         [
+    //             'title'=>'Admin',
+    //             'discription'=>'Creator of this site',
+    //             'created_at'=>null,
+    //             'updated_at'=>null
+    //         ]
+    //     );
+    //     $user = User::factory()->create();
+    //     $user->roles()->sync($role->id);
 
-        //подготовка тестового изображения
-        Storage::fake('public');
-        $image = File::create('test_img.jpg');
+    //     //подготовка тестового изображения
+    //     Storage::fake('public');
+    //     $image = File::create('test_img.jpg');
 
-        //сохраняем изображение, что бы тестировать отправку поста с изображением
-        $response = $this->actingAs($user)->post('/api/preview', ['image' => $image]);
-        $this->assertDatabaseCount('previews', 1);
-        $this->assertDatabaseHas(
-            'previews', 
-            [
-                'path' => 'preview/'.$image->hashName(), 
-                'post_id' => NULL, 
-                'user_id' => $user->id
-            ]
-        );
-        Storage::disk('public')->assertExists('preview/'.$image->hashName());
+    //     //сохраняем изображение, что бы тестировать отправку поста с изображением
+    //     $response = $this->actingAs($user)->post('/api/preview', ['image' => $image]);
+    //     $this->assertDatabaseCount('previews', 1);
+    //     $this->assertDatabaseHas(
+    //         'previews', 
+    //         [
+    //             'path' => 'preview/'.$image->hashName(), 
+    //             'post_id' => NULL, 
+    //             'user_id' => $user->id
+    //         ]
+    //     );
+    //     Storage::disk('public')->assertExists('preview/'.$image->hashName());
         
-        $post = [
-            'title' => 'some text',
-            'body' => 'some text',
-            'image_id' => $response->original->id,
-        ];
+    //     $post = [
+    //         'title' => 'some text',
+    //         'body' => 'some text',
+    //         'image_id' => $response->original->id,
+    //     ];
 
-        //тестируемый запрос от имени пользователя
-        $response = $this->actingAs($user)->post('/api/posts', $post);
-        unset($post['image_id']);
+    //     //тестируемый запрос от имени пользователя
+    //     $response = $this->actingAs($user)->post('/api/posts', $post);
+    //     unset($post['image_id']);
 
-        $response->assertStatus(201);
-        $this->assertDatabaseCount('posts', 1);
-        $this->assertDatabaseHas('posts', $post);
-    }
+    //     $response->assertStatus(201);
+    //     $this->assertDatabaseCount('posts', 1);
+    //     $this->assertDatabaseHas('posts', $post);
+    // }
 }

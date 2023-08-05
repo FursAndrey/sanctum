@@ -49,7 +49,7 @@ class UpdateTest extends TestCase
         ];
         
         //тестируемый запрос от имени пользователя
-        $response = $this->actingAs($user)->put('/api/posts/'.$post->id, $newPost);
+        $response = $this->actingAs($user)->patch('/api/posts2/'.$post->id, $newPost);
         
         $response
             ->assertStatus(422)
@@ -86,7 +86,7 @@ class UpdateTest extends TestCase
         ];
         
         //тестируемый запрос от имени пользователя
-        $response = $this->actingAs($user)->put('/api/posts/'.$post->id, $newPost);
+        $response = $this->actingAs($user)->patch('/api/posts2/'.$post->id, $newPost);
         
         $response
             ->assertStatus(422)
@@ -123,7 +123,7 @@ class UpdateTest extends TestCase
         ];
         
         //тестируемый запрос от имени пользователя
-        $response = $this->actingAs($user)->put('/api/posts/'.$post->id, $newPost);
+        $response = $this->actingAs($user)->patch('/api/posts2/'.$post->id, $newPost);
         
         $response->assertStatus(200);
         $this->assertDatabaseHas('posts', $newPost);
@@ -156,7 +156,7 @@ class UpdateTest extends TestCase
         ];
         
         //тестируемый запрос от имени пользователя
-        $response = $this->actingAs($user)->put('/api/posts/'.$post->id, $newPost);
+        $response = $this->actingAs($user)->patch('/api/posts2/'.$post->id, $newPost);
         
         $response->assertStatus(403);
         $response->assertJsonFragment(
@@ -182,7 +182,7 @@ class UpdateTest extends TestCase
         ];
         
         //тестируемый запрос от имени пользователя
-        $response = $this->put('/api/posts/'.$post->id, $newPost);
+        $response = $this->patch('/api/posts2/'.$post->id, $newPost);
         
         $response->assertStatus(401);
         $response->assertJson(
