@@ -17,7 +17,7 @@ class createMediaImgAction
             file_get_contents("https://loremflickr.com/$width/$height/animals")
         );
 
-        $img = 'http://sanctum/storage/'.$name;
+        $img = 'http://byfirst.xyz/storage/'.$name;
         $post->addMediaFromUrl($img)->toMediaCollection('preview');
         
         Storage::disk('public')->delete($img);
