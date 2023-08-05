@@ -41,7 +41,7 @@ class StoreTest extends TestCase
         ];
 
         //тестируемый запрос от имени пользователя
-        $response = $this->actingAs($user)->post('/api/posts', $post);
+        $response = $this->actingAs($user)->post('/api/posts2', $post);
         
         $response
             ->assertStatus(422)
@@ -70,7 +70,7 @@ class StoreTest extends TestCase
         ];
         
         //тестируемый запрос от имени пользователя
-        $response = $this->actingAs($user)->post('/api/posts', $post);
+        $response = $this->actingAs($user)->post('/api/posts2', $post);
         
         $response
             ->assertStatus(422)
@@ -86,7 +86,7 @@ class StoreTest extends TestCase
             'title' => 'some text',
             'body' => 'some text',
         ];
-        $response = $this->post('/api/posts', $post);
+        $response = $this->post('/api/posts2', $post);
         
         $response->assertStatus(401);
         $response->assertJson(
@@ -118,7 +118,7 @@ class StoreTest extends TestCase
         ];
         
         //тестируемый запрос от имени пользователя
-        $response = $this->actingAs($user)->post('/api/posts', $post);
+        $response = $this->actingAs($user)->post('/api/posts2', $post);
         
         $response->assertStatus(201);
         $this->assertDatabaseCount('posts', 1);
@@ -145,7 +145,7 @@ class StoreTest extends TestCase
         ];
         
         //тестируемый запрос от имени пользователя
-        $response = $this->actingAs($user)->post('/api/posts', $post);
+        $response = $this->actingAs($user)->post('/api/posts2', $post);
         
         $response->assertStatus(403);
         $response->assertJsonFragment(

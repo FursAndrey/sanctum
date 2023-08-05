@@ -41,6 +41,11 @@ const router = createRouter({
             name: 'post.create',
         },
         {
+            path: '/admin/posts/create2',
+            component: () => import('../views/admin/posts/create2.vue'),
+            name: 'post.create2',
+        },
+        {
             path: '/admin/posts/show/:id',
             component: () => import('../views/admin/posts/show.vue'),
             name: 'post.show',
@@ -50,6 +55,12 @@ const router = createRouter({
             path: '/admin/posts/edit/:id',
             component: () => import('../views/admin/posts/edit.vue'),
             name: 'post.edit',
+            props: true
+        },
+        {
+            path: '/admin/posts/edit2/:id',
+            component: () => import('../views/admin/posts/edit2.vue'),
+            name: 'post.edit2',
             props: true
         },
         {

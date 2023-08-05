@@ -23,6 +23,13 @@ class PreviewController extends Controller
             'path' => $path,
             'user_id' => auth()->id(),
         ]);
+
+        //получить из $request ID-поста
+        //по ID-поста получить сам пост
+        //$post = Post::find($preview['post_id']);
+        //к этому посту сохранить изображение
+        // $post->addMedia($preview['image'])->toMediaCollection('preview');
+
         return new PreviewResource($storedPreview);
     }
 }
