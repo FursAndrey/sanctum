@@ -33,7 +33,7 @@
             </ul>
         </div>
         
-        <router-view class="mx-auto w-3/5"></router-view>
+        <router-view class="mx-auto w-3/5 px-2.5"></router-view>
     </div>
 </template>
 
