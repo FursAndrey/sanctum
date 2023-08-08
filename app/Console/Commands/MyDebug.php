@@ -34,14 +34,19 @@ class MyDebug extends Command
         // print_r($arr);
         $administartion_group_id = config('services.telegram.administartion_group_id');
         $admin_id = config('services.telegram.admin_id');
+        var_dump($administartion_group_id);
+        var_dump($admin_id);
+        
+        $administartion_group_id2 = env('TELEGRAM_ADMINISTRATION_GROUP_ID');
+        $admin_id2 = env('TELEGRAM_ADMIN_ID');
+        var_dump($administartion_group_id2);
+        var_dump($admin_id2);
         $message = 'message from command line';
         // echo config('services.telegram.bot_token');
         // echo "\n";
         // echo config('services.telegram.admin_id');
         // echo "\n";
         // echo config('services.telegram.administartion_group_id');
-        var_dump($administartion_group_id);
-        var_dump($admin_id);
         // $telegramService = new TelegramService();
         // $telegramService->sendMessage($administartion_group_id, $message);
         // $telegramService->sendMessage($admin_id, $message);
