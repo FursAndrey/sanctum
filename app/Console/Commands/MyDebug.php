@@ -39,6 +39,7 @@ class MyDebug extends Command
         
         $key = env('APP_KEY');
         var_dump($key);
+        var_dump(config('app.env'));
         $message = 'message from command line';
         // echo config('services.telegram.bot_token');
         // echo "\n";
