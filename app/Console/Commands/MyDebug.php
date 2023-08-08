@@ -40,8 +40,10 @@ class MyDebug extends Command
         // echo config('services.telegram.admin_id');
         // echo "\n";
         // echo config('services.telegram.administartion_group_id');
-        $telegramService = new TelegramService();
-        $telegramService->sendMessage($administartion_group_id, $message);
-        $telegramService->sendMessage($admin_id, $message);
+        var_dump($administartion_group_id);
+        var_dump($admin_id);
+        // $telegramService = new TelegramService();
+        // $telegramService->sendMessage($administartion_group_id, $message);
+        // $telegramService->sendMessage($admin_id, $message);
     }
 }
