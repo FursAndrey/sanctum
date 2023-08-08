@@ -37,10 +37,8 @@ class MyDebug extends Command
         var_dump($administartion_group_id);
         var_dump($admin_id);
         
-        $administartion_group_id2 = env('TELEGRAM_ADMINISTRATION_GROUP_ID');
-        $admin_id2 = env('TELEGRAM_ADMIN_ID');
-        var_dump($administartion_group_id2);
-        var_dump($admin_id2);
+        $key = env('APP_KEY');
+        var_dump($key);
         $message = 'message from command line';
         // echo config('services.telegram.bot_token');
         // echo "\n";
