@@ -2,15 +2,13 @@
 
 namespace Tests\Feature\Media;
 
-use App\Actions\Media\createMediaImgAction;
+use App\Actions\Media\testCreateMediaImgAction;
 use App\Models\Post;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Http\Testing\File;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class UpdateTest extends TestCase
@@ -39,9 +37,7 @@ class UpdateTest extends TestCase
             ]
         ];
 
-        $oldPostModel = Post::factory(1)->create()/*->each(function ($post) {
-            (new createMediaImgAction())($post);
-        })*/->first();
+        $oldPostModel = Post::factory(1)->create()->first();
         
         $oldPost = [
             'title' => $oldPostModel->title,
@@ -50,17 +46,6 @@ class UpdateTest extends TestCase
 
         $response = $this->patch('/api/posts2/'.$oldPostModel->id, $newPost);
         
-        // $oldMediaCollection = $oldPostModel->getMedia('preview')/*->first()*/;
-
-        // $this->assertEquals(1, $oldMediaCollection->count());
-        // $oldMediaModel = $oldMediaCollection->first();
-        
-        // $oldMedia = [
-        //     'id' => $oldMediaModel->id,
-        //     'uuid' => $oldMediaModel->uuid,
-        //     'name' => $oldMediaModel->name,
-        //     'updated_at' => $oldMediaModel->updated_at,
-        // ];
         unset($newPost['imgs']);
 
         $response->assertStatus(401);
@@ -73,8 +58,6 @@ class UpdateTest extends TestCase
         $this->assertDatabaseMissing('posts', $newPost);
         
         $this->assertDatabaseCount('media', 0);
-        // $this->assertDatabaseCount('media', 1);
-        // $this->assertDatabaseHas('media', $oldMedia);
     }
 
     public function test_a_post_with_an_img_can_not_be_updated_by_not_admin_user(): void
@@ -92,7 +75,7 @@ class UpdateTest extends TestCase
         $user->roles()->sync($role->id);
 
         $oldPostModel = Post::factory(1)->create()->each(function ($post) {
-            (new createMediaImgAction())($post);
+            (new testCreateMediaImgAction())($post);
         })->first();
         
         $oldPost = [
@@ -116,7 +99,7 @@ class UpdateTest extends TestCase
         
         $response = $this->actingAs($user)->patch('/api/posts2/'.$oldPostModel->id, $newPost);
         
-        $oldMediaCollection = $oldPostModel->getMedia('preview')/*->first()*/;
+        $oldMediaCollection = $oldPostModel->getMedia('preview');
 
         $this->assertEquals(1, $oldMediaCollection->count());
         $oldMediaModel = $oldMediaCollection->first();
@@ -158,7 +141,7 @@ class UpdateTest extends TestCase
         $user->roles()->sync($role->id);
 
         $oldPostModel = Post::factory(1)->create()->each(function ($post) {
-            (new createMediaImgAction())($post);
+            (new testCreateMediaImgAction())($post);
         })->first();
         
         $oldPost = [
@@ -184,7 +167,7 @@ class UpdateTest extends TestCase
         $response = $this->actingAs($user)->patch('/api/posts2/'.$oldPostModel->id, $newPost);
         
         $newPostModel = Post::find($oldPostModel->id);
-        $newMediaCollection = $newPostModel->getMedia('preview')/*->first()*/;
+        $newMediaCollection = $newPostModel->getMedia('preview');
 
         $this->assertEquals(1, $newMediaCollection->count());
         $newMediaModel = $newMediaCollection->first();
@@ -223,7 +206,7 @@ class UpdateTest extends TestCase
         $user->roles()->sync($role->id);
 
         $oldPostModel = Post::factory(1)->create()->each(function ($post) {
-            (new createMediaImgAction())($post);
+            (new testCreateMediaImgAction())($post);
         })->first();
 
         $oldPost = [
@@ -283,7 +266,7 @@ class UpdateTest extends TestCase
         $user->roles()->sync($role->id);
 
         $oldPostModel = Post::factory(1)->create()->each(function ($post) {
-            (new createMediaImgAction())($post);
+            (new testCreateMediaImgAction())($post);
         })->first();
 
         $oldPost = [
@@ -338,7 +321,7 @@ class UpdateTest extends TestCase
         $user->roles()->sync($role->id);
 
         $oldPostModel = Post::factory(1)->create()->each(function ($post) {
-            (new createMediaImgAction())($post);
+            (new testCreateMediaImgAction())($post);
         })->first();
 
         $oldPost = [
@@ -401,7 +384,7 @@ class UpdateTest extends TestCase
         $user->roles()->sync($role->id);
 
         $oldPostModel = Post::factory(1)->create()->each(function ($post) {
-            (new createMediaImgAction())($post);
+            (new testCreateMediaImgAction())($post);
         })->first();
 
         $oldPost = [
@@ -463,7 +446,7 @@ class UpdateTest extends TestCase
         $user->roles()->sync($role->id);
 
         $oldPostModel = Post::factory(1)->create()->each(function ($post) {
-            (new createMediaImgAction())($post);
+            (new testCreateMediaImgAction())($post);
         })->first();
 
         $oldPost = [
@@ -525,7 +508,7 @@ class UpdateTest extends TestCase
         $user->roles()->sync($role->id);
 
         $oldPostModel = Post::factory(1)->create()->each(function ($post) {
-            (new createMediaImgAction())($post);
+            (new testCreateMediaImgAction())($post);
         })->first();
 
         $oldPost = [

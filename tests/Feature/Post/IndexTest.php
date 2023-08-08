@@ -26,17 +26,21 @@ class IndexTest extends TestCase
         $response = $this->get('/api/posts');
 
         $response->assertStatus(200);
-        $response->assertJsonFragment(["posts"=>[]]);
         $response->assertJsonFragment(
             [
-                "meta"=>[
-                    "current_page"=>1,
-                    "from"=>null,
-                    "last_page"=>1,
-                    "path"=>"http://localhost/api/posts",
-                    "per_page"=>10,
-                    "to"=>null,
-                    "total"=>0
+                "posts" => []
+            ]
+        );
+        $response->assertJsonFragment(
+            [
+                "meta" => [
+                    "current_page" => 1,
+                    "from" => null,
+                    "last_page" => 1,
+                    "path" => env("APP_URL", "http://sanctum")."/api/posts",
+                    "per_page" => 10,
+                    "to" => null,
+                    "total" => 0
                 ]
             ]
         );
@@ -60,13 +64,13 @@ class IndexTest extends TestCase
         //описанные аттрибуты должны быть обязательно, кроме них могут быть и другие
         $response->assertJson(
             [
-                'data'=>[
-                    "posts"=>$expectedJson,
-                    "meta"=>[
+                'data' => [
+                    "posts" => $expectedJson,
+                    "meta" => [
                         "current_page" => 1,
                         "from" => 1,
                         "last_page" => 1,
-                        "path" => 'http://localhost/api/posts',
+                        "path" => env("APP_URL", "http://sanctum").'/api/posts',
                         "per_page" => 10,
                         "to" => 5,
                         "total" => 5
