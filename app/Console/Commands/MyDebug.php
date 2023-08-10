@@ -2,8 +2,8 @@
 
 namespace App\Console\Commands;
 
+use App\Services\TelegramService;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Config;
 
 class MyDebug extends Command
 {
@@ -33,14 +33,9 @@ class MyDebug extends Command
         var_dump($admin_id);
         var_dump($bot_token);
         
-        // $message = 'message from command line';
-        // echo config('services.telegram.bot_token');
-        // echo "\n";
-        // echo config('services.telegram.admin_id');
-        // echo "\n";
-        // echo config('services.telegram.administartion_group_id');
-        // $telegramService = new TelegramService();
-        // $telegramService->sendMessage($administartion_group_id, $message);
-        // $telegramService->sendMessage($admin_id, $message);
+        $message = 'message from command line';
+        $telegramService = new TelegramService();
+        $telegramService->sendMessage($administartion_group_id, $message);
+        $telegramService->sendMessage($admin_id, $message);
     }
 }
