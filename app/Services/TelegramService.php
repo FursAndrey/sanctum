@@ -11,7 +11,7 @@ class TelegramService
     
     public function __construct()
     {
-        $this->bot_token = config('services.telegram.bot_token');
+        $this->bot_token = config('telegram.bot_token');
     } 
     
     //pdf, zip, gif
@@ -61,7 +61,7 @@ class TelegramService
 		]; //"one_time_keyboard" - одноразовая
 
         $url = 'https://api.telegram.org/bot'.$this->bot_token.'/sendmessage';
-        echo $url."\n chat_id - ".$chat_id."\n text - ".$text."\n";
+        
         $response = Http::post($url, [
             'text' => $text,
             'reply_markup' => json_encode($reply_markup),
