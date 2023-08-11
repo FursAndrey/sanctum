@@ -66,6 +66,7 @@ class TelegramService
             'text' => $text,
             'reply_markup' => json_encode($reply_markup),
             'chat_id' => $chat_id,
+            'parse_mode' => 'html',
         ]);
 
         return $response->collect();
