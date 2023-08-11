@@ -14,7 +14,8 @@ class PostObserver
     public function created(Post $post): void
     {
         $hostname = env("APP_URL", "http://byfirst.xyz");
-        $message = "<a href='$hostname/post/245'>Добавлен новый пост.</a>";
+        $id = $post->id;
+        $message = "<a href='$hostname/post/$id'>Добавлен новый пост.</a>";
         
         (new sendTelegramTextAction)($message);
     }
