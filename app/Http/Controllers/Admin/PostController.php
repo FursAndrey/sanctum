@@ -64,7 +64,7 @@ class PostController extends Controller
     public function store2(MediaStoreRequest $request)
     {
         $this->authorize('create', Post::class);
-// Log::info($request->validated());
+        
         try {
             DB::beginTransaction();
 

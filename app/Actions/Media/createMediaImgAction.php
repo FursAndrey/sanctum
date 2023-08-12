@@ -16,7 +16,7 @@ class createMediaImgAction implements createMediaImgInterface
             $name,
             file_get_contents("https://loremflickr.com/$width/$height/animals")
         );
-        $hostname = env("APP_URL", "http://byfirst.xyz");
+        $hostname = config('app.url');
         $img = $hostname.'/storage/'.$name;
         $post->addMediaFromUrl($img)->toMediaCollection('preview');
         
