@@ -37,7 +37,7 @@ class IndexTest extends TestCase
                     "current_page" => 1,
                     "from" => null,
                     "last_page" => 1,
-                    "path" => env("APP_URL", "http://sanctum")."/api/posts",
+                    "path" => config('app.url')."/api/posts",
                     "per_page" => 10,
                     "to" => null,
                     "total" => 0
@@ -59,8 +59,10 @@ class IndexTest extends TestCase
                 'published' => $post->published,
             ];
         })->toArray();
+        $expectedJson = array_reverse($expectedJson);
         
         $response->assertStatus(200);
+        
         //описанные аттрибуты должны быть обязательно, кроме них могут быть и другие
         $response->assertJson(
             [
@@ -70,7 +72,7 @@ class IndexTest extends TestCase
                         "current_page" => 1,
                         "from" => 1,
                         "last_page" => 1,
-                        "path" => env("APP_URL", "http://sanctum").'/api/posts',
+                        "path" => config('app.url').'/api/posts',
                         "per_page" => 10,
                         "to" => 5,
                         "total" => 5

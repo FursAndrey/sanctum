@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\Admin\PreviewController;
 use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\TelegramController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\MainController;
 use Illuminate\Http\Request;
@@ -31,3 +32,5 @@ Route::group(['middleware' => 'auth:sanctum'], function() {
 });
 Route::apiResource('/posts', PostController::class)->only(['index','show']);
 Route::get('/currentUser', [UserController::class, 'getCurrentUserForMenu'])->name('getCurrentUserForMenu');
+
+Route::post('/telegram', [TelegramController::class, 'telegramCallback'])->name('telegramCallback');
