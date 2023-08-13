@@ -12,7 +12,5 @@ class TelegramController extends Controller
     {
         $event = $request->all();
         Log::info($event);
-        $event = json_decode(json_encode($event));
-        Log::info($event);
     }
 }
