@@ -8,7 +8,7 @@ class testCreateMediaImgAction implements createMediaImgInterface
 {
     public function __invoke(Post $post, string $dir = 'testImg'): void
     {
-        $hostname = env("APP_URL", "http://byfirst.xyz");
+        $hostname = config('app.url');
 
         $files = Storage::disk('public')->files($dir);
         foreach ($files as $fileName) {

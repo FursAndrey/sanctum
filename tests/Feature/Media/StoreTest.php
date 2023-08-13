@@ -25,14 +25,9 @@ class StoreTest extends TestCase
 
     public function test_a_post_with_an_img_can_not_be_stored_by_unauthorised_user(): void
     {
-        $image = UploadedFile::fake()->image('avatar.jpg');
-
         $post = [
             'title' => 'some text',
             'body' => 'some text',
-            'imgs' => [
-                0 => $image,
-            ]
         ];
 
         $response = $this->post('/api/posts2', $post);
@@ -61,15 +56,9 @@ class StoreTest extends TestCase
         $user = User::factory()->create();
         $user->roles()->sync($role->id);
 
-        //подготовка тестового изображения
-        $image = UploadedFile::fake()->image('avatar.jpg');
-
         $post = [
             'title' => 'some text',
             'body' => 'some text',
-            'imgs' => [
-                $image,
-            ]
         ];
 
         //тестируемый запрос от имени пользователя
