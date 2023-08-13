@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Actions\Post\createPostWithPreviewAction;
 use App\Http\Controllers\Controller;
+use App\Services\TelegramService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -12,6 +13,7 @@ class TelegramController extends Controller
     public function telegramCallback(Request $request)
     {
         $event = $request->all();
+        $admin_id = config('telegram.admin_id');
         Log::info($event);
 
         if (
@@ -21,7 +23,28 @@ class TelegramController extends Controller
             && is_array($event['message']['chat'])
             && isset($event['message']['chat']['id'])
             && is_integer($event['message']['chat']['id'])
-            && $event['message']['chat']['id'] == config('telegram.admin_id')
+            && $event['message']['chat']['id'] == $admin_id
+            && isset($event['message']['text'])
+            && $event['message']['text'] == 'admin-control'
+        ) {
+            //отправить кнопки управления
+            $message = 'Доступ разрешен.';
+            $keyboard = [
+                [
+                    ['text' => 'Добавить 1 случайный пост', 'callback_data' => 'create-random-post'],
+                ],
+            ];
+            
+            $telegramService = new TelegramService();
+            $telegramService->sendMessage($admin_id, $message, $keyboard);
+        } elseif (
+            isset($event['message'])
+            && is_array($event['message'])
+            && isset($event['message']['chat'])
+            && is_array($event['message']['chat'])
+            && isset($event['message']['chat']['id'])
+            && is_integer($event['message']['chat']['id'])
+            && $event['message']['chat']['id'] == $admin_id
             && isset($event['message']['text'])
             && $event['message']['text'] == 'create-random-post'
         ) {
