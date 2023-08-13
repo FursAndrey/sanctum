@@ -15,15 +15,15 @@ class TelegramController extends Controller
         Log::info($event);
 
         if (
-            isset($event['message']) 
+            isset($event['message'])
             && is_array($event['message'])
             && isset($event['message']['chat'])
             && is_array($event['message']['chat'])
             && isset($event['message']['chat']['id'])
-            && is_array($event['message']['chat']['id'])
+            && is_integer($event['message']['chat']['id'])
             && $event['message']['chat']['id'] == config('telegram.admin_id')
-            && isset($event['text']) 
-            && $event['text'] == 'create-random-post'
+            && isset($event['message']['text'])
+            && $event['message']['text'] == 'create-random-post'
         ) {
             //создать рандомный пост
             (new createPostWithPreviewAction)();
