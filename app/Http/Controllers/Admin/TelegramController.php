@@ -47,8 +47,8 @@ class TelegramController extends Controller
             && isset($event['callback_query']['message']['chat']['id'])
             && is_integer($event['callback_query']['message']['chat']['id'])
             && $event['callback_query']['message']['chat']['id'] == $admin_id
-            && isset($event['callback_query']['message']['text'])
-            && $event['callback_query']['message']['text'] == 'create-random-post'
+            && isset($event['callback_query']['data'])
+            && $event['callback_query']['data'] == 'create-random-post'
         ) {
             //создать рандомный пост
             (new createPostWithPreviewAction)();
