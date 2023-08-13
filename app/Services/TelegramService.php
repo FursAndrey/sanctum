@@ -55,9 +55,9 @@ class TelegramService
     public function sendMessage($chat_id, $text, $keyboard = [], $resize_keyboard = true, $one_time_keyboard = true)
     {
         $reply_markup = [
-			'keyboard' => $keyboard,
-			'resize_keyboard' => $resize_keyboard,
-			'one_time_keyboard' => $one_time_keyboard
+			'inline_keyboard' => $keyboard,
+			// 'resize_keyboard' => $resize_keyboard,
+			// 'one_time_keyboard' => $one_time_keyboard
 		]; //"one_time_keyboard" - одноразовая
 
         $url = 'https://api.telegram.org/bot'.$this->bot_token.'/sendmessage';
