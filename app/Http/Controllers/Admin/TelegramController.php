@@ -14,7 +14,7 @@ class TelegramController extends Controller
     {
         $event = $request->all();
         $admin_id = config('telegram.admin_id');
-        Log::info($event);
+        // Log::info($event);
 
         if (
             isset($event['message'])
@@ -26,12 +26,15 @@ class TelegramController extends Controller
             && $event['message']['chat']['id'] == $admin_id
             && isset($event['message']['text'])
             && $event['message']['text'] == 'admin-control'
+            && isset($event['message']['message_id'])
+            && is_integer($event['message']['message_id'])
         ) {
+            $message_id = $event['message']['message_id'].'-';
             //отправить кнопки управления
             $message = 'Доступ разрешен.';
             $keyboard = [
                 [
-                    ['text' => 'Добавить 1 случайный пост', 'callback_data' => 'create-random-post'],
+                    ['text' => 'Добавить 1 случайный пост', 'callback_data' => $message_id.'create-random-post'],
                 ],
             ];
             
@@ -46,16 +49,22 @@ class TelegramController extends Controller
             && is_array($event['callback_query']['message']['chat'])
             && isset($event['callback_query']['message']['chat']['id'])
             && is_integer($event['callback_query']['message']['chat']['id'])
+            && isset($event['callback_query']['message']['message_id'])
+            && is_integer($event['callback_query']['message']['message_id'])
             && $event['callback_query']['message']['chat']['id'] == $admin_id
             && isset($event['callback_query']['data'])
-            && $event['callback_query']['data'] == 'create-random-post'
+            && strripos($event['callback_query']['data'], 'create-random-post') !== false
         ) {
             //создать рандомный пост
             (new createPostWithPreviewAction)();
             $message_id = $event['callback_query']['message']['message_id'];
             
+            $callback_data = explode('-', $event['callback_query']['data']);
+            $id = $callback_data[0];
+            
             $telegramService = new TelegramService();
             $telegramService->deleteMessage($admin_id, $message_id);
+            $telegramService->deleteMessage($admin_id, $id);
         }
     }
 }
