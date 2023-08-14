@@ -36,6 +36,9 @@ class TelegramController extends Controller
                 [
                     ['text' => 'Добавить 1 случайный пост', 'callback_data' => $message_id.'create-random-post'],
                 ],
+                [
+                    ['text' => 'Отмена', 'callback_data' => $message_id.'cancel'],
+                ],
             ];
             
             $telegramService = new TelegramService();
@@ -57,6 +60,30 @@ class TelegramController extends Controller
         ) {
             //создать рандомный пост
             (new createPostWithPreviewAction)();
+            $message_id = $event['callback_query']['message']['message_id'];
+            
+            $callback_data = explode('-', $event['callback_query']['data']);
+            $id = $callback_data[0];
+            
+            $telegramService = new TelegramService();
+            $telegramService->deleteMessage($admin_id, $message_id);
+            $telegramService->deleteMessage($admin_id, $id);
+        } elseif (
+            isset($event['callback_query'])
+            && is_array($event['callback_query'])
+            && isset($event['callback_query']['message'])
+            && is_array($event['callback_query']['message'])
+            && isset($event['callback_query']['message']['chat'])
+            && is_array($event['callback_query']['message']['chat'])
+            && isset($event['callback_query']['message']['chat']['id'])
+            && is_integer($event['callback_query']['message']['chat']['id'])
+            && isset($event['callback_query']['message']['message_id'])
+            && is_integer($event['callback_query']['message']['message_id'])
+            && $event['callback_query']['message']['chat']['id'] == $admin_id
+            && isset($event['callback_query']['data'])
+            && strripos($event['callback_query']['data'], 'cancel') !== false
+        ) {
+            //выйти из меню (без изменений)
             $message_id = $event['callback_query']['message']['message_id'];
             
             $callback_data = explode('-', $event['callback_query']['data']);
