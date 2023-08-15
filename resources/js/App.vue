@@ -27,8 +27,15 @@
                 <li v-if="!token" class="p-2"><router-link :to="{ name: 'login'}" class="menu__item">Login</router-link></li>
                 <li v-if="!token" class="p-2"><router-link :to="{ name: 'registration'}" class="menu__item">Registration</router-link></li>
                 <li v-if="token" class="p-2">
-                    <span v-if="currentUserForMenu">Hi, {{ currentUserForMenu.name }}. </span>
-                    <span @click.prevent="logout" class="menu__item cursor-pointer">Logout</span>
+                    <span v-if="currentUserForMenu" class="menu__item cursor-pointer">Hi, {{ currentUserForMenu.name }}. </span>
+                    <ul>
+                        <li v-if="token" class="p-2">
+                            <span @click.prevent="logout" class="menu__item cursor-pointer">Profile</span>
+                        </li>
+                        <li v-if="token" class="p-2">
+                            <span @click.prevent="logout" class="menu__item cursor-pointer">Logout</span>
+                        </li>
+                    </ul>
                 </li>
             </ul>
         </div>
@@ -144,6 +151,25 @@ div.admin-menu,
     margin-left: auto;
     margin-right: auto;
 }
+
+.menu__box ul {
+    display: none;
+    position: absolute;
+    background: black;
+    width: 100%;
+}
+
+.menu__box li {
+    position: relative;
+}
+.menu__box ul li {
+    border-top: 1px solid #211c3c;
+}
+.menu__box li:hover ul {
+    display: block;
+    top: 40px;
+}
+
 @media (max-width: 750px) {
     .admin-hamburger-menu > input, .admin-hamburger-menu > label,
     .header-hamburger-menu > input, .header-hamburger-menu > label, .menu-title {
@@ -229,6 +255,16 @@ div.admin-menu,
     }
     .menu__item:hover {
         background-color: #CFD8DC;
+    }
+    .menu_hidden {
+        display: none;
+    }
+    .menu__box li:hover ul {
+        background: none;
+        top: auto;
+    }
+    .menu__box ul li {
+        border-top: none;
     }
 }
 </style>
