@@ -43,6 +43,7 @@ class CurrentUserTest extends TestCase
         $response->assertJson(
             [
                 'data'=>[
+                    "id" => $user->id,
                     "name" => $user->name,
                     "roles" => [
                         $role->title,
@@ -73,6 +74,7 @@ class CurrentUserTest extends TestCase
         $response->assertJson(
             [
                 'data'=>[
+                    "id" => $user->id,
                     "name" => $user->name,
                     "roles" => [
                         $role->title,

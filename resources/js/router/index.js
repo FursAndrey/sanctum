@@ -103,6 +103,12 @@ const router = createRouter({
             props: true
         },
         {
+            path: '/profile/show/:id',
+            component: () => import('../views/profile/show.vue'),
+            name: 'profile',
+            props: true
+        },
+        {
             path: '/403',
             component: () => import('../views/errors/403.vue'),
             name: 'errors.403'

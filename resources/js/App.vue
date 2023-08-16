@@ -30,7 +30,7 @@
                     <span v-if="currentUserForMenu" class="menu__item cursor-pointer">Hi, {{ currentUserForMenu.name }}. </span>
                     <ul>
                         <li v-if="token" class="p-2">
-                            <span @click.prevent="logout" class="menu__item cursor-pointer">Profile</span>
+                            <router-link :to="{ name: 'profile', params:{ id: String(currentUserForMenu.id) } }" class="menu__item">Profile</router-link>
                         </li>
                         <li v-if="token" class="p-2">
                             <span @click.prevent="logout" class="menu__item cursor-pointer">Logout</span>
@@ -40,7 +40,7 @@
             </ul>
         </div>
         
-        <router-view class="mx-auto w-3/5 px-2.5"></router-view>
+        <router-view class="mx-auto w-3/5 px-2.5"></router-view> 
     </div>
 </template>
 
