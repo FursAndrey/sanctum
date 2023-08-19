@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div v-if="token && isAdmin()" class="admin-hamburger-menu">
+        <div v-if="token && checkAdmin(currentUserForMenu.roles)" class="admin-hamburger-menu">
             <input id="admin_menu__toggle" type="checkbox" />
             <label class="menu__btn" for="admin_menu__toggle">
                 <span></span>
@@ -45,6 +45,7 @@
 </template>
 
 <script>
+import useInspector from './composition/inspector';
 export default {
     name: "App",
     data() {
@@ -82,7 +83,7 @@ export default {
 
                     //если пользователь авторизован, но не имеет роли "админ" и лезет в админку
                     if (fullPath.indexOf('admin/') != -1) {
-                        if (!this.isAdmin()) {
+                        if (!this.checkAdmin(this.currentUserForMenu.roles)) {
                             this.$router.push({name: 'errors.403'})
                         }
                     }
@@ -103,25 +104,19 @@ export default {
                     this.$router.push({name: 'postList'})
                 })
         },
+    },
 
-        getCurrentUserForMenu() {
-            axios.get('/api/currentUser')
-                .then( res => {
-                    this.currentUserForMenu = res.data.data;
-                });
-        },
+    setup() {
+        const { isAdmin } = useInspector();
 
-        isAdmin() {
-            if (this.currentUserForMenu.roles == undefined) {
-                return false;
-            }
-            if (this.currentUserForMenu.roles.includes("Admin")) {
-                return true;
-            } else {
-                return false;
-            }
+        const checkAdmin = (roles) => {
+            return isAdmin(roles);
         }
-    }
+
+        return {
+            checkAdmin,
+        }
+    },
 }
 </script>
 
