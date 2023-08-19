@@ -22,8 +22,9 @@ export default function useUsers() {
         errorMessage.value = '';
         
         try {
+            const lastPath = router.options.history.state.back;
             await axios.put('/api/users/' + id, {roles: user.value.roles, tg_name: user.value.tg_name});
-            await router.push({ name: 'user.index' });
+            await router.push({ path: lastPath });
         } catch(e) {
             errorMessage.value = e.response.data.message;
         }

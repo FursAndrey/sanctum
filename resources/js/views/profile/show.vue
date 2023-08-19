@@ -10,6 +10,7 @@
                 {{ role.title }}
             </div>
         </div>
+        <router-link :to="{ name: 'profile.edit', params:{ id: String(user.id) } }" class="block w-48 p-2 font-bold bg-amber-600 text-white rounded-lg text-center">Edit profile</router-link>
     </div>
 </template>
 
