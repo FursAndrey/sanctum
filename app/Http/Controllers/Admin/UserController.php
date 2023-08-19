@@ -50,8 +50,16 @@ class UserController extends Controller
     {
         $this->authorize('update', $user);
 
-        $preparedRoles = (new prepareRolesBeforeSyncAction)($request->validated());
+        $data = $request->validated();
+        $preparedRoles = (new prepareRolesBeforeSyncAction)($data);
         $user->roles()->sync($preparedRoles);
+        if (isset($data['tg_name'])) {
+            unset($data['roles']);
+            $user->update($data);
+        } else {
+            $data['tg_name'] = null;
+            $user->update($data);
+        }
 
         return new UserResource($user);
     }

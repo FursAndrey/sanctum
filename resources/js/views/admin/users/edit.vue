@@ -12,6 +12,11 @@
             </div>
         </div>
         
+        <p>Telegram name:</p>
+        <div>
+            <input v-model="user.tg_name" type="text" placeholder="Telegram name" class="w-96 p-2 mb-2 border border-inherit rounded-lg">
+        </div>
+        
         <div class="flex justify-between">
             <router-link :to="{ name: 'user.index'}" class="block w-48 p-2 font-bold bg-amber-600 text-white rounded-lg text-center">Return to users</router-link>
             <input @click.prevent="editUser" type="submit" value="Update" class="w-32 p-2 bg-lime-600 text-white rounded-lg cursor-pointer">

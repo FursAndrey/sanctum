@@ -22,7 +22,7 @@ export default function useUsers() {
         errorMessage.value = '';
         
         try {
-            await axios.put('/api/users/' + id, {roles: user.value.roles});
+            await axios.put('/api/users/' + id, {roles: user.value.roles, tg_name: user.value.tg_name});
             await router.push({ name: 'user.index' });
         } catch(e) {
             errorMessage.value = e.response.data.message;
