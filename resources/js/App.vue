@@ -74,15 +74,15 @@ export default {
                     this.getToken();
 
                     const fullPath = to.fullPath;
-                    //если не авторизованый пользователь лезет в админку - отправить на страницу логина
-                    if (fullPath.indexOf('admin/') != -1) {
+                    //если не авторизованый пользователь лезет в админку или в профиль - отправить на страницу логина
+                    if (fullPath.indexOf('admin/') != -1 || fullPath.indexOf('profile/') != -1) {
                         if (!this.token) {
                             this.$router.push({name: 'login'})
                         }
                     }
 
-                    //если пользователь авторизован, но не имеет роли "админ" и лезет в админку
-                    if (fullPath.indexOf('admin/') != -1) {
+                    //если пользователь авторизован, но не имеет роли "админ" и лезет в админку или в профиль
+                    if (fullPath.indexOf('admin/') != -1 || fullPath.indexOf('profile/') != -1) {
                         if (!this.checkAdmin(this.currentUserForMenu.roles)) {
                             this.$router.push({name: 'errors.403'})
                         }
