@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div v-if="token && isAdmin()" class="admin-hamburger-menu">
+        <div v-if="token && checkAdmin(currentUserForMenu.roles)" class="admin-hamburger-menu">
             <input id="admin_menu__toggle" type="checkbox" />
             <label class="menu__btn" for="admin_menu__toggle">
                 <span></span>
@@ -27,17 +27,25 @@
                 <li v-if="!token" class="p-2"><router-link :to="{ name: 'login'}" class="menu__item">Login</router-link></li>
                 <li v-if="!token" class="p-2"><router-link :to="{ name: 'registration'}" class="menu__item">Registration</router-link></li>
                 <li v-if="token" class="p-2">
-                    <span v-if="currentUserForMenu">Hi, {{ currentUserForMenu.name }}. </span>
-                    <span @click.prevent="logout" class="menu__item cursor-pointer">Logout</span>
+                    <span v-if="currentUserForMenu" class="menu__item cursor-pointer">Hi, {{ currentUserForMenu.name }}. </span>
+                    <ul>
+                        <li v-if="token" class="p-2">
+                            <router-link :to="{ name: 'profile', params:{ id: String(currentUserForMenu.id) } }" class="menu__item">Profile</router-link>
+                        </li>
+                        <li v-if="token" class="p-2">
+                            <span @click.prevent="logout" class="menu__item cursor-pointer">Logout</span>
+                        </li>
+                    </ul>
                 </li>
             </ul>
         </div>
         
-        <router-view class="mx-auto w-3/5 px-2.5"></router-view>
+        <router-view class="mx-auto w-3/5 px-2.5"></router-view> 
     </div>
 </template>
 
 <script>
+import useInspector from './composition/inspector';
 export default {
     name: "App",
     data() {
@@ -66,16 +74,16 @@ export default {
                     this.getToken();
 
                     const fullPath = to.fullPath;
-                    //если не авторизованый пользователь лезет в админку - отправить на страницу логина
-                    if (fullPath.indexOf('admin/') != -1) {
+                    //если не авторизованый пользователь лезет в админку или в профиль - отправить на страницу логина
+                    if (fullPath.indexOf('admin/') != -1 || fullPath.indexOf('profile/') != -1) {
                         if (!this.token) {
                             this.$router.push({name: 'login'})
                         }
                     }
 
-                    //если пользователь авторизован, но не имеет роли "админ" и лезет в админку
-                    if (fullPath.indexOf('admin/') != -1) {
-                        if (!this.isAdmin()) {
+                    //если пользователь авторизован, но не имеет роли "админ" и лезет в админку или в профиль
+                    if (fullPath.indexOf('admin/') != -1 || fullPath.indexOf('profile/') != -1) {
+                        if (!this.checkAdmin(this.currentUserForMenu.roles)) {
                             this.$router.push({name: 'errors.403'})
                         }
                     }
@@ -96,25 +104,19 @@ export default {
                     this.$router.push({name: 'postList'})
                 })
         },
+    },
 
-        getCurrentUserForMenu() {
-            axios.get('/api/currentUser')
-                .then( res => {
-                    this.currentUserForMenu = res.data.data;
-                });
-        },
+    setup() {
+        const { isAdmin } = useInspector();
 
-        isAdmin() {
-            if (this.currentUserForMenu.roles == undefined) {
-                return false;
-            }
-            if (this.currentUserForMenu.roles.includes("Admin")) {
-                return true;
-            } else {
-                return false;
-            }
+        const checkAdmin = (roles) => {
+            return isAdmin(roles);
         }
-    }
+
+        return {
+            checkAdmin,
+        }
+    },
 }
 </script>
 
@@ -144,6 +146,25 @@ div.admin-menu,
     margin-left: auto;
     margin-right: auto;
 }
+
+.menu__box ul {
+    display: none;
+    position: absolute;
+    background: black;
+    width: 100%;
+}
+
+.menu__box li {
+    position: relative;
+}
+.menu__box ul li {
+    border-top: 1px solid #211c3c;
+}
+.menu__box li:hover ul {
+    display: block;
+    top: 40px;
+}
+
 @media (max-width: 750px) {
     .admin-hamburger-menu > input, .admin-hamburger-menu > label,
     .header-hamburger-menu > input, .header-hamburger-menu > label, .menu-title {
@@ -229,6 +250,16 @@ div.admin-menu,
     }
     .menu__item:hover {
         background-color: #CFD8DC;
+    }
+    .menu_hidden {
+        display: none;
+    }
+    .menu__box li:hover ul {
+        background: none;
+        top: auto;
+    }
+    .menu__box ul li {
+        border-top: none;
     }
 }
 </style>

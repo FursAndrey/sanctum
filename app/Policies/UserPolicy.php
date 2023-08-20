@@ -22,7 +22,7 @@ class UserPolicy
     public function view(User $user, User $model): bool
     {
         $roles = $user->roles->pluck('title')->toArray();
-        return in_array('Admin', $roles);
+        return in_array('Admin', $roles) || $user->id === $model->id;
     }
 
     /**

@@ -20,6 +20,7 @@ class CurrentUserForMenuResource extends JsonResource
             ];
         } else {
             return [
+                'id' => (string) auth()->user()->id,
                 'name' => auth()->user()->name,
                 'roles' => auth()->user()->roles->pluck('title')->toArray(),
             ];
