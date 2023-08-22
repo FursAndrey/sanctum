@@ -14,7 +14,6 @@ class TelegramController extends Controller
     public function telegramCallback(Request $request)
     {
         $event = $request->all();
-        // $admin_id = config('telegram.admin_id');
         $adminTgNames = User::with(['roles'])->whereRelation('roles', 'title', '=', 'Admin')->get('tg_name')->map->tg_name->toArray();
 
         // Log::info($event);
@@ -30,7 +29,6 @@ class TelegramController extends Controller
             && isset($event['message']['chat']['username'])
             && is_string($event['message']['chat']['username'])
             && in_array($event['message']['chat']['username'], $adminTgNames)
-            // && $event['message']['chat']['id'] == $admin_id
             && isset($event['message']['text'])
             && $event['message']['text'] == 'admin-control'
             && isset($event['message']['message_id'])
@@ -66,7 +64,6 @@ class TelegramController extends Controller
             && isset($event['callback_query']['message']['chat']['username'])
             && is_string($event['callback_query']['message']['chat']['username'])
             && in_array($event['callback_query']['message']['chat']['username'], $adminTgNames)
-            // && $event['callback_query']['message']['chat']['id'] == $admin_id
             && isset($event['callback_query']['data'])
             && strripos($event['callback_query']['data'], 'create-random-post') !== false
         ) {
@@ -96,7 +93,6 @@ class TelegramController extends Controller
             && isset($event['callback_query']['message']['chat']['username'])
             && is_string($event['callback_query']['message']['chat']['username'])
             && in_array($event['callback_query']['message']['chat']['username'], $adminTgNames)
-            // && $event['callback_query']['message']['chat']['id'] == $admin_id
             && isset($event['callback_query']['data'])
             && strripos($event['callback_query']['data'], 'cancel') !== false
         ) {
