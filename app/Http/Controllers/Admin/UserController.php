@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Actions\User\createRandomUserAction;
 use App\Actions\User\prepareRolesBeforeSyncAction;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\UpdateRequest;
@@ -79,5 +80,13 @@ class UserController extends Controller
     public function getCurrentUserForMenu()
     {
         return new CurrentUserForMenuResource(auth()->user());
+    }
+
+    public function storeRandomUser()
+    {
+        $this->authorize('create', User::class);
+        $randomUser = (new createRandomUserAction)();
+
+        return new UserResource($randomUser);
     }
 }

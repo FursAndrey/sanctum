@@ -28,10 +28,11 @@ class UserPolicy
     /**
      * Determine whether the user can create models.
      */
-    // public function create(User $user): bool
-    // {
-    //     //
-    // }
+    public function create(User $user): bool
+    {
+        $roles = $user->roles->pluck('title')->toArray();
+        return in_array('Admin', $roles);
+    }
 
     /**
      * Determine whether the user can update the model.
