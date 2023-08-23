@@ -24,11 +24,16 @@ export default function useComments() {
             });
     }
     
+    const storeRandomComment = async () => {
+        await axios.post('/api/comments/storeRandomComment');
+    }
+    
     return {
         comment,
         comments,
         errorMessage,
         getComments,
-        storeComment
+        storeComment,
+        storeRandomComment
     }
 }

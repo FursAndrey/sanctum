@@ -4,10 +4,11 @@
         <div class="flex flex-col">
             <div class="overflow-x-auto sm:-mx-4 lg:-mx-6">
                 <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
-                    <div class="flex mx-auto mb-4 w-96">
+                    <div class="flex mx-auto mb-4 w-4/5">
                         <!-- <router-link :to="{ name: 'post.create'}" class="block p-2 w-44 me-4 font-bold bg-lime-600 text-white rounded-lg text-center">Create new post</router-link> -->
                         <router-link :to="{ name: 'post.create2'}" class="block p-2 w-44 me-4 font-bold bg-lime-600 text-white rounded-lg text-center">Create new post</router-link>
-                        <span @click="storeRandomPost()" class="block p-2 w-44 font-bold bg-amber-700 text-white rounded-lg text-center cursor-pointer">Create random post</span>
+                        <span @click="storeRandomPost()" class="block p-2 w-44 me-4 font-bold bg-amber-700 text-white rounded-lg text-center cursor-pointer">Create random post</span>
+                        <span @click="storeRandomComment()" class="block p-2 w-56 font-bold bg-amber-700 text-white rounded-lg text-center cursor-pointer">Create random comment</span>
                     </div>
                     <div class="overflow-hidden">
                         <table class="min-w-full text-center text-sm font-light">
@@ -46,6 +47,7 @@
 <script>
 import { onMounted } from 'vue';
 import usePosts from '../../../composition/posts';
+import useComments from '../../../composition/comments';
 import paginationTemplate from '../../../components/paginationTemplate.vue';
 export default {
     components: { 
@@ -55,6 +57,7 @@ export default {
 
     setup() {
         const { posts, meta, getPosts, destroyPost, storeRandomPost } = usePosts();
+        const { storeRandomComment } = useComments();
         const firstPage = 1;
 
         onMounted(getPosts(firstPage));
@@ -77,6 +80,7 @@ export default {
             meta,
             deletePost,
             storeRandomPost,
+            storeRandomComment,
             changePages,
         }
     },
