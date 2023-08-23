@@ -24,6 +24,7 @@ use Illuminate\Support\Facades\Route;
 Route::group(['middleware' => 'auth:sanctum'], function() {
     Route::post('/users/storeRandomUser', [UserController::class, 'storeRandomUser'])->name('storeRandomUser');
     Route::post('/posts/storeRandomPost', [PostController::class, 'storeRandomPost'])->name('storeRandomPost');
+    Route::post('/comments/storeRandomComment', [CommentController::class, 'storeRandomComment'])->name('storeRandomComment');
     Route::apiResource('/users', UserController::class)->only(['index','show','update','destroy']);
     Route::get('/roles/forForm', [RoleController::class, 'forForm'])->name('forForm');
     Route::apiResource('/roles', RoleController::class);
