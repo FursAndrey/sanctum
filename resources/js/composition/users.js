@@ -34,6 +34,15 @@ export default function useUsers() {
         await axios.delete('/api/users/'+id);
     }
     
+    const storeRandomUser = async () => {
+        await axios.post('/api/users/storeRandomUser')
+            .then(res => {
+                getUsers();
+            // }).catch(e => {
+            //     console.log(e);
+            });
+    }
+
     return {
         user,
         users,
@@ -41,6 +50,7 @@ export default function useUsers() {
         getUser,
         getUsers,
         updateUser,
-        destroyUser
+        destroyUser,
+        storeRandomUser
     }
 }

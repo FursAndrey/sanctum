@@ -5,6 +5,9 @@
             <div class="overflow-x-auto sm:-mx-4 lg:-mx-6">
                 <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
                     <div class="overflow-hidden">
+                        <div class="flex mx-auto mb-4 w-96">
+                            <span @click="storeRandomUser()" class="block p-2 w-44 font-bold bg-amber-700 text-white rounded-lg text-center cursor-pointer">Create random user</span>
+                        </div>
                         <table class="min-w-full text-center text-sm font-light">
                             <thead class="border-b bg-neutral-800 font-medium text-white dark:border-neutral-500 dark:bg-neutral-900">
                                 <tr>
@@ -55,7 +58,7 @@ export default {
     },
 
     setup() {
-        const { users, getUsers, destroyUser } = useUsers();
+        const { users, getUsers, destroyUser, storeRandomUser } = useUsers();
 
         onMounted(getUsers);
 
@@ -70,7 +73,8 @@ export default {
 
         return {
             users,
-            deleteUser
+            deleteUser,
+            storeRandomUser
         }
     },
 }

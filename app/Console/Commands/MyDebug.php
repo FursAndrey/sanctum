@@ -2,6 +2,8 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Comment;
+use App\Models\Post;
 use App\Models\Role;
 use App\Models\User;
 use App\Services\TelegramService;
@@ -30,12 +32,8 @@ class MyDebug extends Command
     {
         echo "Hello World!";
         
-        $q = User::with(['roles'])->whereRelation('roles', 'title', '=', 'Admin')->get('tg_name')->map->tg_name->toArray();
+        Comment::factory(3)->create();
 
-        dump($q);
-
-        dump(in_array('test', $q));
-        dump(in_array('test3', $q));
         // $message = 'Доступ разрешен.';
         // $keyboard = [
         //     [
