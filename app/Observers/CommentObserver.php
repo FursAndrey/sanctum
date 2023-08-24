@@ -16,7 +16,7 @@ class CommentObserver
         $id = $comment->post_id;
         $finalUrl = "$hostname/post/$id";
         // Log::info($post);
-        $message = "К посту<b>опубликован новый комментарий.</b>\n<a href='$finalUrl'>$finalUrl</a>";
+        $message = "К посту <b>опубликован новый комментарий.</b>\n<a href='$finalUrl'>$finalUrl</a>";
         
         $administartion_group_id = config('telegram.administartion_group_id');
         $telegramService = new TelegramService();
