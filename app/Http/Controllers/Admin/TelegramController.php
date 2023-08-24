@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Actions\Comment\createRandomCommentAction;
 use App\Actions\Post\createPostWithPreviewAction;
 use App\Http\Controllers\Controller;
 use App\Models\User;
@@ -40,6 +41,7 @@ class TelegramController extends Controller
             $keyboard = [
                 [
                     ['text' => 'Добавить 1 случайный пост', 'callback_data' => $message_id.'create-random-post'],
+                    ['text' => 'Добавить 1 случайный комментарий', 'callback_data' => $message_id.'create-random-comment'],
                 ],
                 [
                     ['text' => 'Отмена', 'callback_data' => $message_id.'cancel'],
@@ -69,6 +71,35 @@ class TelegramController extends Controller
         ) {
             //создать рандомный пост
             (new createPostWithPreviewAction)();
+            $message_id = $event['callback_query']['message']['message_id'];
+            
+            $callback_data = explode('-', $event['callback_query']['data']);
+            $id = $callback_data[0];
+            $admin_id = $event['callback_query']['message']['chat']['id'];
+            
+            $telegramService = new TelegramService();
+            $telegramService->deleteMessage($admin_id, $message_id);
+            $telegramService->deleteMessage($admin_id, $id);
+        } elseif (
+            isset($event['callback_query'])
+            && is_array($event['callback_query'])
+            && isset($event['callback_query']['message'])
+            && is_array($event['callback_query']['message'])
+            && isset($event['callback_query']['message']['chat'])
+            && is_array($event['callback_query']['message']['chat'])
+            && isset($event['callback_query']['message']['chat']['id'])
+            && is_integer($event['callback_query']['message']['chat']['id'])
+            && isset($event['callback_query']['message']['message_id'])
+            && is_integer($event['callback_query']['message']['message_id'])
+
+            && isset($event['callback_query']['message']['chat']['username'])
+            && is_string($event['callback_query']['message']['chat']['username'])
+            && in_array($event['callback_query']['message']['chat']['username'], $adminTgNames)
+            && isset($event['callback_query']['data'])
+            && strripos($event['callback_query']['data'], 'create-random-comment') !== false
+        ) {
+            //создать рандомный комментарий
+            (new createRandomCommentAction)();
             $message_id = $event['callback_query']['message']['message_id'];
             
             $callback_data = explode('-', $event['callback_query']['data']);
