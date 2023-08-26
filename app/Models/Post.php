@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 use Spatie\Image\Manipulations;
@@ -30,6 +31,11 @@ class Post extends Model implements HasMedia
     public function preview():HasOne
     {
         return $this->hasOne(Preview::class);
+    }
+
+    public function comments():HasMany
+    {
+        return $this->hasMany(Comment::class);
     }
 
     public function getPreviewUrlAttribute()

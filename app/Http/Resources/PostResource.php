@@ -20,6 +20,7 @@ class PostResource extends JsonResource
             'body' => $this->body,
             'published' => $this->published,
             'preview' => new MediaResource($this->getMedia('preview')->first()),
+            'commentCount' => $this->comments->count(),
             // 'preview' => new PreviewResource($this->whenLoaded('preview')),
         ];
     }
