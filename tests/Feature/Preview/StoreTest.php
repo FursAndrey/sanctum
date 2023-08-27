@@ -31,7 +31,7 @@ class StoreTest extends TestCase
                 'title' => 'Admin',
                 'discription' => 'Creator of this site',
                 'created_at' => null,
-                'updated_at' => null
+                'updated_at' => null,
             ]
         );
         $user = User::factory()->create();
@@ -45,7 +45,7 @@ class StoreTest extends TestCase
         $response
             ->assertStatus(422)
             ->assertJsonValidationErrors([
-                'image' => 'The image field must be an image.'
+                'image' => 'The image field must be an image.',
             ])
             ->assertInvalid('image');
     }
@@ -109,7 +109,7 @@ class StoreTest extends TestCase
                 'title' => 'Admin',
                 'discription' => 'Creator of this site',
                 'created_at' => null,
-                'updated_at' => null
+                'updated_at' => null,
             ]
         );
         $user = User::factory()->create();
@@ -129,7 +129,7 @@ class StoreTest extends TestCase
             [
                 'path' => 'preview/'.$image->hashName(),
                 'post_id' => null,
-                'user_id' => $user->id
+                'user_id' => $user->id,
             ]
         );
         Storage::disk('public')->assertExists('preview/'.$image->hashName());
@@ -145,7 +145,7 @@ class StoreTest extends TestCase
         $response->assertStatus(401);
         $response->assertJson(
             [
-                'message' => 'Unauthenticated.'
+                'message' => 'Unauthenticated.',
             ]
         );
     }
@@ -158,7 +158,7 @@ class StoreTest extends TestCase
                 'title' => 'not_dmin',
                 'discription' => 'Creator of this site',
                 'created_at' => null,
-                'updated_at' => null
+                'updated_at' => null,
             ]
         );
         $user = User::factory()->create();
@@ -174,7 +174,7 @@ class StoreTest extends TestCase
         $response->assertStatus(403);
         $response->assertJsonFragment(
             [
-                'message' => 'This action is unauthorized.'
+                'message' => 'This action is unauthorized.',
             ]
         );
         $this->assertDatabaseCount('previews', 0);
@@ -183,7 +183,7 @@ class StoreTest extends TestCase
             [
                 'path' => 'preview/'.$image->hashName(),
                 'post_id' => null,
-                'user_id' => $user->id
+                'user_id' => $user->id,
             ]
         );
         Storage::disk('public')->assertMissing('preview/'.$image->hashName());

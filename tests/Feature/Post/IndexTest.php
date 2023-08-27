@@ -27,7 +27,7 @@ class IndexTest extends TestCase
         $response->assertStatus(200);
         $response->assertJsonFragment(
             [
-                'posts' => []
+                'posts' => [],
             ]
         );
         $response->assertJsonFragment(
@@ -39,8 +39,8 @@ class IndexTest extends TestCase
                     'path' => config('app.url').'/api/posts',
                     'per_page' => 10,
                     'to' => null,
-                    'total' => 0
-                ]
+                    'total' => 0,
+                ],
             ]
         );
     }
@@ -74,9 +74,9 @@ class IndexTest extends TestCase
                         'path' => config('app.url').'/api/posts',
                         'per_page' => 10,
                         'to' => 5,
-                        'total' => 5
-                    ]
-                ]
+                        'total' => 5,
+                    ],
+                ],
             ]
         );
     }

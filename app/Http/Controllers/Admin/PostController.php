@@ -7,7 +7,6 @@ use App\Actions\Preview\cutImageIdAction;
 use App\Actions\Preview\destroyAllUnjoinedPreviewsAction;
 use App\Actions\Preview\destroyOnePreviewAction;
 use App\Actions\Preview\joinPostPreviewAction;
-
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Media\StoreRequest as MediaStoreRequest;
 use App\Http\Requests\Media\UpdateRequest as MediaUpdateRequest;
@@ -54,6 +53,7 @@ class PostController extends Controller
             DB::commit();
         } catch (Exception $exception) {
             DB::rollBack();
+
             return response()->json(['error' => $exception->getMessage()]);
         }
 
@@ -84,11 +84,13 @@ class PostController extends Controller
             DB::commit();
         } catch (Exception $exception) {
             DB::rollBack();
+
             return response()->json(['error' => $exception->getMessage()]);
         }
 
         return new PostResource($post);
     }
+
     /**
      * Display the specified resource.
      */
@@ -120,8 +122,10 @@ class PostController extends Controller
             DB::commit();
         } catch (Exception $exception) {
             DB::rollBack();
+
             return response()->json(['error' => $exception->getMessage()]);
         }
+
         return new PostResource($post);
     }
 
@@ -161,6 +165,7 @@ class PostController extends Controller
             DB::commit();
         } catch (Exception $exception) {
             DB::rollBack();
+
             return response()->json(['error' => $exception->getMessage()]);
         }
 

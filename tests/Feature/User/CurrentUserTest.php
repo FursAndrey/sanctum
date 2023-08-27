@@ -29,7 +29,7 @@ class CurrentUserTest extends TestCase
                 'title' => 'Admin',
                 'discription' => 'Creator of this site',
                 'created_at' => null,
-                'updated_at' => null
+                'updated_at' => null,
             ]
         );
         $user = User::factory()->create();
@@ -47,7 +47,7 @@ class CurrentUserTest extends TestCase
                     'roles' => [
                         $role->title,
                     ],
-                ]
+                ],
             ]
         );
     }
@@ -60,7 +60,7 @@ class CurrentUserTest extends TestCase
                 'title' => 'not_admin',
                 'discription' => 'Creator of this site',
                 'created_at' => null,
-                'updated_at' => null
+                'updated_at' => null,
             ]
         );
         $user = User::factory()->create();
@@ -78,7 +78,7 @@ class CurrentUserTest extends TestCase
                     'roles' => [
                         $role->title,
                     ],
-                ]
+                ],
             ]
         );
     }
@@ -93,7 +93,7 @@ class CurrentUserTest extends TestCase
             [
                 'data' => [
                     'name' => null,
-                ]
+                ],
             ]
         );
     }

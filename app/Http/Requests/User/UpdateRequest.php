@@ -25,18 +25,18 @@ class UpdateRequest extends FormRequest
         $rules = [
             'roles' => [
                 'required',
-                'array'
+                'array',
             ],
             'roles.*.id' => [
                 'required',
                 'integer',
-                'exists:roles,id'
+                'exists:roles,id',
             ],
             'tg_name' => [
                 'nullable',
                 'string',
                 'max:100',
-                Rule::unique('users')->ignore($this->user->id)
+                Rule::unique('users')->ignore($this->user->id),
             ],
         ];
 

@@ -12,6 +12,7 @@ class cutImageIdAction
         } else {
             $imageId = null;
         }
+
         return $imageId;
     }
 }

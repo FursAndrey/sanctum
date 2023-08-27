@@ -12,7 +12,7 @@ class joinPostPreviewAction
             $preview = Preview::find($imageId);
             if (isset($preview)) {
                 $preview->update([
-                    'post_id' =>$postId,
+                    'post_id' => $postId,
                 ]);
             }
         }

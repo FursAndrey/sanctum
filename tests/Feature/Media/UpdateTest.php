@@ -33,7 +33,7 @@ class UpdateTest extends TestCase
             'body' => 'some text',
             'imgs' => [
                 0 => $image,
-            ]
+            ],
         ];
 
         $oldPostModel = Post::factory(1)->create()->first();
@@ -50,7 +50,7 @@ class UpdateTest extends TestCase
         $response->assertStatus(401);
         $response->assertJson(
             [
-                'message' => 'Unauthenticated.'
+                'message' => 'Unauthenticated.',
             ]
         );
         $this->assertDatabaseHas('posts', $oldPost);
@@ -67,7 +67,7 @@ class UpdateTest extends TestCase
                 'title' => 'not_dmin',
                 'discription' => 'Creator of this site',
                 'created_at' => null,
-                'updated_at' => null
+                'updated_at' => null,
             ]
         );
         $user = User::factory()->create();
@@ -92,8 +92,8 @@ class UpdateTest extends TestCase
                 0 => $image,
             ],
             'deleted_preview' => [
-                $oldMediaId
-            ]
+                $oldMediaId,
+            ],
         ];
 
         $response = $this->actingAs($user)->patch('/api/posts2/'.$oldPostModel->id, $newPost);
@@ -115,7 +115,7 @@ class UpdateTest extends TestCase
         $response->assertStatus(403);
         $response->assertJson(
             [
-                'message' => 'This action is unauthorized.'
+                'message' => 'This action is unauthorized.',
             ]
         );
         $this->assertDatabaseHas('posts', $oldPost);
@@ -133,7 +133,7 @@ class UpdateTest extends TestCase
                 'title' => 'Admin',
                 'discription' => 'Creator of this site',
                 'created_at' => null,
-                'updated_at' => null
+                'updated_at' => null,
             ]
         );
         $user = User::factory()->create();
@@ -159,8 +159,8 @@ class UpdateTest extends TestCase
                 $image,
             ],
             'deleted_preview' => [
-                $oldMediaId
-            ]
+                $oldMediaId,
+            ],
         ];
 
         $response = $this->actingAs($user)->patch('/api/posts2/'.$oldPostModel->id, $newPost);
@@ -198,7 +198,7 @@ class UpdateTest extends TestCase
                 'title' => 'Admin',
                 'discription' => 'Creator of this site',
                 'created_at' => null,
-                'updated_at' => null
+                'updated_at' => null,
             ]
         );
         $user = User::factory()->create();
@@ -218,7 +218,7 @@ class UpdateTest extends TestCase
         $newPost = [
             'title' => 'some text',
             'body' => 'some text',
-            'imgs' => ['qwerty']
+            'imgs' => ['qwerty'],
         ];
 
         $response = $this->actingAs($user)->patch('/api/posts2/'.$oldPostModel->id, $newPost);
@@ -229,15 +229,15 @@ class UpdateTest extends TestCase
                 'message' => 'The imgs field must contain 0 items. (and 2 more errors)',
                 'errors' => [
                     'imgs' => [
-                        'The imgs field must contain 0 items.'
+                        'The imgs field must contain 0 items.',
                     ],
                     'deleted_preview' => [
-                        'The deleted preview field is required.'
+                        'The deleted preview field is required.',
                     ],
                     'imgs.0' => [
-                        'The imgs.0 field must be a file.'
-                    ]
-                ]
+                        'The imgs.0 field must be a file.',
+                    ],
+                ],
             ]
         );
 
@@ -258,7 +258,7 @@ class UpdateTest extends TestCase
                 'title' => 'Admin',
                 'discription' => 'Creator of this site',
                 'created_at' => null,
-                'updated_at' => null
+                'updated_at' => null,
             ]
         );
         $user = User::factory()->create();
@@ -278,7 +278,7 @@ class UpdateTest extends TestCase
         $newPost = [
             'title' => 'some text',
             'body' => 'some text',
-            'imgs' => 'qwerty'
+            'imgs' => 'qwerty',
         ];
 
         $response = $this->actingAs($user)->patch('/api/posts2/'.$oldPostModel->id, $newPost);
@@ -290,9 +290,9 @@ class UpdateTest extends TestCase
                 'errors' => [
                     'imgs' => [
                         'The imgs field must be an array.',
-                        'The imgs field must contain 0 items.'
+                        'The imgs field must contain 0 items.',
                     ],
-                ]
+                ],
             ]
         );
 
@@ -313,7 +313,7 @@ class UpdateTest extends TestCase
                 'title' => 'Admin',
                 'discription' => 'Creator of this site',
                 'created_at' => null,
-                'updated_at' => null
+                'updated_at' => null,
             ]
         );
         $user = User::factory()->create();
@@ -338,7 +338,7 @@ class UpdateTest extends TestCase
             'imgs' => [
                 $image,
             ],
-            'deleted_preview' => []
+            'deleted_preview' => [],
         ];
 
         $response = $this->actingAs($user)->patch('/api/posts2/'.$oldPostModel->id, $newPost);
@@ -349,12 +349,12 @@ class UpdateTest extends TestCase
                 'message' => 'The imgs field must contain 0 items. (and 1 more error)',
                 'errors' => [
                     'imgs' => [
-                        'The imgs field must contain 0 items.'
+                        'The imgs field must contain 0 items.',
                     ],
                     'deleted_preview' => [
-                        'The deleted preview field is required.'
+                        'The deleted preview field is required.',
                     ],
-                ]
+                ],
             ]
         );
 
@@ -376,7 +376,7 @@ class UpdateTest extends TestCase
                 'title' => 'Admin',
                 'discription' => 'Creator of this site',
                 'created_at' => null,
-                'updated_at' => null
+                'updated_at' => null,
             ]
         );
         $user = User::factory()->create();
@@ -402,8 +402,8 @@ class UpdateTest extends TestCase
                 $image,
             ],
             'deleted_preview' => [
-                9999
-            ]
+                9999,
+            ],
         ];
 
         $response = $this->actingAs($user)->patch('/api/posts2/'.$oldPostModel->id, $newPost);
@@ -414,9 +414,9 @@ class UpdateTest extends TestCase
                 'message' => 'The selected deleted_preview.0 is invalid.',
                 'errors' => [
                     'deleted_preview.0' => [
-                        'The selected deleted_preview.0 is invalid.'
+                        'The selected deleted_preview.0 is invalid.',
                     ],
-                ]
+                ],
             ]
         );
 
@@ -438,7 +438,7 @@ class UpdateTest extends TestCase
                 'title' => 'Admin',
                 'discription' => 'Creator of this site',
                 'created_at' => null,
-                'updated_at' => null
+                'updated_at' => null,
             ]
         );
         $user = User::factory()->create();
@@ -464,8 +464,8 @@ class UpdateTest extends TestCase
                 $image,
             ],
             'deleted_preview' => [
-                'qwerty'
-            ]
+                'qwerty',
+            ],
         ];
 
         $response = $this->actingAs($user)->patch('/api/posts2/'.$oldPostModel->id, $newPost);
@@ -476,9 +476,9 @@ class UpdateTest extends TestCase
                 'message' => 'The deleted_preview.0 field must be an integer.',
                 'errors' => [
                     'deleted_preview.0' => [
-                        'The deleted_preview.0 field must be an integer.'
+                        'The deleted_preview.0 field must be an integer.',
                     ],
-                ]
+                ],
             ]
         );
 
@@ -500,7 +500,7 @@ class UpdateTest extends TestCase
                 'title' => 'Admin',
                 'discription' => 'Creator of this site',
                 'created_at' => null,
-                'updated_at' => null
+                'updated_at' => null,
             ]
         );
         $user = User::factory()->create();
@@ -528,8 +528,8 @@ class UpdateTest extends TestCase
                 $image2,
             ],
             'deleted_preview' => [
-                $oldMediaId
-            ]
+                $oldMediaId,
+            ],
         ];
 
         $response = $this->actingAs($user)->patch('/api/posts2/'.$oldPostModel->id, $newPost);
@@ -540,9 +540,9 @@ class UpdateTest extends TestCase
                 'message' => 'The imgs field must contain 1 items.',
                 'errors' => [
                     'imgs' => [
-                        'The imgs field must contain 1 items.'
+                        'The imgs field must contain 1 items.',
                     ],
-                ]
+                ],
             ]
         );
 

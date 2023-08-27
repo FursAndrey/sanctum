@@ -29,7 +29,7 @@ class StoreRandomTest extends TestCase
                 'title' => 'Admin',
                 'discription' => 'Creator of this site',
                 'created_at' => null,
-                'updated_at' => null
+                'updated_at' => null,
             ]
         );
         $user = User::factory()->create();
@@ -50,7 +50,7 @@ class StoreRandomTest extends TestCase
                 'title' => 'not_admin',
                 'discription' => 'Creator of this site',
                 'created_at' => null,
-                'updated_at' => null
+                'updated_at' => null,
             ]
         );
         $user = User::factory()->create();
@@ -62,7 +62,7 @@ class StoreRandomTest extends TestCase
         $response->assertStatus(403);
         $response->assertJsonFragment(
             [
-                'message' => 'This action is unauthorized.'
+                'message' => 'This action is unauthorized.',
             ]
         );
         $this->assertDatabaseCount('posts', 0);
@@ -75,7 +75,7 @@ class StoreRandomTest extends TestCase
         $response->assertStatus(401);
         $response->assertJson(
             [
-                'message' => 'Unauthenticated.'
+                'message' => 'Unauthenticated.',
             ]
         );
         $this->assertDatabaseCount('posts', 0);

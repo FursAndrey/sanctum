@@ -30,7 +30,7 @@ class UpdateTest extends TestCase
                 'title' => 'Admin',
                 'discription' => 'Creator of this site',
                 'created_at' => null,
-                'updated_at' => null
+                'updated_at' => null,
             ]
         );
         $user = User::factory()->create();
@@ -41,7 +41,7 @@ class UpdateTest extends TestCase
         $updatingUser->roles()->sync($role->id);
 
         $newRole = [
-            'roles' => ''
+            'roles' => '',
         ];
 
         //тестируемый запрос от имени пользователя
@@ -51,7 +51,7 @@ class UpdateTest extends TestCase
             ->assertStatus(422)
             ->assertInvalid('roles')
             ->assertJsonValidationErrors([
-                'roles' => 'The roles field is required.'
+                'roles' => 'The roles field is required.',
             ]);
     }
 
@@ -63,7 +63,7 @@ class UpdateTest extends TestCase
                 'title' => 'Admin',
                 'discription' => 'Creator of this site',
                 'created_at' => null,
-                'updated_at' => null
+                'updated_at' => null,
             ]
         );
         $user = User::factory()->create();
@@ -74,7 +74,7 @@ class UpdateTest extends TestCase
         $updatingUser->roles()->sync($role->id);
 
         $newRole = [
-            'roles' => 'string'
+            'roles' => 'string',
         ];
 
         //тестируемый запрос от имени пользователя
@@ -84,7 +84,7 @@ class UpdateTest extends TestCase
             ->assertStatus(422)
             ->assertInvalid('roles')
             ->assertJsonValidationErrors([
-                'roles' => 'The roles field must be an array.'
+                'roles' => 'The roles field must be an array.',
             ]);
     }
 
@@ -96,7 +96,7 @@ class UpdateTest extends TestCase
                 'title' => 'Admin',
                 'discription' => 'Creator of this site',
                 'created_at' => null,
-                'updated_at' => null
+                'updated_at' => null,
             ]
         );
         $user = User::factory()->create();
@@ -110,8 +110,8 @@ class UpdateTest extends TestCase
             'roles' => [
                 [
                     'title' => 'title',
-                ]
-            ]
+                ],
+            ],
         ];
 
         //тестируемый запрос от имени пользователя
@@ -121,7 +121,7 @@ class UpdateTest extends TestCase
             ->assertStatus(422)
             ->assertInvalid('roles.0.id')
             ->assertJsonValidationErrors([
-                'roles.0.id' => 'The roles.0.id field is required.'
+                'roles.0.id' => 'The roles.0.id field is required.',
             ]);
     }
 
@@ -133,7 +133,7 @@ class UpdateTest extends TestCase
                 'title' => 'Admin',
                 'discription' => 'Creator of this site',
                 'created_at' => null,
-                'updated_at' => null
+                'updated_at' => null,
             ]
         );
         $user = User::factory()->create();
@@ -147,8 +147,8 @@ class UpdateTest extends TestCase
             'roles' => [
                 [
                     'id' => 'id',
-                ]
-            ]
+                ],
+            ],
         ];
 
         //тестируемый запрос от имени пользователя
@@ -158,7 +158,7 @@ class UpdateTest extends TestCase
             ->assertStatus(422)
             ->assertInvalid('roles.0.id')
             ->assertJsonValidationErrors([
-                'roles.0.id' => 'The roles.0.id field must be an integer.'
+                'roles.0.id' => 'The roles.0.id field must be an integer.',
             ]);
     }
 
@@ -170,7 +170,7 @@ class UpdateTest extends TestCase
                 'title' => 'Admin',
                 'discription' => 'Creator of this site',
                 'created_at' => null,
-                'updated_at' => null
+                'updated_at' => null,
             ]
         );
         $user = User::factory()->create();
@@ -183,9 +183,9 @@ class UpdateTest extends TestCase
         $newRole = [
             'roles' => [
                 [
-                    'id' => $role->id*10,
-                ]
-            ]
+                    'id' => $role->id * 10,
+                ],
+            ],
         ];
 
         //тестируемый запрос от имени пользователя
@@ -195,7 +195,7 @@ class UpdateTest extends TestCase
             ->assertStatus(422)
             ->assertInvalid('roles.0.id')
             ->assertJsonValidationErrors([
-                'roles.0.id' => 'The selected roles.0.id is invalid.'
+                'roles.0.id' => 'The selected roles.0.id is invalid.',
             ]);
     }
 
@@ -207,7 +207,7 @@ class UpdateTest extends TestCase
                 'title' => 'Admin',
                 'discription' => 'Creator of this site',
                 'created_at' => null,
-                'updated_at' => null
+                'updated_at' => null,
             ]
         );
         $anotherRole = Role::create(
@@ -215,7 +215,7 @@ class UpdateTest extends TestCase
                 'title' => 'not_Admin',
                 'discription' => 'not Creator of this site',
                 'created_at' => null,
-                'updated_at' => null
+                'updated_at' => null,
             ]
         );
         $user = User::factory()->create();
@@ -232,8 +232,8 @@ class UpdateTest extends TestCase
                 ],
                 [
                     'id' => $anotherRole->id,
-                ]
-            ]
+                ],
+            ],
         ];
 
         //тестируемый запрос от имени пользователя
@@ -264,7 +264,7 @@ class UpdateTest extends TestCase
                 'title' => 'not_admin',
                 'discription' => 'Creator of this site',
                 'created_at' => null,
-                'updated_at' => null
+                'updated_at' => null,
             ]
         );
         $anotherRole = Role::create(
@@ -272,7 +272,7 @@ class UpdateTest extends TestCase
                 'title' => 'test',
                 'discription' => 'not Creator of this site',
                 'created_at' => null,
-                'updated_at' => null
+                'updated_at' => null,
             ]
         );
         $user = User::factory()->create();
@@ -289,8 +289,8 @@ class UpdateTest extends TestCase
                 ],
                 [
                     'id' => $anotherRole->id,
-                ]
-            ]
+                ],
+            ],
         ];
 
         //тестируемый запрос от имени пользователя
@@ -299,7 +299,7 @@ class UpdateTest extends TestCase
         $response->assertStatus(403);
         $response->assertJsonFragment(
             [
-                'message'=>'This action is unauthorized.'
+                'message' => 'This action is unauthorized.',
             ]
         );
         $this->assertDatabaseHas(
@@ -325,7 +325,7 @@ class UpdateTest extends TestCase
                 'title' => 'not_admin',
                 'discription' => 'Creator of this site',
                 'created_at' => null,
-                'updated_at' => null
+                'updated_at' => null,
             ]
         );
         $anotherRole = Role::create(
@@ -333,7 +333,7 @@ class UpdateTest extends TestCase
                 'title' => 'test',
                 'discription' => 'not Creator of this site',
                 'created_at' => null,
-                'updated_at' => null
+                'updated_at' => null,
             ]
         );
         //подготовка юзера к обновлению
@@ -347,8 +347,8 @@ class UpdateTest extends TestCase
                 ],
                 [
                     'id' => $anotherRole->id,
-                ]
-            ]
+                ],
+            ],
         ];
 
         //тестируемый запрос от имени пользователя
@@ -357,7 +357,7 @@ class UpdateTest extends TestCase
         $response->assertStatus(401);
         $response->assertJson(
             [
-                'message' => 'Unauthenticated.'
+                'message' => 'Unauthenticated.',
             ]
         );
         $this->assertDatabaseHas(
@@ -384,7 +384,7 @@ class UpdateTest extends TestCase
                 'title' => 'Admin',
                 'discription' => 'Creator of this site',
                 'created_at' => null,
-                'updated_at' => null
+                'updated_at' => null,
             ]
         );
         $user = User::factory()->create();
@@ -395,8 +395,8 @@ class UpdateTest extends TestCase
             'roles' => [
                 [
                     'id' => $role->id,
-                ]
-            ]
+                ],
+            ],
         ];
 
         //тестируемый запрос от имени пользователя
@@ -406,7 +406,7 @@ class UpdateTest extends TestCase
             ->assertStatus(422)
             ->assertInvalid('tg_name')
             ->assertJsonValidationErrors([
-                'tg_name' => 'The tg name field must be a string.'
+                'tg_name' => 'The tg name field must be a string.',
             ]);
     }
 
@@ -418,7 +418,7 @@ class UpdateTest extends TestCase
                 'title' => 'Admin',
                 'discription' => 'Creator of this site',
                 'created_at' => null,
-                'updated_at' => null
+                'updated_at' => null,
             ]
         );
         $user = User::factory()->create();
@@ -429,8 +429,8 @@ class UpdateTest extends TestCase
             'roles' => [
                 [
                     'id' => $role->id,
-                ]
-            ]
+                ],
+            ],
         ];
 
         //тестируемый запрос от имени пользователя
@@ -440,7 +440,7 @@ class UpdateTest extends TestCase
             ->assertStatus(422)
             ->assertInvalid('tg_name')
             ->assertJsonValidationErrors([
-                'tg_name' => 'The tg name field must not be greater than 100 characters.'
+                'tg_name' => 'The tg name field must not be greater than 100 characters.',
             ]);
     }
 
@@ -452,14 +452,14 @@ class UpdateTest extends TestCase
                 'title' => 'Admin',
                 'discription' => 'Creator of this site',
                 'created_at' => null,
-                'updated_at' => null
+                'updated_at' => null,
             ]
         );
-        $user = User::factory()->create(['tg_name'=>'tg_name']);
+        $user = User::factory()->create(['tg_name' => 'tg_name']);
         $user->roles()->sync($role->id);
 
         //подготовка юзера к обновлению
-        $updatingUser = User::factory()->create(['tg_name'=>'test1']);
+        $updatingUser = User::factory()->create(['tg_name' => 'test1']);
         $updatingUser->roles()->sync($role->id);
 
         $forUpdate = [
@@ -467,8 +467,8 @@ class UpdateTest extends TestCase
             'roles' => [
                 [
                     'id' => $role->id,
-                ]
-            ]
+                ],
+            ],
         ];
         //тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->put('/api/users/'.$updatingUser->id, $forUpdate);
@@ -477,7 +477,7 @@ class UpdateTest extends TestCase
             ->assertStatus(422)
             ->assertInvalid('tg_name')
             ->assertJsonValidationErrors([
-                'tg_name' => 'The tg name has already been taken.'
+                'tg_name' => 'The tg name has already been taken.',
             ]);
     }
 
@@ -489,7 +489,7 @@ class UpdateTest extends TestCase
                 'title' => 'Admin',
                 'discription' => 'Creator of this site',
                 'created_at' => null,
-                'updated_at' => null
+                'updated_at' => null,
             ]
         );
         $anotherRole = Role::create(
@@ -497,10 +497,10 @@ class UpdateTest extends TestCase
                 'title' => 'not_Admin',
                 'discription' => 'Creator of this site',
                 'created_at' => null,
-                'updated_at' => null
+                'updated_at' => null,
             ]
         );
-        $user = User::factory()->create(['tg_name'=>'tg_name']);
+        $user = User::factory()->create(['tg_name' => 'tg_name']);
         $user->roles()->sync($role->id);
 
         $forUpdate = [
@@ -511,8 +511,8 @@ class UpdateTest extends TestCase
                 ],
                 [
                     'id' => $anotherRole->id,
-                ]
-            ]
+                ],
+            ],
         ];
 
         //тестируемый запрос от имени пользователя

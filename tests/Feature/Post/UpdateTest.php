@@ -30,7 +30,7 @@ class UpdateTest extends TestCase
                 'title' => 'Admin',
                 'discription' => 'Creator of this site',
                 'created_at' => null,
-                'updated_at' => null
+                'updated_at' => null,
             ]
         );
         $user = User::factory()->create();
@@ -53,7 +53,7 @@ class UpdateTest extends TestCase
         $response
             ->assertStatus(422)
             ->assertJsonValidationErrors([
-                'title' => 'The title field is required.'
+                'title' => 'The title field is required.',
             ]);
         $this->assertDatabaseHas('posts', $oldPost);
         $this->assertDatabaseMissing('posts', $newPost);
@@ -67,7 +67,7 @@ class UpdateTest extends TestCase
                 'title' => 'Admin',
                 'discription' => 'Creator of this site',
                 'created_at' => null,
-                'updated_at' => null
+                'updated_at' => null,
             ]
         );
         $user = User::factory()->create();
@@ -90,7 +90,7 @@ class UpdateTest extends TestCase
         $response
             ->assertStatus(422)
             ->assertJsonValidationErrors([
-                'body' => 'The body field is required.'
+                'body' => 'The body field is required.',
             ]);
         $this->assertDatabaseHas('posts', $oldPost);
         $this->assertDatabaseMissing('posts', $newPost);
@@ -104,7 +104,7 @@ class UpdateTest extends TestCase
                 'title' => 'Admin',
                 'discription' => 'Creator of this site',
                 'created_at' => null,
-                'updated_at' => null
+                'updated_at' => null,
             ]
         );
         $user = User::factory()->create();
@@ -137,7 +137,7 @@ class UpdateTest extends TestCase
                 'title' => 'not_admin',
                 'discription' => 'Creator of this site',
                 'created_at' => null,
-                'updated_at' => null
+                'updated_at' => null,
             ]
         );
         $user = User::factory()->create();
@@ -160,7 +160,7 @@ class UpdateTest extends TestCase
         $response->assertStatus(403);
         $response->assertJsonFragment(
             [
-                'message' => 'This action is unauthorized.'
+                'message' => 'This action is unauthorized.',
             ]
         );
         $this->assertDatabaseHas('posts', $oldPost);
@@ -186,7 +186,7 @@ class UpdateTest extends TestCase
         $response->assertStatus(401);
         $response->assertJson(
             [
-                'message' => 'Unauthenticated.'
+                'message' => 'Unauthenticated.',
             ]
         );
         $this->assertDatabaseHas('posts', $oldPost);

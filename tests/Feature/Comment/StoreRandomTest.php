@@ -31,7 +31,7 @@ class StoreRandomTest extends TestCase
                 'title' => 'Admin',
                 'discription' => 'Creator of this site',
                 'created_at' => null,
-                'updated_at' => null
+                'updated_at' => null,
             ]
         );
         $user = User::factory()->create(['name' => 'testAdmin']);
@@ -42,7 +42,7 @@ class StoreRandomTest extends TestCase
                 'title' => 'bot',
                 'discription' => 'Creator of this site',
                 'created_at' => null,
-                'updated_at' => null
+                'updated_at' => null,
             ]
         );
         $userBot = User::factory()->create();
@@ -64,7 +64,7 @@ class StoreRandomTest extends TestCase
                 'title' => 'not_admin',
                 'discription' => 'Creator of this site',
                 'created_at' => null,
-                'updated_at' => null
+                'updated_at' => null,
             ]
         );
         $user = User::factory()->create();
@@ -72,10 +72,10 @@ class StoreRandomTest extends TestCase
 
         $roleBot = Role::create(
             [
-                'title' =>'bot',
-                'discription' =>'Creator of this site',
+                'title' => 'bot',
+                'discription' => 'Creator of this site',
                 'created_at' => null,
-                'updated_at' => null
+                'updated_at' => null,
             ]
         );
         $userBot = User::factory()->create();
@@ -87,7 +87,7 @@ class StoreRandomTest extends TestCase
         $response->assertStatus(403);
         $response->assertJsonFragment(
             [
-                'message' => 'This action is unauthorized.'
+                'message' => 'This action is unauthorized.',
             ]
         );
         $this->assertDatabaseCount('comments', 0);
@@ -101,7 +101,7 @@ class StoreRandomTest extends TestCase
         $response->assertStatus(401);
         $response->assertJson(
             [
-                'message' => 'Unauthenticated.'
+                'message' => 'Unauthenticated.',
             ]
         );
         $this->assertDatabaseCount('comments', 0);

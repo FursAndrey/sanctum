@@ -25,7 +25,7 @@ class TelegramController extends Controller
             && isset($event['message']['chat'])
             && is_array($event['message']['chat'])
             && isset($event['message']['chat']['id'])
-            && is_integer($event['message']['chat']['id'])
+            && is_int($event['message']['chat']['id'])
 
             && isset($event['message']['chat']['username'])
             && is_string($event['message']['chat']['username'])
@@ -33,7 +33,7 @@ class TelegramController extends Controller
             && isset($event['message']['text'])
             && $event['message']['text'] == 'admin-control'
             && isset($event['message']['message_id'])
-            && is_integer($event['message']['message_id'])
+            && is_int($event['message']['message_id'])
         ) {
             $message_id = $event['message']['message_id'].'-';
             //отправить кнопки управления
@@ -59,9 +59,9 @@ class TelegramController extends Controller
             && isset($event['callback_query']['message']['chat'])
             && is_array($event['callback_query']['message']['chat'])
             && isset($event['callback_query']['message']['chat']['id'])
-            && is_integer($event['callback_query']['message']['chat']['id'])
+            && is_int($event['callback_query']['message']['chat']['id'])
             && isset($event['callback_query']['message']['message_id'])
-            && is_integer($event['callback_query']['message']['message_id'])
+            && is_int($event['callback_query']['message']['message_id'])
 
             && isset($event['callback_query']['message']['chat']['username'])
             && is_string($event['callback_query']['message']['chat']['username'])
@@ -88,9 +88,9 @@ class TelegramController extends Controller
             && isset($event['callback_query']['message']['chat'])
             && is_array($event['callback_query']['message']['chat'])
             && isset($event['callback_query']['message']['chat']['id'])
-            && is_integer($event['callback_query']['message']['chat']['id'])
+            && is_int($event['callback_query']['message']['chat']['id'])
             && isset($event['callback_query']['message']['message_id'])
-            && is_integer($event['callback_query']['message']['message_id'])
+            && is_int($event['callback_query']['message']['message_id'])
 
             && isset($event['callback_query']['message']['chat']['username'])
             && is_string($event['callback_query']['message']['chat']['username'])
@@ -117,9 +117,9 @@ class TelegramController extends Controller
             && isset($event['callback_query']['message']['chat'])
             && is_array($event['callback_query']['message']['chat'])
             && isset($event['callback_query']['message']['chat']['id'])
-            && is_integer($event['callback_query']['message']['chat']['id'])
+            && is_int($event['callback_query']['message']['chat']['id'])
             && isset($event['callback_query']['message']['message_id'])
-            && is_integer($event['callback_query']['message']['message_id'])
+            && is_int($event['callback_query']['message']['message_id'])
 
             && isset($event['callback_query']['message']['chat']['username'])
             && is_string($event['callback_query']['message']['chat']['username'])

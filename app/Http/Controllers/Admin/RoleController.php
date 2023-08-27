@@ -43,6 +43,7 @@ class RoleController extends Controller
         $this->authorize('view', $role);
 
         $role = Role::with(['users'])->find($role->id);
+
         return new RoleResource($role);
     }
 

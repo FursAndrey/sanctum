@@ -88,7 +88,7 @@ class TelegramService
     {
         $url = 'https://api.telegram.org/bot'.$this->bot_token.'/setWebhook';
         $response = Http::post($url, [
-            'url'=> $url,
+            'url' => $url,
             'certificate' => $certificate,
         ]);
 

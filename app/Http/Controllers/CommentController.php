@@ -16,6 +16,7 @@ class CommentController extends Controller
     public function index(int $post)
     {
         $comments = Comment::where('post_id', '=', $post)->orderBy('id', 'desc')->get();
+
         return CommentResource::collection($comments);
     }
 

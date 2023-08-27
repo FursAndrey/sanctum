@@ -25,12 +25,12 @@ class UpdateRequest extends FormRequest
         $post = $this->route()->parameters['post'];
         $countImgs = $post->media->count();
         $countForValidation = 1 - $countImgs;
-        if (!is_null($this->deleted_preview) && count($this->deleted_preview) > 0) {
+        if (! is_null($this->deleted_preview) && count($this->deleted_preview) > 0) {
             $countForValidation = $countForValidation + count($this->deleted_preview);
         }
 
         //подготовка условия для параметра "deleted_preview"
-        if ($countImgs > 0 && !is_null($this->imgs) && is_array($this->imgs)) {
+        if ($countImgs > 0 && ! is_null($this->imgs) && is_array($this->imgs)) {
             $newImgs = count($this->imgs);
 
             if ($newImgs > 0) {

@@ -29,7 +29,7 @@ class StoreTest extends TestCase
                 'title' => 'Admin',
                 'discription' => 'Creator of this site',
                 'created_at' => null,
-                'updated_at' => null
+                'updated_at' => null,
             ]
         );
         $user = User::factory()->create();
@@ -46,7 +46,7 @@ class StoreTest extends TestCase
             ->assertStatus(422)
             ->assertInvalid('title')
             ->assertJsonValidationErrors([
-                'title' => 'The title field is required.'
+                'title' => 'The title field is required.',
             ]);
     }
 
@@ -58,7 +58,7 @@ class StoreTest extends TestCase
                 'title' => 'Admin',
                 'discription' => 'Creator of this site',
                 'created_at' => null,
-                'updated_at' => null
+                'updated_at' => null,
             ]
         );
         $user = User::factory()->create();
@@ -75,7 +75,7 @@ class StoreTest extends TestCase
             ->assertStatus(422)
             ->assertInvalid('body')
             ->assertJsonValidationErrors([
-                'body' => 'The body field is required.'
+                'body' => 'The body field is required.',
             ]);
     }
 
@@ -90,7 +90,7 @@ class StoreTest extends TestCase
         $response->assertStatus(401);
         $response->assertJson(
             [
-                'message' => 'Unauthenticated.'
+                'message' => 'Unauthenticated.',
             ]
         );
         $this->assertDatabaseCount('posts', 0);
@@ -105,7 +105,7 @@ class StoreTest extends TestCase
                 'title' => 'Admin',
                 'discription' => 'Creator of this site',
                 'created_at' => null,
-                'updated_at' => null
+                'updated_at' => null,
             ]
         );
         $user = User::factory()->create();
@@ -132,7 +132,7 @@ class StoreTest extends TestCase
                 'title' => 'not_dmin',
                 'discription' => 'Creator of this site',
                 'created_at' => null,
-                'updated_at' => null
+                'updated_at' => null,
             ]
         );
         $user = User::factory()->create();
@@ -149,7 +149,7 @@ class StoreTest extends TestCase
         $response->assertStatus(403);
         $response->assertJsonFragment(
             [
-                'message' => 'This action is unauthorized.'
+                'message' => 'This action is unauthorized.',
             ]
         );
         $this->assertDatabaseCount('posts', 0);

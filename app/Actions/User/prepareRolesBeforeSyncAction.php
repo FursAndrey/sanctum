@@ -11,6 +11,7 @@ class prepareRolesBeforeSyncAction
         foreach ($validated as $role) {
             $tmp[] = $role['id'];
         }
+
         return $tmp;
     }
 }

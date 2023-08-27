@@ -30,7 +30,7 @@ class StoreTest extends TestCase
                 'title' => 'Admin',
                 'discription' => 'Creator of this site',
                 'created_at' => null,
-                'updated_at' => null
+                'updated_at' => null,
             ]
         );
         $user = User::factory()->create();
@@ -47,7 +47,7 @@ class StoreTest extends TestCase
             ->assertStatus(422)
             ->assertInvalid('title')
             ->assertJsonValidationErrors([
-                'title' => 'The title field is required.'
+                'title' => 'The title field is required.',
             ]);
     }
 
@@ -59,7 +59,7 @@ class StoreTest extends TestCase
                 'title' => 'Admin',
                 'discription' => 'Creator of this site',
                 'created_at' => null,
-                'updated_at' => null
+                'updated_at' => null,
             ]
         );
         $user = User::factory()->create();
@@ -77,7 +77,7 @@ class StoreTest extends TestCase
             ->assertStatus(422)
             ->assertInvalid('title')
             ->assertJsonValidationErrors([
-                'title' => 'The title field must be a string.'
+                'title' => 'The title field must be a string.',
             ]);
     }
 
@@ -89,7 +89,7 @@ class StoreTest extends TestCase
                 'title' => 'Admin',
                 'discription' => 'Creator of this site',
                 'created_at' => null,
-                'updated_at' => null
+                'updated_at' => null,
             ]
         );
         $user = User::factory()->create();
@@ -107,7 +107,7 @@ class StoreTest extends TestCase
             ->assertStatus(422)
             ->assertInvalid('title')
             ->assertJsonValidationErrors([
-                'title' => 'The title has already been taken.'
+                'title' => 'The title has already been taken.',
             ]);
     }
 
@@ -119,7 +119,7 @@ class StoreTest extends TestCase
                 'title' => 'Admin',
                 'discription' => 'Creator of this site',
                 'created_at' => null,
-                'updated_at' => null
+                'updated_at' => null,
             ]
         );
         $user = User::factory()->create();
@@ -137,10 +137,9 @@ class StoreTest extends TestCase
             ->assertStatus(422)
             ->assertInvalid('title')
             ->assertJsonValidationErrors([
-                'title' => 'The title field must not be greater than 100 characters.'
+                'title' => 'The title field must not be greater than 100 characters.',
             ]);
     }
-
 
     public function test_discription_attribute_is_required_for_storing_role()
     {
@@ -150,7 +149,7 @@ class StoreTest extends TestCase
                 'title' => 'Admin',
                 'discription' => 'Creator of this site',
                 'created_at' => null,
-                'updated_at' => null
+                'updated_at' => null,
             ]
         );
         $user = User::factory()->create();
@@ -167,7 +166,7 @@ class StoreTest extends TestCase
             ->assertStatus(422)
             ->assertInvalid('discription')
             ->assertJsonValidationErrors([
-                'discription' => 'The discription field is required.'
+                'discription' => 'The discription field is required.',
             ]);
     }
 
@@ -179,7 +178,7 @@ class StoreTest extends TestCase
                 'title' => 'Admin',
                 'discription' => 'Creator of this site',
                 'created_at' => null,
-                'updated_at' => null
+                'updated_at' => null,
             ]
         );
         $user = User::factory()->create();
@@ -197,7 +196,7 @@ class StoreTest extends TestCase
             ->assertStatus(422)
             ->assertInvalid('discription')
             ->assertJsonValidationErrors([
-                'discription' => 'The discription field must be a string.'
+                'discription' => 'The discription field must be a string.',
             ]);
     }
 
@@ -209,7 +208,7 @@ class StoreTest extends TestCase
                 'title' => 'Admin',
                 'discription' => 'Creator of this site',
                 'created_at' => null,
-                'updated_at' => null
+                'updated_at' => null,
             ]
         );
         $user = User::factory()->create();
@@ -227,7 +226,7 @@ class StoreTest extends TestCase
             ->assertStatus(422)
             ->assertInvalid('discription')
             ->assertJsonValidationErrors([
-                'discription' => 'The discription field must not be greater than 200 characters.'
+                'discription' => 'The discription field must not be greater than 200 characters.',
             ]);
     }
 
@@ -242,7 +241,7 @@ class StoreTest extends TestCase
         $response->assertStatus(401);
         $response->assertJson(
             [
-                'message' => 'Unauthenticated.'
+                'message' => 'Unauthenticated.',
             ]
         );
         $this->assertDatabaseCount('roles', 0);
@@ -257,7 +256,7 @@ class StoreTest extends TestCase
                 'title' => 'Admin',
                 'discription' => 'Creator of this site',
                 'created_at' => null,
-                'updated_at' => null
+                'updated_at' => null,
             ]
         );
         $user = User::factory()->create();
@@ -284,7 +283,7 @@ class StoreTest extends TestCase
                 'title' => 'not_dmin',
                 'discription' => 'Creator of this site',
                 'created_at' => null,
-                'updated_at' => null
+                'updated_at' => null,
             ]
         );
         $user = User::factory()->create();
@@ -301,7 +300,7 @@ class StoreTest extends TestCase
         $response->assertStatus(403);
         $response->assertJsonFragment(
             [
-                'message' => 'This action is unauthorized.'
+                'message' => 'This action is unauthorized.',
             ]
         );
         $this->assertDatabaseCount('roles', 1);

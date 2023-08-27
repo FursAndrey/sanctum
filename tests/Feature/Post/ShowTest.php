@@ -29,14 +29,14 @@ class ShowTest extends TestCase
         //точное соответствие
         $response->assertExactJson(
             [
-                'data'=>[
+                'data' => [
                     'id' => $post->id,
                     'title' => $post->title,
                     'body' => $post->body,
                     'published' => $post->published,
                     'commentCount' => 0,
                     'preview' => null,
-                ]
+                ],
             ]
         );
         // dd($response->getContent());

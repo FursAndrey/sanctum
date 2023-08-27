@@ -34,7 +34,7 @@ class StoreTest extends TestCase
         $response->assertStatus(401);
         $response->assertJson(
             [
-                'message' => 'Unauthenticated.'
+                'message' => 'Unauthenticated.',
             ]
         );
         $this->assertDatabaseCount('media', 0);
@@ -49,7 +49,7 @@ class StoreTest extends TestCase
                 'title' => 'not_dmin',
                 'discription' => 'Creator of this site',
                 'created_at' => null,
-                'updated_at' => null
+                'updated_at' => null,
             ]
         );
         $user = User::factory()->create();
@@ -66,7 +66,7 @@ class StoreTest extends TestCase
         $response->assertStatus(403);
         $response->assertJsonFragment(
             [
-                'message' => 'This action is unauthorized.'
+                'message' => 'This action is unauthorized.',
             ]
         );
         $this->assertDatabaseCount('media', 0);
@@ -81,7 +81,7 @@ class StoreTest extends TestCase
                 'title' => 'Admin',
                 'discription' => 'Creator of this site',
                 'created_at' => null,
-                'updated_at' => null
+                'updated_at' => null,
             ]
         );
         $user = User::factory()->create();
@@ -95,7 +95,7 @@ class StoreTest extends TestCase
             'body' => 'some text',
             'imgs' => [
                 $image,
-            ]
+            ],
         ];
 
         $this->assertDatabaseCount('media', 0);
@@ -118,7 +118,7 @@ class StoreTest extends TestCase
                 'title' => 'Admin',
                 'discription' => 'Creator of this site',
                 'created_at' => null,
-                'updated_at' => null
+                'updated_at' => null,
             ]
         );
         $user = User::factory()->create();
@@ -134,7 +134,7 @@ class StoreTest extends TestCase
             'imgs' => [
                 $image,
                 $image2,
-            ]
+            ],
         ];
 
         $response = $this->actingAs($user)->post('/api/posts2', $post);
@@ -142,7 +142,7 @@ class StoreTest extends TestCase
         $response->assertStatus(422);
         $response->assertJsonFragment(
             [
-                'message' => 'The imgs field must contain 1 items.'
+                'message' => 'The imgs field must contain 1 items.',
             ]
         );
         $this->assertDatabaseCount('media', 0);
@@ -157,7 +157,7 @@ class StoreTest extends TestCase
                 'title' => 'Admin',
                 'discription' => 'Creator of this site',
                 'created_at' => null,
-                'updated_at' => null
+                'updated_at' => null,
             ]
         );
         $user = User::factory()->create();
@@ -166,7 +166,7 @@ class StoreTest extends TestCase
         $post = [
             'title' => 'some text',
             'body' => 'some text',
-            'imgs' => []
+            'imgs' => [],
         ];
 
         $response = $this->actingAs($user)->post('/api/posts2', $post);
@@ -174,7 +174,7 @@ class StoreTest extends TestCase
         $response->assertStatus(422);
         $response->assertJsonFragment(
             [
-                'message' => 'The imgs field must contain 1 items.'
+                'message' => 'The imgs field must contain 1 items.',
             ]
         );
         $this->assertDatabaseCount('media', 0);

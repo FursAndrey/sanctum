@@ -28,7 +28,7 @@ class CommentPolicy
      */
     public function create(User $user): bool
     {
-        return !is_null($user);
+        return ! is_null($user);
     }
 
     /**
@@ -66,6 +66,7 @@ class CommentPolicy
     public function createRandom(User $user): bool
     {
         $roles = $user->roles->pluck('title')->toArray();
+
         return in_array('Admin', $roles);
     }
 }

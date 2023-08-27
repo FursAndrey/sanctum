@@ -27,7 +27,7 @@ class MyDebug extends Command
      */
     public function handle(): void
     {
-        echo "Hello World!";
+        echo 'Hello World!';
 
         Comment::factory(3)->create();
 
