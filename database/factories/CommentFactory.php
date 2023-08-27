@@ -23,7 +23,7 @@ class CommentFactory extends Factory
         $usersWithBotRole = Role::select('id')->with(['users'])->where('title', '=', 'bot')->first()->users->pluck('id');
         $randomIndex = rand(1, count($usersWithBotRole)) - 1;
         $randomUserId = $usersWithBotRole[$randomIndex];
-        
+
         return [
             'post_id' => $randomPostId,
             'user_id' => $randomUserId,

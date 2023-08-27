@@ -5,7 +5,6 @@ namespace Tests\Feature\Preview;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
@@ -13,7 +12,7 @@ use Tests\TestCase;
 class StoreTest extends TestCase
 {
     use RefreshDatabase;
-    
+
     public function setUp(): void
     {
         parent::setUp();
@@ -29,10 +28,10 @@ class StoreTest extends TestCase
         //создание пользователя и присвоение ему роли
         $role = Role::create(
             [
-                'title'=>'Admin',
-                'discription'=>'Creator of this site',
-                'created_at'=>null,
-                'updated_at'=>null
+                'title' => 'Admin',
+                'discription' => 'Creator of this site',
+                'created_at' => null,
+                'updated_at' => null
             ]
         );
         $user = User::factory()->create();
@@ -42,7 +41,7 @@ class StoreTest extends TestCase
 
         //тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->post('/api/preview', ['image' => $image]);
-        
+
         $response
             ->assertStatus(422)
             ->assertJsonValidationErrors([
@@ -56,10 +55,10 @@ class StoreTest extends TestCase
     //     //создание пользователя и присвоение ему роли
     //     $role = Role::create(
     //         [
-    //             'title'=>'Admin',
-    //             'discription'=>'Creator of this site',
-    //             'created_at'=>null,
-    //             'updated_at'=>null
+    //             'title' => 'Admin',
+    //             'discription' => 'Creator of this site',
+    //             'created_at' => null,
+    //             'updated_at' => null
     //         ]
     //     );
     //     $user = User::factory()->create();
@@ -73,22 +72,22 @@ class StoreTest extends TestCase
     //     $response = $this->actingAs($user)->post('/api/preview', ['image' => $image]);
     //     $this->assertDatabaseCount('previews', 1);
     //     $this->assertDatabaseHas(
-    //         'previews', 
+    //         'previews',
     //         [
-    //             'path' => 'preview/'.$image->hashName(), 
-    //             'post_id' => NULL, 
+    //             'path' => 'preview/'.$image->hashName(),
+    //             'post_id' => NULL,
     //             'user_id' => $user->id
     //         ]
     //     );
     //     Storage::disk('public')->assertExists('preview/'.$image->hashName());
     //     $image_id = (int)$response->original->id * 10;
-        
+
     //     $post = [
     //         'title' => 'some text',
     //         'body' => 'some text',
     //         'image_id' => $image_id,
     //     ];
-        
+
     //     //тестируемый запрос от имени пользователя
     //     $response = $this->actingAs($user)->post('/api/posts', $post);
     //     unset($post['image_id']);
@@ -107,10 +106,10 @@ class StoreTest extends TestCase
         //создание пользователя и присвоение ему роли
         $role = Role::create(
             [
-                'title'=>'Admin',
-                'discription'=>'Creator of this site',
-                'created_at'=>null,
-                'updated_at'=>null
+                'title' => 'Admin',
+                'discription' => 'Creator of this site',
+                'created_at' => null,
+                'updated_at' => null
             ]
         );
         $user = User::factory()->create();
@@ -122,14 +121,14 @@ class StoreTest extends TestCase
 
         //тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->post('/api/preview', ['image' => $image]);
-        
+
         $response->assertStatus(201);
         $this->assertDatabaseCount('previews', 1);
         $this->assertDatabaseHas(
-            'previews', 
+            'previews',
             [
-                'path' => 'preview/'.$image->hashName(), 
-                'post_id' => NULL, 
+                'path' => 'preview/'.$image->hashName(),
+                'post_id' => null,
                 'user_id' => $user->id
             ]
         );
@@ -142,11 +141,11 @@ class StoreTest extends TestCase
         $image = File::create('test_img.jpg');
 
         $response = $this->post('/api/preview', ['image' => $image]);
-        
+
         $response->assertStatus(401);
         $response->assertJson(
             [
-                "message"=>"Unauthenticated."
+                'message' => 'Unauthenticated.'
             ]
         );
     }
@@ -156,10 +155,10 @@ class StoreTest extends TestCase
         //создание пользователя и присвоение ему роли
         $role = Role::create(
             [
-                'title'=>'not_dmin',
-                'discription'=>'Creator of this site',
-                'created_at'=>null,
-                'updated_at'=>null
+                'title' => 'not_dmin',
+                'discription' => 'Creator of this site',
+                'created_at' => null,
+                'updated_at' => null
             ]
         );
         $user = User::factory()->create();
@@ -171,34 +170,34 @@ class StoreTest extends TestCase
 
         //тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->post('/api/preview', ['image' => $image]);
-        
+
         $response->assertStatus(403);
         $response->assertJsonFragment(
             [
-                "message"=>"This action is unauthorized."
+                'message' => 'This action is unauthorized.'
             ]
         );
         $this->assertDatabaseCount('previews', 0);
         $this->assertDatabaseMissing(
-            'previews', 
+            'previews',
             [
-                'path' => 'preview/'.$image->hashName(), 
-                'post_id' => NULL, 
+                'path' => 'preview/'.$image->hashName(),
+                'post_id' => null,
                 'user_id' => $user->id
             ]
         );
         Storage::disk('public')->assertMissing('preview/'.$image->hashName());
     }
-    
+
     // public function test_a_post_with_an_image_can_be_stored_by_admin_user(): void
     // {
     //     //создание пользователя и присвоение ему роли
     //     $role = Role::create(
     //         [
-    //             'title'=>'Admin',
-    //             'discription'=>'Creator of this site',
-    //             'created_at'=>null,
-    //             'updated_at'=>null
+    //             'title' => 'Admin',
+    //             'discription' => 'Creator of this site',
+    //             'created_at' => null,
+    //             'updated_at' => null
     //         ]
     //     );
     //     $user = User::factory()->create();
@@ -212,15 +211,15 @@ class StoreTest extends TestCase
     //     $response = $this->actingAs($user)->post('/api/preview', ['image' => $image]);
     //     $this->assertDatabaseCount('previews', 1);
     //     $this->assertDatabaseHas(
-    //         'previews', 
+    //         'previews',
     //         [
-    //             'path' => 'preview/'.$image->hashName(), 
-    //             'post_id' => NULL, 
+    //             'path' => 'preview/'.$image->hashName(),
+    //             'post_id' => NULL,
     //             'user_id' => $user->id
     //         ]
     //     );
     //     Storage::disk('public')->assertExists('preview/'.$image->hashName());
-        
+
     //     $post = [
     //         'title' => 'some text',
     //         'body' => 'some text',

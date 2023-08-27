@@ -30,7 +30,7 @@ class CommentController extends Controller
         $data['user_id'] = auth()->id();
 
         $comment = Comment::create($data);
-        
+
         return new CommentResource($comment);
     }
 
@@ -61,7 +61,7 @@ class CommentController extends Controller
     public function storeRandomComment()
     {
         $this->authorize('createRandom', Comment::class);
-        $randomComment = (new createRandomCommentAction)();
+        $randomComment = (new createRandomCommentAction())();
 
         return new CommentResource($randomComment);
     }

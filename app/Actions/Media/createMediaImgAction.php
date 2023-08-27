@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Actions\Media;
 
 use App\Models\Post;
@@ -19,7 +20,7 @@ class createMediaImgAction implements createMediaImgInterface
         $hostname = config('app.url');
         $img = $hostname.'/storage/'.$name;
         $post->addMediaFromUrl($img)->toMediaCollection('preview');
-        
+
         Storage::disk('public')->delete($img);
     }
 }

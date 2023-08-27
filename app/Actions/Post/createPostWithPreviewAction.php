@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Actions\Post;
 
 use App\Actions\Media\createMediaImgAction;
@@ -7,7 +8,7 @@ use App\Models\Preview;
 
 class createPostWithPreviewAction
 {
-    public function __invoke():Post
+    public function __invoke(): Post
     {
         $posts = Post::factory(1)->create()->each(function ($post) {
             (new createMediaImgAction())($post);

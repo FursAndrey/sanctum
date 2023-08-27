@@ -4,7 +4,6 @@ namespace App\Policies;
 
 use App\Models\Comment;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
 class CommentPolicy
 {
@@ -63,7 +62,7 @@ class CommentPolicy
     // {
     //     //
     // }
-    
+
     public function createRandom(User $user): bool
     {
         $roles = $user->roles->pluck('title')->toArray();

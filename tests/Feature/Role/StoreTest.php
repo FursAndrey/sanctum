@@ -5,7 +5,6 @@ namespace Tests\Feature\Role;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 
@@ -28,10 +27,10 @@ class StoreTest extends TestCase
         //создание пользователя и присвоение ему роли
         $role = Role::create(
             [
-                'title'=>'Admin',
-                'discription'=>'Creator of this site',
-                'created_at'=>null,
-                'updated_at'=>null
+                'title' => 'Admin',
+                'discription' => 'Creator of this site',
+                'created_at' => null,
+                'updated_at' => null
             ]
         );
         $user = User::factory()->create();
@@ -43,7 +42,7 @@ class StoreTest extends TestCase
 
         //тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->post('/api/roles', $newRole);
-        
+
         $response
             ->assertStatus(422)
             ->assertInvalid('title')
@@ -57,10 +56,10 @@ class StoreTest extends TestCase
         //создание пользователя и присвоение ему роли
         $role = Role::create(
             [
-                'title'=>'Admin',
-                'discription'=>'Creator of this site',
-                'created_at'=>null,
-                'updated_at'=>null
+                'title' => 'Admin',
+                'discription' => 'Creator of this site',
+                'created_at' => null,
+                'updated_at' => null
             ]
         );
         $user = User::factory()->create();
@@ -73,7 +72,7 @@ class StoreTest extends TestCase
 
         //тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->post('/api/roles', $newRole);
-        
+
         $response
             ->assertStatus(422)
             ->assertInvalid('title')
@@ -87,10 +86,10 @@ class StoreTest extends TestCase
         //создание пользователя и присвоение ему роли
         $role = Role::create(
             [
-                'title'=>'Admin',
-                'discription'=>'Creator of this site',
-                'created_at'=>null,
-                'updated_at'=>null
+                'title' => 'Admin',
+                'discription' => 'Creator of this site',
+                'created_at' => null,
+                'updated_at' => null
             ]
         );
         $user = User::factory()->create();
@@ -103,7 +102,7 @@ class StoreTest extends TestCase
 
         //тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->post('/api/roles', $newRole);
-        
+
         $response
             ->assertStatus(422)
             ->assertInvalid('title')
@@ -117,10 +116,10 @@ class StoreTest extends TestCase
         //создание пользователя и присвоение ему роли
         $role = Role::create(
             [
-                'title'=>'Admin',
-                'discription'=>'Creator of this site',
-                'created_at'=>null,
-                'updated_at'=>null
+                'title' => 'Admin',
+                'discription' => 'Creator of this site',
+                'created_at' => null,
+                'updated_at' => null
             ]
         );
         $user = User::factory()->create();
@@ -133,7 +132,7 @@ class StoreTest extends TestCase
 
         //тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->post('/api/roles', $newRole);
-        
+
         $response
             ->assertStatus(422)
             ->assertInvalid('title')
@@ -148,10 +147,10 @@ class StoreTest extends TestCase
         //создание пользователя и присвоение ему роли
         $role = Role::create(
             [
-                'title'=>'Admin',
-                'discription'=>'Creator of this site',
-                'created_at'=>null,
-                'updated_at'=>null
+                'title' => 'Admin',
+                'discription' => 'Creator of this site',
+                'created_at' => null,
+                'updated_at' => null
             ]
         );
         $user = User::factory()->create();
@@ -163,7 +162,7 @@ class StoreTest extends TestCase
 
         //тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->post('/api/roles', $newRole);
-        
+
         $response
             ->assertStatus(422)
             ->assertInvalid('discription')
@@ -177,10 +176,10 @@ class StoreTest extends TestCase
         //создание пользователя и присвоение ему роли
         $role = Role::create(
             [
-                'title'=>'Admin',
-                'discription'=>'Creator of this site',
-                'created_at'=>null,
-                'updated_at'=>null
+                'title' => 'Admin',
+                'discription' => 'Creator of this site',
+                'created_at' => null,
+                'updated_at' => null
             ]
         );
         $user = User::factory()->create();
@@ -193,7 +192,7 @@ class StoreTest extends TestCase
 
         //тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->post('/api/roles', $newRole);
-        
+
         $response
             ->assertStatus(422)
             ->assertInvalid('discription')
@@ -207,10 +206,10 @@ class StoreTest extends TestCase
         //создание пользователя и присвоение ему роли
         $role = Role::create(
             [
-                'title'=>'Admin',
-                'discription'=>'Creator of this site',
-                'created_at'=>null,
-                'updated_at'=>null
+                'title' => 'Admin',
+                'discription' => 'Creator of this site',
+                'created_at' => null,
+                'updated_at' => null
             ]
         );
         $user = User::factory()->create();
@@ -223,7 +222,7 @@ class StoreTest extends TestCase
 
         //тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->post('/api/roles', $newRole);
-        
+
         $response
             ->assertStatus(422)
             ->assertInvalid('discription')
@@ -239,11 +238,11 @@ class StoreTest extends TestCase
             'discription' => 'some text',
         ];
         $response = $this->post('/api/roles', $role);
-        
+
         $response->assertStatus(401);
         $response->assertJson(
             [
-                "message"=>"Unauthenticated."
+                'message' => 'Unauthenticated.'
             ]
         );
         $this->assertDatabaseCount('roles', 0);
@@ -255,10 +254,10 @@ class StoreTest extends TestCase
         //создание пользователя и присвоение ему роли
         $role = Role::create(
             [
-                'title'=>'Admin',
-                'discription'=>'Creator of this site',
-                'created_at'=>null,
-                'updated_at'=>null
+                'title' => 'Admin',
+                'discription' => 'Creator of this site',
+                'created_at' => null,
+                'updated_at' => null
             ]
         );
         $user = User::factory()->create();
@@ -268,10 +267,10 @@ class StoreTest extends TestCase
             'title' => 'some text',
             'discription' => 'some text',
         ];
-        
+
         //тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->post('/api/roles', $newRole);
-        
+
         $response->assertStatus(201);
         $this->assertDatabaseCount('roles', 2);
         $this->assertDatabaseHas('roles', $newRole);
@@ -282,10 +281,10 @@ class StoreTest extends TestCase
         //создание пользователя и присвоение ему роли
         $role = Role::create(
             [
-                'title'=>'not_dmin',
-                'discription'=>'Creator of this site',
-                'created_at'=>null,
-                'updated_at'=>null
+                'title' => 'not_dmin',
+                'discription' => 'Creator of this site',
+                'created_at' => null,
+                'updated_at' => null
             ]
         );
         $user = User::factory()->create();
@@ -295,14 +294,14 @@ class StoreTest extends TestCase
             'title' => 'some text',
             'discription' => 'some text',
         ];
-        
+
         //тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->post('/api/roles', $newRole);
-        
+
         $response->assertStatus(403);
         $response->assertJsonFragment(
             [
-                "message"=>"This action is unauthorized."
+                'message' => 'This action is unauthorized.'
             ]
         );
         $this->assertDatabaseCount('roles', 1);

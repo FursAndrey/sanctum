@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Actions\Media;
 
 use App\Models\Post;

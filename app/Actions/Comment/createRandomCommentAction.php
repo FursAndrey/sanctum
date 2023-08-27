@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Actions\Comment;
 
 use App\Models\Comment;

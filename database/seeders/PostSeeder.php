@@ -5,7 +5,6 @@ namespace Database\Seeders;
 use App\Actions\Media\createMediaImgAction;
 use App\Models\Post;
 use Illuminate\Database\Seeder;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class PostSeeder extends Seeder
 {

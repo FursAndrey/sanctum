@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Actions\Preview;
 
 class cutImageIdAction

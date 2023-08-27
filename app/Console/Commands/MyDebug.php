@@ -3,9 +3,6 @@
 namespace App\Console\Commands;
 
 use App\Models\Comment;
-use App\Models\Post;
-use App\Models\Role;
-use App\Models\User;
 use App\Services\TelegramService;
 use Illuminate\Console\Command;
 
@@ -28,10 +25,10 @@ class MyDebug extends Command
     /**
      * Execute the console command.
      */
-    public function handle():void
+    public function handle(): void
     {
         echo "Hello World!";
-        
+
         Comment::factory(3)->create();
 
         // $message = 'Доступ разрешен.';
@@ -40,7 +37,7 @@ class MyDebug extends Command
         //         ['text' => 'Добавить 1 случайный пост', 'callback_data' => 'create-random-post'],
         //     ],
         // ];
-        
+
         // $admin_id = config('telegram.admin_id');
         // $telegramService = new TelegramService();
         // $telegramService->sendMessage($admin_id, $message, $keyboard);

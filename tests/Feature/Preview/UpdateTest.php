@@ -6,7 +6,6 @@ use App\Models\Post;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
@@ -14,7 +13,7 @@ use Tests\TestCase;
 class UpdateTest extends TestCase
 {
     use RefreshDatabase;
-    
+
     public function setUp(): void
     {
         parent::setUp();
@@ -47,17 +46,17 @@ class UpdateTest extends TestCase
     //     $response = $this->actingAs($user)->post('/api/preview', ['image' => $image]);
     //     $this->assertDatabaseCount('previews', 1);
     //     $this->assertDatabaseHas(
-    //         'previews', 
+    //         'previews',
     //         [
-    //             'path' => 'preview/'.$image->hashName(), 
-    //             'post_id' => NULL, 
+    //             'path' => 'preview/'.$image->hashName(),
+    //             'post_id' => NULL,
     //             'user_id' => $user->id
     //         ]
     //     );
     //     Storage::disk('public')->assertExists('preview/'.$image->hashName());
-        
+
     //     $post = Post::factory(1)->create()->first();
-        
+
     //     $oldPost = [
     //         'title' => $post->title,
     //         'body' => $post->body,
@@ -71,12 +70,12 @@ class UpdateTest extends TestCase
     //     //тестируемый запрос от имени пользователя
     //     $response = $this->actingAs($user)->put('/api/posts/'.$post->id, $newPost);
     //     unset($newPost['image_id']);
-        
+
     //     $response->assertStatus(200);
     //     $this->assertDatabaseHas('posts', $newPost);
     //     $this->assertDatabaseMissing('posts', $oldPost);
     // }
-    
+
     // public function test_image_id_exists_for_updating(): void
     // {
     //     //создание пользователя и присвоение ему роли
@@ -99,17 +98,17 @@ class UpdateTest extends TestCase
     //     $response = $this->actingAs($user)->post('/api/preview', ['image' => $image]);
     //     $this->assertDatabaseCount('previews', 1);
     //     $this->assertDatabaseHas(
-    //         'previews', 
+    //         'previews',
     //         [
-    //             'path' => 'preview/'.$image->hashName(), 
-    //             'post_id' => NULL, 
+    //             'path' => 'preview/'.$image->hashName(),
+    //             'post_id' => NULL,
     //             'user_id' => $user->id
     //         ]
     //     );
     //     Storage::disk('public')->assertExists('preview/'.$image->hashName());
-        
+
     //     $post = Post::factory(1)->create()->first();
-        
+
     //     $oldPost = [
     //         'title' => $post->title,
     //         'body' => $post->body,
@@ -120,11 +119,11 @@ class UpdateTest extends TestCase
     //         'body' => 'some text',
     //         'image_id' => $image_id,
     //     ];
-        
+
     //     //тестируемый запрос от имени пользователя
     //     $response = $this->actingAs($user)->put('/api/posts/'.$post->id, $newPost);
     //     unset($newPost['image_id']);
-        
+
     //     $response
     //         ->assertStatus(422)
     //         ->assertJsonValidationErrors([

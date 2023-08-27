@@ -5,7 +5,6 @@ namespace Tests\Feature\Post;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class StoreRandomTest extends TestCase
@@ -27,10 +26,10 @@ class StoreRandomTest extends TestCase
         //создание пользователя и присвоение ему роли
         $role = Role::create(
             [
-                'title'=>'Admin',
-                'discription'=>'Creator of this site',
-                'created_at'=>null,
-                'updated_at'=>null
+                'title' => 'Admin',
+                'discription' => 'Creator of this site',
+                'created_at' => null,
+                'updated_at' => null
             ]
         );
         $user = User::factory()->create();
@@ -38,7 +37,7 @@ class StoreRandomTest extends TestCase
 
         //тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->post('/api/posts/storeRandomPost');
-        
+
         $response->assertStatus(201);
         $this->assertDatabaseCount('posts', 1);
     }
@@ -48,10 +47,10 @@ class StoreRandomTest extends TestCase
         //создание пользователя и присвоение ему роли
         $role = Role::create(
             [
-                'title'=>'not_admin',
-                'discription'=>'Creator of this site',
-                'created_at'=>null,
-                'updated_at'=>null
+                'title' => 'not_admin',
+                'discription' => 'Creator of this site',
+                'created_at' => null,
+                'updated_at' => null
             ]
         );
         $user = User::factory()->create();
@@ -59,11 +58,11 @@ class StoreRandomTest extends TestCase
 
         //тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->post('/api/posts/storeRandomPost');
-        
+
         $response->assertStatus(403);
         $response->assertJsonFragment(
             [
-                "message"=>"This action is unauthorized."
+                'message' => 'This action is unauthorized.'
             ]
         );
         $this->assertDatabaseCount('posts', 0);
@@ -72,11 +71,11 @@ class StoreRandomTest extends TestCase
     public function test_a_post_can_not_be_stored_by_unauthorised_user()
     {
         $response = $this->post('/api/posts/storeRandomPost');
-        
+
         $response->assertStatus(401);
         $response->assertJson(
             [
-                "message"=>"Unauthenticated."
+                'message' => 'Unauthenticated.'
             ]
         );
         $this->assertDatabaseCount('posts', 0);

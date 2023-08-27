@@ -5,7 +5,6 @@ namespace Tests\Feature\User;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class DestroyTest extends TestCase
@@ -27,10 +26,10 @@ class DestroyTest extends TestCase
         //создание пользователя и присвоение ему роли
         $role = Role::create(
             [
-                'title'=>'Admin',
-                'discription'=>'Creator of this site',
-                'created_at'=>null,
-                'updated_at'=>null
+                'title' => 'Admin',
+                'discription' => 'Creator of this site',
+                'created_at' => null,
+                'updated_at' => null
             ]
         );
         $user = User::factory()->create();
@@ -39,14 +38,14 @@ class DestroyTest extends TestCase
         //подготовка юзера к удалению
         $deletingUser = User::factory()->create();
         $deletingUserArray = [
-            "id" => $deletingUser->id,
-            "name" => $deletingUser->name,
-            "email" => $deletingUser->email,
+            'id' => $deletingUser->id,
+            'name' => $deletingUser->name,
+            'email' => $deletingUser->email,
         ];
-        
+
         //тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->delete('/api/users/'.$deletingUser->id);
-        
+
         $response->assertStatus(204);
         $this->assertDatabaseMissing('users', $deletingUserArray);
     }
@@ -56,10 +55,10 @@ class DestroyTest extends TestCase
         //создание пользователя и присвоение ему роли
         $role = Role::create(
             [
-                'title'=>'not_admin',
-                'discription'=>'Creator of this site',
-                'created_at'=>null,
-                'updated_at'=>null
+                'title' => 'not_admin',
+                'discription' => 'Creator of this site',
+                'created_at' => null,
+                'updated_at' => null
             ]
         );
         $user = User::factory()->create();
@@ -68,18 +67,18 @@ class DestroyTest extends TestCase
         //подготовка юзера к удалению
         $deletingUser = User::factory()->create();
         $deletingUserArray = [
-            "id" => $deletingUser->id,
-            "name" => $deletingUser->name,
-            "email" => $deletingUser->email,
+            'id' => $deletingUser->id,
+            'name' => $deletingUser->name,
+            'email' => $deletingUser->email,
         ];
-        
+
         //тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->delete('/api/users/'.$deletingUser->id);
-        
+
         $response->assertStatus(403);
         $response->assertJsonFragment(
             [
-                "message"=>"This action is unauthorized."
+                'message' => 'This action is unauthorized.'
             ]
         );
         $this->assertDatabaseHas('users', $deletingUserArray);
@@ -90,18 +89,18 @@ class DestroyTest extends TestCase
         //подготовка юзера к удалению
         $deletingUser = User::factory()->create();
         $deletingUserArray = [
-            "id" => $deletingUser->id,
-            "name" => $deletingUser->name,
-            "email" => $deletingUser->email,
+            'id' => $deletingUser->id,
+            'name' => $deletingUser->name,
+            'email' => $deletingUser->email,
         ];
-        
+
         //тестируемый запрос от имени пользователя
         $response = $this->delete('/api/users/'.$deletingUser->id);
-        
+
         $response->assertStatus(401);
         $response->assertJson(
             [
-                "message"=>"Unauthenticated."
+                'message' => 'Unauthenticated.'
             ]
         );
         $this->assertDatabaseHas('users', $deletingUserArray);

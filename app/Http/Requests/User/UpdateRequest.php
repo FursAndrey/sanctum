@@ -39,7 +39,7 @@ class UpdateRequest extends FormRequest
                 Rule::unique('users')->ignore($this->user->id)
             ],
         ];
-        
+
         return $rules;
     }
 }

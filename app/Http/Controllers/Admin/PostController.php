@@ -17,7 +17,6 @@ use App\Http\Resources\PostCollection;
 use App\Http\Resources\PostResource;
 use App\Models\Post;
 use Exception;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -45,26 +44,26 @@ class PostController extends Controller
         // Log::info('This is some useful information.');
         try {
             DB::beginTransaction();
-            
+
             $data = $request->validated();
-            $imageId = (new cutImageIdAction)($data);
+            $imageId = (new cutImageIdAction())($data);
             $post = Post::create($data);
-            (new joinPostPreviewAction)($post->id, $imageId);
-            (new destroyAllUnjoinedPreviewsAction)();
+            (new joinPostPreviewAction())($post->id, $imageId);
+            (new destroyAllUnjoinedPreviewsAction())();
 
             DB::commit();
         } catch (Exception $exception) {
             DB::rollBack();
             return response()->json(['error' => $exception->getMessage()]);
         }
-        
+
         return new PostResource($post);
     }
 
     public function store2(MediaStoreRequest $request)
     {
         $this->authorize('create', Post::class);
-        
+
         try {
             DB::beginTransaction();
 
@@ -73,21 +72,21 @@ class PostController extends Controller
                 $storedImgs = $storedPost['imgs'];
                 unset($storedPost['imgs']);
             }
-            
+
             $post = Post::create($storedPost);
-            
+
             if (isset($storedImgs)) {
                 foreach ($storedImgs as $img) {
                     $post->addMedia($img)->toMediaCollection('preview');
                 }
             }
-            
+
             DB::commit();
         } catch (Exception $exception) {
             DB::rollBack();
             return response()->json(['error' => $exception->getMessage()]);
         }
-        
+
         return new PostResource($post);
     }
     /**
@@ -110,14 +109,14 @@ class PostController extends Controller
 
             $data = $request->validated();
             if (isset($post->preview) && $post->preview->id != $data['image_id']) {
-                (new destroyOnePreviewAction)($post->preview);
+                (new destroyOnePreviewAction())($post->preview);
             }
 
-            $imageId = (new cutImageIdAction)($data);
+            $imageId = (new cutImageIdAction())($data);
             $post->fill($data)->save();
-            (new joinPostPreviewAction)($post->id, $imageId);
-            (new destroyAllUnjoinedPreviewsAction)();
-            
+            (new joinPostPreviewAction())($post->id, $imageId);
+            (new destroyAllUnjoinedPreviewsAction())();
+
             DB::commit();
         } catch (Exception $exception) {
             DB::rollBack();
@@ -129,17 +128,17 @@ class PostController extends Controller
     public function update2(MediaUpdateRequest $request, Post $post)
     {
         $this->authorize('update', $post);
-        
+
         try {
             DB::beginTransaction();
 
             $updatedPost = $request->validated();
-            
+
             //удалить выбранные для этого картинки
             if (isset($updatedPost['deleted_preview'])) {
                 $deleted_preview = $updatedPost['deleted_preview'];
                 unset($updatedPost['deleted_preview']);
-                
+
                 $previews = $post->getMedia('preview');
                 foreach ($previews as $img) {
                     if (in_array($img->id, $deleted_preview)) {
@@ -164,7 +163,7 @@ class PostController extends Controller
             DB::rollBack();
             return response()->json(['error' => $exception->getMessage()]);
         }
-        
+
         return new PostResource($post);
     }
 
@@ -174,9 +173,9 @@ class PostController extends Controller
     public function destroy(Post $post)
     {
         $this->authorize('delete', $post);
-        
+
         if (isset($post->preview)) {
-            (new destroyOnePreviewAction)($post->preview);
+            (new destroyOnePreviewAction())($post->preview);
         }
         $post->delete();
 
@@ -186,7 +185,7 @@ class PostController extends Controller
     public function storeRandomPost()
     {
         $this->authorize('create', Post::class);
-        $randomPost = (new createPostWithPreviewAction)();
+        $randomPost = (new createPostWithPreviewAction())();
 
         return new PostResource($randomPost);
         // return new PostResource($randomPreview->post);

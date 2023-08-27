@@ -6,8 +6,6 @@ use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\TelegramController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\CommentController;
-use App\Http\Controllers\MainController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group(['middleware' => 'auth:sanctum'], function() {
+Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::post('/users/storeRandomUser', [UserController::class, 'storeRandomUser'])->name('storeRandomUser');
     Route::post('/posts/storeRandomPost', [PostController::class, 'storeRandomPost'])->name('storeRandomPost');
     Route::post('/comments/storeRandomComment', [CommentController::class, 'storeRandomComment'])->name('storeRandomComment');

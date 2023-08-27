@@ -5,7 +5,6 @@ namespace Tests\Feature\User;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class CurrentUserTest extends TestCase
@@ -27,10 +26,10 @@ class CurrentUserTest extends TestCase
         //создание пользователя и присвоение ему роли
         $role = Role::create(
             [
-                'title'=>'Admin',
-                'discription'=>'Creator of this site',
-                'created_at'=>null,
-                'updated_at'=>null
+                'title' => 'Admin',
+                'discription' => 'Creator of this site',
+                'created_at' => null,
+                'updated_at' => null
             ]
         );
         $user = User::factory()->create();
@@ -38,14 +37,14 @@ class CurrentUserTest extends TestCase
 
         //тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->get('/api/currentUser');
-        
+
         $response->assertStatus(200);
         $response->assertJson(
             [
-                'data'=>[
-                    "id" => $user->id,
-                    "name" => $user->name,
-                    "roles" => [
+                'data' => [
+                    'id' => $user->id,
+                    'name' => $user->name,
+                    'roles' => [
                         $role->title,
                     ],
                 ]
@@ -58,25 +57,25 @@ class CurrentUserTest extends TestCase
         //создание пользователя и присвоение ему роли
         $role = Role::create(
             [
-                'title'=>'not_admin',
-                'discription'=>'Creator of this site',
-                'created_at'=>null,
-                'updated_at'=>null
+                'title' => 'not_admin',
+                'discription' => 'Creator of this site',
+                'created_at' => null,
+                'updated_at' => null
             ]
         );
         $user = User::factory()->create();
         $user->roles()->sync($role->id);
-        
+
         //тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->get('/api/currentUser');
-        
+
         $response->assertStatus(200);
         $response->assertJson(
             [
-                'data'=>[
-                    "id" => $user->id,
-                    "name" => $user->name,
-                    "roles" => [
+                'data' => [
+                    'id' => $user->id,
+                    'name' => $user->name,
+                    'roles' => [
                         $role->title,
                     ],
                 ]
@@ -88,12 +87,12 @@ class CurrentUserTest extends TestCase
     {
         //тестируемый запрос от имени пользователя
         $response = $this->get('/api/currentUser');
-        
+
         $response->assertStatus(200);
         $response->assertJson(
             [
-                'data'=>[
-                    "name" => null,
+                'data' => [
+                    'name' => null,
                 ]
             ]
         );
