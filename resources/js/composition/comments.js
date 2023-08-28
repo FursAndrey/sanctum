@@ -7,16 +7,20 @@ export default function useComments() {
     const comments = ref([]);
     const errorMessage = ref('');
     
-    const getComments = async (post) => {
-        let response = await axios.get('/api/comments/'+post);
+    const getComments = async (post, comment) => {
+        let response = await axios.get('/api/comments/'+post+'/'+comment);
         
         comments.value = response.data.data;
     }
 
-    const storeComment = (post, store) => {
+    const storeComment = (post, store, comment_id) => {
         errorMessage.value = '';
+        
+        if (comment_id == 0) {
+            comment_id = null;
+        }
 
-        axios.post('/api/comments', {body: store.value, post_id: post})
+        axios.post('/api/comments', {body: store.value, post_id: post, parent_id: comment_id})
             .then(res => {
                 comments.value.unshift(res.data.data);
             }).catch(e => {

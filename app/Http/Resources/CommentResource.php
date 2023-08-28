@@ -19,6 +19,7 @@ class CommentResource extends JsonResource
             'body' => $this->body,
             'published' => $this->published,
             'user' => $this->user->name,
+            'answerCount' => $this->answers->count(),
         ];
     }
 }

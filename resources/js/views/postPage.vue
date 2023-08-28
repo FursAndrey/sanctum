@@ -5,7 +5,7 @@
         <div><img class="mb-3 mx-auto w-100" v-if="post.preview" :src="post.preview.url_original" :alt="post.title"/></div>
         <div>{{ post.body }}</div>
         <router-link :to="{ name: 'postList'}" class="block w-48 p-2 font-bold bg-sky-700 text-white rounded-lg text-center mt-10">Return to post list</router-link>
-        <comment-template v-bind:post_id="String(post.id)" @createdNewComment="createdComment">Comments {{ post.commentCount }} <span v-if="post.commentCount != 0">(click for open)</span></comment-template>
+        <comment-template v-bind:post_id="String(post.id)" v-bind:comment_id="String(0)" @createdNewComment="createdComment">Comments {{ post.commentCount }} <span v-if="post.commentCount != 0">(click for open)</span></comment-template>
     </div>
 </template>
 

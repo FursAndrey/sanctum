@@ -33,7 +33,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::post('/comments', [CommentController::class, 'store'])->name('storeComment');
 });
 Route::apiResource('/posts', PostController::class)->only(['index', 'show']);
-Route::get('/comments/{post}', [CommentController::class, 'index'])->name('commentsOfPost')->where('post', '[0-9]+');
+Route::get('/comments/{post}/{connemt}', [CommentController::class, 'index'])->name('commentsOfPost')->where(['post' => '[0-9]+', 'connemt' => '[0-9]+']);
 Route::get('/currentUser', [UserController::class, 'getCurrentUserForMenu'])->name('getCurrentUserForMenu');
 
 Route::post('/telegram', [TelegramController::class, 'telegramCallback'])->name('telegramCallback');

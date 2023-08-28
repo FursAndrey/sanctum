@@ -13,9 +13,15 @@ class CommentController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(int $post)
+    public function index(int $post, int $comment)
     {
-        $comments = Comment::where('post_id', '=', $post)->orderBy('id', 'desc')->get();
+        $commentsQuery = Comment::where('post_id', '=', $post);
+        if ($comment == 0) {
+            $commentsQuery->whereNull('parent_id');
+        } else {
+            $commentsQuery->where('parent_id', '=', $comment);
+        }
+        $comments = $commentsQuery->orderBy('id', 'desc')->get();
 
         return CommentResource::collection($comments);
     }
