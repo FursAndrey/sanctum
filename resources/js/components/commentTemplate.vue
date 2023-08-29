@@ -1,7 +1,11 @@
 <template>
     <div :class="[this.comment_id === '0'? '' : 'ms-16']">
         <h2 class="text-2xl font-bold text-center cursor-pointer" @click="getCommentsForPost()"><slot></slot></h2>
-        <div v-if="isAuth()" class="mx-auto w-3/5">
+        <div class="block w-48 p-3 mb-2 rounded-lg bg-sky-500 text-white hover:bg-sky-700 font-semibold" @click="toggleComment()">
+            <span v-if="this.comment_id === '0'">Add comment</span>
+            <span v-else>Add answer</span>
+        </div>
+        <div v-if="isAuth() && isShow" class="mx-auto w-3/5">
             <textarea v-model="comment" placeholder="body of comment" class="w-full h-32 p-3 border-2 rounded-lg border-sky-500"></textarea>
             <input @click="createComment()" type="button" value="Create comment" class="block w-48 p-3 mb-2 rounded-lg bg-sky-500 text-white hover:bg-sky-700 font-semibold"/>
         </div>
@@ -12,7 +16,7 @@
             <comment-template 
                 v-bind:post_id="String(this.post_id)" 
                 v-bind:comment_id="String(comment.id)" 
-                @createdNewComment="createdComment">
+                @createdNewComment="createdComment(comment.id)">
                 Answers {{ comment.answerCount }} <span v-if="comment.answerCount != 0">(click for open)</span>
             </comment-template>
         </div>
@@ -22,6 +26,7 @@
 <script>
 import useComments from '../composition/comments';
 import useInspector from '../composition/inspector';
+import { ref } from "vue";
 export default {
     name: 'commentTemplate',
     props: {
@@ -36,6 +41,7 @@ export default {
     },
     
     setup(props, {emit}) {
+        const isShow = ref(false);
 
         const { isAuth } = useInspector();
         const { comment, comments, errorMessage, getComments, storeComment } = useComments();
@@ -51,18 +57,34 @@ export default {
         const createComment = () => {
             storeComment(props.post_id, comment, props.comment_id);
             if (errorMessage.value == '') {
+                toggleComment();
                 comment.value = '';
                 emit('createdNewComment');
-                getComments(props.post_id)
+                getComments(props.post_id);
+            }
+        }
+
+        const toggleComment = () => {
+            isShow.value = !isShow.value;
+        }
+
+        const createdComment = async (id) => {
+            for (let index = 0; index < comments.value.length; index++) {
+                if (comments.value[index].id == id) {
+                    comments.value[index].answerCount++;
+                }
             }
         }
         
         return {
             comment,
             comments,
+            isShow,
+            toggleComment,
             isAuth,
             getCommentsForPost,
-            createComment
+            createComment,
+            createdComment
         }
     },
 }
