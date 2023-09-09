@@ -10,7 +10,9 @@
         <comment-template 
             v-bind:post_id="String(post.id)" 
             v-bind:comment_id="String(0)" 
-            @createdNewComment="createdComment">
+            @createdNewComment="createdComment"
+            @destroyOneComment="destroyComment"
+            >
             Comments {{ post.commentCount }} <span v-if="post.commentCount != 0">(click for open)</span>
         </comment-template>
     </div>
@@ -42,10 +44,15 @@ export default {
             post.value.commentCount++;
         }
 
+        const destroyComment = () => {
+            --post.value.commentCount;
+        }
+
         onMounted(getCurrentPost);
         return {
             post,
-            createdComment
+            createdComment,
+            destroyComment
         }
     }
 }

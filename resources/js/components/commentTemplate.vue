@@ -1,7 +1,7 @@
 <template>
     <div :class="[this.comment_id === '0'? '' : 'ms-16']">
         <h2 class="text-2xl font-bold text-center cursor-pointer" @click="getCommentsForPost()"><slot></slot></h2>
-        <div class="block w-48 p-3 mb-2 rounded-lg bg-sky-500 text-white hover:bg-sky-700 font-semibold" @click="toggleComment()">
+        <div class="w-32 p-3 me-6 rounded-lg bg-sky-500 text-white hover:bg-sky-700 font-semibold" @click="toggleComment()">
             <span v-if="this.comment_id === '0'">Add comment</span>
             <span v-else>Add answer</span>
         </div>
@@ -9,14 +9,23 @@
             <textarea v-model="comment" placeholder="body of comment" class="w-full h-32 p-3 border-2 rounded-lg border-sky-500"></textarea>
             <input @click="createComment()" type="button" value="Create comment" class="block w-48 p-3 mb-2 rounded-lg bg-sky-500 text-white hover:bg-sky-700 font-semibold"/>
         </div>
+            {{ errorMessage }}
         <div v-for="comment in comments" :key="comment.id" class="border-t border-sky-500 mt-2 pt-2">
             <div class="text-sm text-left text-slate-400">{{ comment.user }}</div>
             <div class="text-sm text-right text-slate-400">{{ comment.published }}</div>
             <div>{{ comment.body }}</div>
+            <div 
+                v-if="isAdmin()"
+                class="w-32 p-3 me-6 font-bold bg-red-700 hover:bg-red-900 text-white rounded-lg text-center cursor-pointer"
+                @click="deletedComment(comment.id)">
+                Delete
+            </div>
             <comment-template 
                 v-bind:post_id="String(this.post_id)" 
                 v-bind:comment_id="String(comment.id)" 
-                @createdNewComment="createdComment(comment.id)">
+                @createdNewComment="createdComment(comment.id)"
+                @destroyOneComment="destroyedComment(comment.id)"
+                >
                 Answers {{ comment.answerCount }} <span v-if="comment.answerCount != 0">(click for open)</span>
             </comment-template>
         </div>
@@ -43,8 +52,8 @@ export default {
     setup(props, {emit}) {
         const isShow = ref(false);
 
-        const { isAuth } = useInspector();
-        const { comment, comments, errorMessage, getComments, storeComment } = useComments();
+        const { isAuth, isAdmin } = useInspector();
+        const { comment, comments, errorMessage, getComments, storeComment, destroyComment } = useComments();
 
         // const qqq = () => {
         //     console.log(props.post_id);
@@ -68,10 +77,30 @@ export default {
             isShow.value = !isShow.value;
         }
 
+        const deletedComment = async (id) => {
+            if (!window.confirm('Are you sure?')) {
+                return false;
+            }
+
+            destroyComment(id);
+            emit('destroyOneComment');
+            getComments(props.post_id);
+        }
+
         const createdComment = async (id) => {
             for (let index = 0; index < comments.value.length; index++) {
                 if (comments.value[index].id == id) {
+                    emit('createdNewComment');
                     comments.value[index].answerCount++;
+                }
+            }
+        }
+
+        const destroyedComment = (id) => {
+            for (let index = 0; index < comments.value.length; index++) {
+                if (comments.value[index].id == id) {
+                    emit('destroyOneComment');
+                    --comments.value[index].answerCount;
                 }
             }
         }
@@ -79,12 +108,16 @@ export default {
         return {
             comment,
             comments,
+            errorMessage,
             isShow,
             toggleComment,
             isAuth,
+            isAdmin,
             getCommentsForPost,
             createComment,
-            createdComment
+            createdComment,
+            deletedComment,
+            destroyedComment
         }
     },
 }
