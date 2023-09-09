@@ -1,12 +1,17 @@
 import { ref } from "vue";
 
-export default function useInspector() {
+import { computed } from 'vue'
+import { useStore } from 'vuex'
 
-    const isAdmin = (roles) => {
-        if (roles == undefined) {
+export default function useInspector() {
+    const store = useStore();
+    const myRoles = computed(() => store.getters.rolesCurrentUser);
+
+    const isAdmin = () => {
+        if (myRoles.value == undefined) {
             return false;
         }
-        if (roles.includes("Admin")) {
+        if (myRoles.value.includes("Admin")) {
             return true;
         } else {
             return false;
@@ -21,7 +26,6 @@ export default function useInspector() {
             return true;
         }
     }
-
 
     return {
         isAdmin,

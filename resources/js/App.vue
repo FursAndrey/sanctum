@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div v-if="token && checkAdmin(currentUserForMenu.roles)" class="admin-hamburger-menu">
+        <div v-if="token && isAdmin()" class="admin-hamburger-menu">
             <input id="admin_menu__toggle" type="checkbox" />
             <label class="menu__btn" for="admin_menu__toggle">
                 <span></span>
@@ -40,11 +40,12 @@
             </ul>
         </div>
         
-        <router-view class="mx-auto w-3/5 px-2.5"></router-view> 
+        <router-view class="mx-auto w-3/5 px-2.5"></router-view>
     </div>
 </template>
 
 <script>
+import { useStore } from 'vuex'
 import useInspector from './composition/inspector';
 export default {
     name: "App",
@@ -54,14 +55,14 @@ export default {
             currentUserForMenu: ''
         }
     },
-    
+
     mounted() {
         this.getToken();
     },
 
     watch: {
         $route(to, from) {
-
+            this.fetchCurrentUserForSite();
             //моя проверка авторизации
             axios.get('/api/currentUser')
                 .then( res => {
@@ -83,7 +84,7 @@ export default {
 
                     //если пользователь авторизован, но не имеет роли "админ" и лезет в админку или в профиль
                     if (fullPath.indexOf('admin/') != -1 || fullPath.indexOf('profile/') != -1) {
-                        if (!this.checkAdmin(this.currentUserForMenu.roles)) {
+                        if (!this.isAdmin()) {
                             this.$router.push({name: 'errors.403'})
                         }
                     }
@@ -94,27 +95,25 @@ export default {
 
     methods: {
         getToken() {
-            this.token = localStorage.getItem('x_xsrf_token')
+            this.token = localStorage.getItem('x_xsrf_token');
         },
 
         logout() {
             axios.post('/logout')
                 .then( res => {
-                    localStorage.removeItem('x_xsrf_token')
-                    this.$router.push({name: 'postList'})
+                    localStorage.removeItem('x_xsrf_token');
+                    this.$router.push({name: 'login'});
                 })
         },
     },
 
     setup() {
         const { isAdmin } = useInspector();
-
-        const checkAdmin = (roles) => {
-            return isAdmin(roles);
-        }
+        const store = useStore();
 
         return {
-            checkAdmin,
+            isAdmin,
+            fetchCurrentUserForSite: () => store.dispatch('fetchCurrentUserForSite'),
         }
     },
 }
