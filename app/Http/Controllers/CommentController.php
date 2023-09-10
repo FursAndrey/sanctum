@@ -62,9 +62,11 @@ class CommentController extends Controller
      */
     public function destroy(Comment $comment)
     {
+        $this->authorize('delete', $comment);
+
         if ($comment->answers->count() == 0) {
             $comment->delete();
-            
+
             return response()->noContent();
         } else {
             return response()->json(['status' => false, 'message' => 'Delete imposible. You have answers.']);

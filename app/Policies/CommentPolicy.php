@@ -42,10 +42,12 @@ class CommentPolicy
     /**
      * Determine whether the user can delete the model.
      */
-    // public function delete(User $user, Comment $comment): bool
-    // {
-    //     //
-    // }
+    public function delete(User $user, Comment $comment): bool
+    {
+        $roles = $user->roles->pluck('title')->toArray();
+
+        return in_array('Admin', $roles);
+    }
 
     /**
      * Determine whether the user can restore the model.
