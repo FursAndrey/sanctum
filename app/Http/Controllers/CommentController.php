@@ -57,7 +57,6 @@ class CommentController extends Controller
         $this->authorize('update', $comment);
 
         $data = $request->validated();
-        $data['user_id'] = auth()->id();
         $comment->update($data);
 
         return new CommentResource($comment);
