@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Actions\Comment\createRandomCommentAction;
 use App\Http\Requests\Comment\StoreRequest;
+use App\Http\Requests\Comment\UpdateRequest;
 use App\Http\Resources\CommentResource;
 use App\Models\Comment;
-use Illuminate\Http\Request;
 
 class CommentController extends Controller
 {
@@ -52,9 +52,15 @@ class CommentController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Comment $comment)
+    public function update(UpdateRequest $request, Comment $comment)
     {
-        //
+        $this->authorize('update', $comment);
+
+        $data = $request->validated();
+        $data['user_id'] = auth()->id();
+        $comment->update($data);
+
+        return new CommentResource($comment);
     }
 
     /**

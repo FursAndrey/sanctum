@@ -30,8 +30,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::post('/posts2', [PostController::class, 'store2'])->name('postStore2');
     Route::patch('/posts2/{post}', [PostController::class, 'update2'])->name('postUpdate2');
     Route::post('/preview', [PreviewController::class, 'store'])->name('store');
-    Route::post('/comments', [CommentController::class, 'store'])->name('storeComment');
-    Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('destroyComment');
+    Route::apiResource('/comments', CommentController::class)->only(['store', 'update', 'destroy']);
 });
 Route::apiResource('/posts', PostController::class)->only(['index', 'show']);
 Route::get('/comments/{post}/{connemt}', [CommentController::class, 'index'])->name('commentsOfPost')->where(['post' => '[0-9]+', 'connemt' => '[0-9]+']);

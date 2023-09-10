@@ -34,10 +34,12 @@ class CommentPolicy
     /**
      * Determine whether the user can update the model.
      */
-    // public function update(User $user, Comment $comment): bool
-    // {
-    //     //
-    // }
+    public function update(User $user, Comment $comment): bool
+    {
+        $roles = $user->roles->pluck('title')->toArray();
+
+        return in_array('Admin', $roles) || (int) $user->id === (int) $comment->user_id;
+    }
 
     /**
      * Determine whether the user can delete the model.
