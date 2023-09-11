@@ -32,6 +32,17 @@ export default function useComments() {
         await axios.post('/api/comments/storeRandomComment');
     }
     
+    const updateComment = async (comment) => {
+        errorMessage.value = '';
+        
+        try {
+            await axios.put('/api/comments/' + comment.id, {body: comment.body});
+        } catch(e) {
+            console.log(e);
+            errorMessage.value = e.response.data.message;
+        }
+    }
+
     const destroyComment = (id) => {
         axios.delete('/api/comments/'+id)
         .then(res => {
@@ -47,6 +58,7 @@ export default function useComments() {
         errorMessage,
         getComments,
         storeComment,
+        updateComment,
         storeRandomComment,
         destroyComment
     }

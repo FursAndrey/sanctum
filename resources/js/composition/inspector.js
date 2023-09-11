@@ -6,6 +6,7 @@ import { useStore } from 'vuex'
 export default function useInspector() {
     const store = useStore();
     const myRoles = computed(() => store.getters.rolesCurrentUser);
+    const currentUser = computed(() => store.getters.currentUserForSite);
 
     const isAdmin = () => {
         if (myRoles.value == undefined) {
@@ -27,8 +28,13 @@ export default function useInspector() {
         }
     }
 
+    const isOwner = (userName) => {
+        return currentUser.value.name === userName;
+    }
+
     return {
         isAdmin,
-        isAuth
+        isAuth,
+        isOwner
     }
 }
