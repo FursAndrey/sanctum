@@ -137,7 +137,7 @@ export default {
         }
 
         const editComment = (comment) => {
-            if (isOwner(comment.user) === true) {
+            if (isOwner(comment.user) === true || isAdmin() === true) {
                 toggleEditComment();
             }
         }
