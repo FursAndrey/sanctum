@@ -5,7 +5,6 @@ namespace Tests\Feature\Role;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class IndexTest extends TestCase
@@ -30,7 +29,7 @@ class IndexTest extends TestCase
         $response->assertStatus(401);
         $response->assertJson(
             [
-                "message"=>"Unauthenticated."
+                'message' => 'Unauthenticated.',
             ]
         );
     }
@@ -40,10 +39,10 @@ class IndexTest extends TestCase
         //создание пользователя и присвоение ему роли
         $role = Role::create(
             [
-                'title'=>'not_admin',
-                'discription'=>'Creator of this site',
-                'created_at'=>null,
-                'updated_at'=>null
+                'title' => 'not_admin',
+                'discription' => 'Creator of this site',
+                'created_at' => null,
+                'updated_at' => null,
             ]
         );
         $user = User::factory()->create();
@@ -55,7 +54,7 @@ class IndexTest extends TestCase
         $response->assertStatus(403);
         $response->assertJsonFragment(
             [
-                "message"=>"This action is unauthorized."
+                'message' => 'This action is unauthorized.',
             ]
         );
     }
@@ -64,20 +63,20 @@ class IndexTest extends TestCase
     {
         $role_not_admin = Role::create(
             [
-                'title'=>'not_admin',
-                'discription'=>'Creator of this site',
-                'created_at'=>null,
-                'updated_at'=>null
+                'title' => 'not_admin',
+                'discription' => 'Creator of this site',
+                'created_at' => null,
+                'updated_at' => null,
             ]
         );
 
         //создание пользователя и присвоение ему роли
         $role = Role::create(
             [
-                'title'=>'Admin',
-                'discription'=>'Creator of this site',
-                'created_at'=>null,
-                'updated_at'=>null
+                'title' => 'Admin',
+                'discription' => 'Creator of this site',
+                'created_at' => null,
+                'updated_at' => null,
             ]
         );
         $user = User::factory()->create();
@@ -89,27 +88,27 @@ class IndexTest extends TestCase
         $response->assertStatus(200);
         $response->assertJson(
             [
-                'data'=>[
+                'data' => [
                     [
-                        "id" => $role_not_admin->id,
-                        "title" => $role_not_admin->title,
-                        "discription" => $role_not_admin->discription,
-                        "users" => []
+                        'id' => $role_not_admin->id,
+                        'title' => $role_not_admin->title,
+                        'discription' => $role_not_admin->discription,
+                        'users' => [],
                     ],
                     [
-                        "id" => $role->id,
-                        "title" => $role->title,
-                        "discription" => $role->discription,
-                        "users" => [
+                        'id' => $role->id,
+                        'title' => $role->title,
+                        'discription' => $role->discription,
+                        'users' => [
                             [
-                                "id" => $user->id,
-                                "name" => $user->name,
-                                "email" => $user->email,
-                                "created" => $user->created,
-                            ]
-                        ]
+                                'id' => $user->id,
+                                'name' => $user->name,
+                                'email' => $user->email,
+                                'created' => $user->created,
+                            ],
+                        ],
                     ],
-                ]
+                ],
             ]
         );
     }

@@ -20,7 +20,7 @@ class UserController extends Controller
         $this->authorize('viewAny', User::class);
 
         $users = User::with(['roles'])->get();
-        
+
         return UserResource::collection($users);
     }
 
@@ -40,7 +40,7 @@ class UserController extends Controller
         $this->authorize('view', $user);
 
         $user = User::with(['roles'])->find($user->id);
-        
+
         return new UserResource($user);
     }
 
@@ -52,7 +52,7 @@ class UserController extends Controller
         $this->authorize('update', $user);
 
         $data = $request->validated();
-        $preparedRoles = (new prepareRolesBeforeSyncAction)($data);
+        $preparedRoles = (new prepareRolesBeforeSyncAction())($data);
         $user->roles()->sync($preparedRoles);
         if (isset($data['tg_name'])) {
             unset($data['roles']);
@@ -85,7 +85,7 @@ class UserController extends Controller
     public function storeRandomUser()
     {
         $this->authorize('create', User::class);
-        $randomUser = (new createRandomUserAction)();
+        $randomUser = (new createRandomUserAction())();
 
         return new UserResource($randomUser);
     }

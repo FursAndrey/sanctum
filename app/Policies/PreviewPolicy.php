@@ -12,6 +12,7 @@ class PreviewPolicy
     public function store(User $user): bool
     {
         $roles = $user->roles->pluck('title')->toArray();
+
         return in_array('Admin', $roles);
     }
 }

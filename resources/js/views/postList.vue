@@ -23,7 +23,7 @@ import usePosts from '../composition/posts';
 import paginationTemplate from '../components/paginationTemplate.vue';
 export default {
     components: { 
-        paginationTemplate 
+        paginationTemplate
     },
     name: 'postList',
     

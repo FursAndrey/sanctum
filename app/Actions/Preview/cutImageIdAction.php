@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Actions\Preview;
 
 class cutImageIdAction
@@ -11,6 +12,7 @@ class cutImageIdAction
         } else {
             $imageId = null;
         }
+
         return $imageId;
     }
 }

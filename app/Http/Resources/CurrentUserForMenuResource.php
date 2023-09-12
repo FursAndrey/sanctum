@@ -16,7 +16,7 @@ class CurrentUserForMenuResource extends JsonResource
     {
         if (is_null(auth()->user())) {
             return [
-                'name' => NULL,
+                'name' => null,
             ];
         } else {
             return [

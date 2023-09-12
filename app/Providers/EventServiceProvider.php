@@ -29,8 +29,10 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Post::observe(new PostObserver());
-        Comment::observe(new CommentObserver());
+        if (config('app.env') !== 'testing' && config('app.env') !== 'local') {
+            Post::observe(new PostObserver());
+            Comment::observe(new CommentObserver());
+        }
     }
 
     /**

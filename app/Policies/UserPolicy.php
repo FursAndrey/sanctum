@@ -3,7 +3,6 @@
 namespace App\Policies;
 
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
 class UserPolicy
 {
@@ -13,6 +12,7 @@ class UserPolicy
     public function viewAny(User $user): bool
     {
         $roles = $user->roles->pluck('title')->toArray();
+
         return in_array('Admin', $roles);
     }
 
@@ -22,6 +22,7 @@ class UserPolicy
     public function view(User $user, User $model): bool
     {
         $roles = $user->roles->pluck('title')->toArray();
+
         return in_array('Admin', $roles) || $user->id === $model->id;
     }
 
@@ -31,6 +32,7 @@ class UserPolicy
     public function create(User $user): bool
     {
         $roles = $user->roles->pluck('title')->toArray();
+
         return in_array('Admin', $roles);
     }
 
@@ -40,6 +42,7 @@ class UserPolicy
     public function update(User $user, User $model): bool
     {
         $roles = $user->roles->pluck('title')->toArray();
+
         return in_array('Admin', $roles);
     }
 
@@ -49,6 +52,7 @@ class UserPolicy
     public function delete(User $user, User $model): bool
     {
         $roles = $user->roles->pluck('title')->toArray();
+
         return in_array('Admin', $roles);
     }
 

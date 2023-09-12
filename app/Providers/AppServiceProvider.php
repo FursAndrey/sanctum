@@ -3,9 +3,9 @@
 namespace App\Providers;
 
 use App\MyFaker\FakerImageProvider;
-use Illuminate\Pagination\Paginator;
 use Faker\Factory;
 use Faker\Generator;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -20,6 +20,7 @@ class AppServiceProvider extends ServiceProvider
             function () {
                 $faker = Factory::create();
                 $faker->addProvider(new FakerImageProvider($faker));
+
                 return $faker;
             }
         );

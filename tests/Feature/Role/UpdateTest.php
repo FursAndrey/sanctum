@@ -5,7 +5,6 @@ namespace Tests\Feature\Role;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 
@@ -22,38 +21,38 @@ class UpdateTest extends TestCase
             ]
         );
     }
-    
+
     public function test_discription_attribute_is_required_for_updating_role()
     {
         //создание пользователя и присвоение ему роли
         $role = Role::create(
             [
-                'title'=>'Admin',
-                'discription'=>'Creator of this site',
-                'created_at'=>null,
-                'updated_at'=>null
+                'title' => 'Admin',
+                'discription' => 'Creator of this site',
+                'created_at' => null,
+                'updated_at' => null,
             ]
         );
         $user = User::factory()->create();
         $user->roles()->sync($role->id);
 
         $oldRoleArray = [
-            'title'=>'some text',
-            'discription'=>'Creator of this site',
+            'title' => 'some text',
+            'discription' => 'Creator of this site',
         ];
         $oldRole = Role::create($oldRoleArray);
         $newRole = [
-            'discription'=>''
+            'discription' => '',
         ];
-        
+
         //тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->put('/api/roles/'.$oldRole->id, $newRole);
-        
+
         $response
             ->assertStatus(422)
             ->assertInvalid('discription')
             ->assertJsonValidationErrors([
-                'discription' => 'The discription field is required.'
+                'discription' => 'The discription field is required.',
             ]);
         $this->assertDatabaseHas('roles', $oldRoleArray);
 
@@ -67,32 +66,32 @@ class UpdateTest extends TestCase
         //создание пользователя и присвоение ему роли
         $role = Role::create(
             [
-                'title'=>'Admin',
-                'discription'=>'Creator of this site',
-                'created_at'=>null,
-                'updated_at'=>null
+                'title' => 'Admin',
+                'discription' => 'Creator of this site',
+                'created_at' => null,
+                'updated_at' => null,
             ]
         );
         $user = User::factory()->create();
         $user->roles()->sync($role->id);
 
         $oldRoleArray = [
-            'title'=>'some text',
-            'discription'=>'Creator of this site',
+            'title' => 'some text',
+            'discription' => 'Creator of this site',
         ];
-        $oldRole = Role::create($oldRoleArray);        
+        $oldRole = Role::create($oldRoleArray);
         $newRole = [
             'discription' => Str::random(201),
         ];
 
         //тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->put('/api/roles/'.$oldRole->id, $newRole);
-        
+
         $response
             ->assertStatus(422)
             ->assertInvalid('discription')
             ->assertJsonValidationErrors([
-                'discription' => 'The discription field must not be greater than 200 characters.'
+                'discription' => 'The discription field must not be greater than 200 characters.',
             ]);
         $this->assertDatabaseHas('roles', $oldRoleArray);
 
@@ -100,24 +99,24 @@ class UpdateTest extends TestCase
 
         $this->assertDatabaseMissing('roles', $newRole);
     }
-    
+
     public function test_a_role_can_be_updated_by_admin_user()
     {
         //создание пользователя и присвоение ему роли
         $role = Role::create(
             [
-                'title'=>'Admin',
-                'discription'=>'Creator of this site',
-                'created_at'=>null,
-                'updated_at'=>null
+                'title' => 'Admin',
+                'discription' => 'Creator of this site',
+                'created_at' => null,
+                'updated_at' => null,
             ]
         );
         $user = User::factory()->create();
         $user->roles()->sync($role->id);
 
         $oldRoleArray = [
-            'title'=>'some text',
-            'discription'=>'Creator of this site',
+            'title' => 'some text',
+            'discription' => 'Creator of this site',
         ];
         $oldRole = Role::create($oldRoleArray);
         $newRole = [
@@ -126,7 +125,7 @@ class UpdateTest extends TestCase
 
         //тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->put('/api/roles/'.$oldRole->id, $newRole);
-        
+
         $response->assertStatus(200);
         $this->assertDatabaseHas('roles', $newRole);
 
@@ -140,31 +139,31 @@ class UpdateTest extends TestCase
         //создание пользователя и присвоение ему роли
         $role = Role::create(
             [
-                'title'=>'not_admin',
-                'discription'=>'Creator of this site',
-                'created_at'=>null,
-                'updated_at'=>null
+                'title' => 'not_admin',
+                'discription' => 'Creator of this site',
+                'created_at' => null,
+                'updated_at' => null,
             ]
         );
         $user = User::factory()->create();
         $user->roles()->sync($role->id);
 
         $oldRoleArray = [
-            'title'=>'some text',
-            'discription'=>'Creator of this site',
+            'title' => 'some text',
+            'discription' => 'Creator of this site',
         ];
-        $oldRole = Role::create($oldRoleArray);        
+        $oldRole = Role::create($oldRoleArray);
         $newRole = [
             'discription' => Str::random(150),
         ];
 
         //тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->put('/api/roles/'.$oldRole->id, $newRole);
-        
+
         $response->assertStatus(403);
         $response->assertJsonFragment(
             [
-                "message"=>"This action is unauthorized."
+                'message' => 'This action is unauthorized.',
             ]
         );
         $this->assertDatabaseHas('roles', $oldRoleArray);
@@ -177,21 +176,21 @@ class UpdateTest extends TestCase
     public function test_a_role_can_not_be_updated_by_unauthorised_user()
     {
         $oldRoleArray = [
-            'title'=>'some text',
-            'discription'=>'Creator of this site',
+            'title' => 'some text',
+            'discription' => 'Creator of this site',
         ];
-        $oldRole = Role::create($oldRoleArray);        
+        $oldRole = Role::create($oldRoleArray);
         $newRole = [
             'discription' => Str::random(150),
         ];
 
         //тестируемый запрос от имени пользователя
         $response = $this->put('/api/roles/'.$oldRole->id, $newRole);
-        
+
         $response->assertStatus(401);
         $response->assertJson(
             [
-                "message"=>"Unauthenticated."
+                'message' => 'Unauthenticated.',
             ]
         );
         $this->assertDatabaseHas('roles', $oldRoleArray);

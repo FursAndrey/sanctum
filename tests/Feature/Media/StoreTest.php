@@ -5,14 +5,13 @@ namespace Tests\Feature\Media;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
 use Tests\TestCase;
 
 class StoreTest extends TestCase
 {
     use RefreshDatabase;
-    
+
     public function setUp(): void
     {
         parent::setUp();
@@ -31,11 +30,11 @@ class StoreTest extends TestCase
         ];
 
         $response = $this->post('/api/posts2', $post);
-        
+
         $response->assertStatus(401);
         $response->assertJson(
             [
-                "message"=>"Unauthenticated."
+                'message' => 'Unauthenticated.',
             ]
         );
         $this->assertDatabaseCount('media', 0);
@@ -47,10 +46,10 @@ class StoreTest extends TestCase
         //создание пользователя и присвоение ему роли
         $role = Role::create(
             [
-                'title'=>'not_dmin',
-                'discription'=>'Creator of this site',
-                'created_at'=>null,
-                'updated_at'=>null
+                'title' => 'not_dmin',
+                'discription' => 'Creator of this site',
+                'created_at' => null,
+                'updated_at' => null,
             ]
         );
         $user = User::factory()->create();
@@ -63,26 +62,26 @@ class StoreTest extends TestCase
 
         //тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->post('/api/posts2', $post);
-        
+
         $response->assertStatus(403);
         $response->assertJsonFragment(
             [
-                "message"=>"This action is unauthorized."
+                'message' => 'This action is unauthorized.',
             ]
         );
         $this->assertDatabaseCount('media', 0);
         $this->assertDatabaseCount('posts', 0);
     }
-    
+
     public function test_a_post_with_an_image_can_be_stored_by_admin_user(): void
     {
         //создание пользователя и присвоение ему роли
         $role = Role::create(
             [
-                'title'=>'Admin',
-                'discription'=>'Creator of this site',
-                'created_at'=>null,
-                'updated_at'=>null
+                'title' => 'Admin',
+                'discription' => 'Creator of this site',
+                'created_at' => null,
+                'updated_at' => null,
             ]
         );
         $user = User::factory()->create();
@@ -96,16 +95,16 @@ class StoreTest extends TestCase
             'body' => 'some text',
             'imgs' => [
                 $image,
-            ]
+            ],
         ];
 
         $this->assertDatabaseCount('media', 0);
         $this->assertDatabaseCount('posts', 0);
-        
+
         $this->actingAs($user)->post('/api/posts2', $post);
-        
+
         $this->assertDatabaseCount('media', 1);
-        
+
         unset($post['imgs']);
         $this->assertDatabaseCount('posts', 1);
         $this->assertDatabaseHas('posts', $post);
@@ -116,10 +115,10 @@ class StoreTest extends TestCase
         //создание пользователя и присвоение ему роли
         $role = Role::create(
             [
-                'title'=>'Admin',
-                'discription'=>'Creator of this site',
-                'created_at'=>null,
-                'updated_at'=>null
+                'title' => 'Admin',
+                'discription' => 'Creator of this site',
+                'created_at' => null,
+                'updated_at' => null,
             ]
         );
         $user = User::factory()->create();
@@ -135,15 +134,15 @@ class StoreTest extends TestCase
             'imgs' => [
                 $image,
                 $image2,
-            ]
+            ],
         ];
-        
+
         $response = $this->actingAs($user)->post('/api/posts2', $post);
-        
+
         $response->assertStatus(422);
         $response->assertJsonFragment(
             [
-                "message"=>"The imgs field must contain 1 items."
+                'message' => 'The imgs field must contain 1 items.',
             ]
         );
         $this->assertDatabaseCount('media', 0);
@@ -155,10 +154,10 @@ class StoreTest extends TestCase
         //создание пользователя и присвоение ему роли
         $role = Role::create(
             [
-                'title'=>'Admin',
-                'discription'=>'Creator of this site',
-                'created_at'=>null,
-                'updated_at'=>null
+                'title' => 'Admin',
+                'discription' => 'Creator of this site',
+                'created_at' => null,
+                'updated_at' => null,
             ]
         );
         $user = User::factory()->create();
@@ -167,15 +166,15 @@ class StoreTest extends TestCase
         $post = [
             'title' => 'some text',
             'body' => 'some text',
-            'imgs' => []
+            'imgs' => [],
         ];
-        
+
         $response = $this->actingAs($user)->post('/api/posts2', $post);
-        
+
         $response->assertStatus(422);
         $response->assertJsonFragment(
             [
-                "message"=>"The imgs field must contain 1 items."
+                'message' => 'The imgs field must contain 1 items.',
             ]
         );
         $this->assertDatabaseCount('media', 0);

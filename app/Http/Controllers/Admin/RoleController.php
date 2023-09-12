@@ -18,7 +18,7 @@ class RoleController extends Controller
         $this->authorize('viewAny', Role::class);
 
         $roles = Role::with(['users'])->get();
-        
+
         return RoleResource::collection($roles);
     }
 
@@ -31,7 +31,7 @@ class RoleController extends Controller
 
         $data = $request->validated();
         $role = Role::create($data);
-        
+
         return new RoleResource($role);
     }
 
@@ -43,6 +43,7 @@ class RoleController extends Controller
         $this->authorize('view', $role);
 
         $role = Role::with(['users'])->find($role->id);
+
         return new RoleResource($role);
     }
 
@@ -55,7 +56,7 @@ class RoleController extends Controller
 
         $data = $request->validated();
         $role->update($data);
-        
+
         return new RoleResource($role);
     }
 
@@ -70,13 +71,13 @@ class RoleController extends Controller
 
         return response()->noContent();
     }
-    
+
     public function forForm()
     {
         $this->authorize('viewAny', Role::class);
 
         $roles = Role::get();
-        
+
         return RoleResource::collection($roles);
     }
 }

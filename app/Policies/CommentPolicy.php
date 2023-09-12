@@ -4,7 +4,6 @@ namespace App\Policies;
 
 use App\Models\Comment;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
 class CommentPolicy
 {
@@ -29,24 +28,28 @@ class CommentPolicy
      */
     public function create(User $user): bool
     {
-        return !is_null($user);
+        return ! is_null($user);
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    // public function update(User $user, Comment $comment): bool
-    // {
-    //     //
-    // }
+    public function update(User $user, Comment $comment): bool
+    {
+        $roles = $user->roles->pluck('title')->toArray();
+
+        return in_array('Admin', $roles) || (int) $user->id === (int) $comment->user_id;
+    }
 
     /**
      * Determine whether the user can delete the model.
      */
-    // public function delete(User $user, Comment $comment): bool
-    // {
-    //     //
-    // }
+    public function delete(User $user, Comment $comment): bool
+    {
+        $roles = $user->roles->pluck('title')->toArray();
+
+        return in_array('Admin', $roles);
+    }
 
     /**
      * Determine whether the user can restore the model.
@@ -63,10 +66,11 @@ class CommentPolicy
     // {
     //     //
     // }
-    
+
     public function createRandom(User $user): bool
     {
         $roles = $user->roles->pluck('title')->toArray();
+
         return in_array('Admin', $roles);
     }
 }

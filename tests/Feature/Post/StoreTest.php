@@ -5,7 +5,6 @@ namespace Tests\Feature\Post;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class StoreTest extends TestCase
@@ -27,10 +26,10 @@ class StoreTest extends TestCase
         //создание пользователя и присвоение ему роли
         $role = Role::create(
             [
-                'title'=>'Admin',
-                'discription'=>'Creator of this site',
-                'created_at'=>null,
-                'updated_at'=>null
+                'title' => 'Admin',
+                'discription' => 'Creator of this site',
+                'created_at' => null,
+                'updated_at' => null,
             ]
         );
         $user = User::factory()->create();
@@ -42,12 +41,12 @@ class StoreTest extends TestCase
 
         //тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->post('/api/posts2', $post);
-        
+
         $response
             ->assertStatus(422)
             ->assertInvalid('title')
             ->assertJsonValidationErrors([
-                'title' => 'The title field is required.'
+                'title' => 'The title field is required.',
             ]);
     }
 
@@ -56,10 +55,10 @@ class StoreTest extends TestCase
         //создание пользователя и присвоение ему роли
         $role = Role::create(
             [
-                'title'=>'Admin',
-                'discription'=>'Creator of this site',
-                'created_at'=>null,
-                'updated_at'=>null
+                'title' => 'Admin',
+                'discription' => 'Creator of this site',
+                'created_at' => null,
+                'updated_at' => null,
             ]
         );
         $user = User::factory()->create();
@@ -68,15 +67,15 @@ class StoreTest extends TestCase
         $post = [
             'title' => 'some text',
         ];
-        
+
         //тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->post('/api/posts2', $post);
-        
+
         $response
             ->assertStatus(422)
             ->assertInvalid('body')
             ->assertJsonValidationErrors([
-                'body' => 'The body field is required.'
+                'body' => 'The body field is required.',
             ]);
     }
 
@@ -87,11 +86,11 @@ class StoreTest extends TestCase
             'body' => 'some text',
         ];
         $response = $this->post('/api/posts2', $post);
-        
+
         $response->assertStatus(401);
         $response->assertJson(
             [
-                "message"=>"Unauthenticated."
+                'message' => 'Unauthenticated.',
             ]
         );
         $this->assertDatabaseCount('posts', 0);
@@ -103,10 +102,10 @@ class StoreTest extends TestCase
         //создание пользователя и присвоение ему роли
         $role = Role::create(
             [
-                'title'=>'Admin',
-                'discription'=>'Creator of this site',
-                'created_at'=>null,
-                'updated_at'=>null
+                'title' => 'Admin',
+                'discription' => 'Creator of this site',
+                'created_at' => null,
+                'updated_at' => null,
             ]
         );
         $user = User::factory()->create();
@@ -116,10 +115,10 @@ class StoreTest extends TestCase
             'title' => 'some text',
             'body' => 'some text',
         ];
-        
+
         //тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->post('/api/posts2', $post);
-        
+
         $response->assertStatus(201);
         $this->assertDatabaseCount('posts', 1);
         $this->assertDatabaseHas('posts', $post);
@@ -130,10 +129,10 @@ class StoreTest extends TestCase
         //создание пользователя и присвоение ему роли
         $role = Role::create(
             [
-                'title'=>'not_dmin',
-                'discription'=>'Creator of this site',
-                'created_at'=>null,
-                'updated_at'=>null
+                'title' => 'not_dmin',
+                'discription' => 'Creator of this site',
+                'created_at' => null,
+                'updated_at' => null,
             ]
         );
         $user = User::factory()->create();
@@ -143,14 +142,14 @@ class StoreTest extends TestCase
             'title' => 'some text',
             'body' => 'some text',
         ];
-        
+
         //тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->post('/api/posts2', $post);
-        
+
         $response->assertStatus(403);
         $response->assertJsonFragment(
             [
-                "message"=>"This action is unauthorized."
+                'message' => 'This action is unauthorized.',
             ]
         );
         $this->assertDatabaseCount('posts', 0);

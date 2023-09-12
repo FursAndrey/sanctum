@@ -4,18 +4,25 @@ namespace App\Http\Controllers;
 
 use App\Actions\Comment\createRandomCommentAction;
 use App\Http\Requests\Comment\StoreRequest;
+use App\Http\Requests\Comment\UpdateRequest;
 use App\Http\Resources\CommentResource;
 use App\Models\Comment;
-use Illuminate\Http\Request;
 
 class CommentController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(int $post)
+    public function index(int $post, int $comment)
     {
-        $comments = Comment::where('post_id', '=', $post)->orderBy('id', 'desc')->get();
+        $commentsQuery = Comment::where('post_id', '=', $post);
+        if ($comment == 0) {
+            $commentsQuery->whereNull('parent_id');
+        } else {
+            $commentsQuery->where('parent_id', '=', $comment);
+        }
+        $comments = $commentsQuery->orderBy('id', 'desc')->get();
+
         return CommentResource::collection($comments);
     }
 
@@ -30,7 +37,7 @@ class CommentController extends Controller
         $data['user_id'] = auth()->id();
 
         $comment = Comment::create($data);
-        
+
         return new CommentResource($comment);
     }
 
@@ -45,9 +52,14 @@ class CommentController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Comment $comment)
+    public function update(UpdateRequest $request, Comment $comment)
     {
-        //
+        $this->authorize('update', $comment);
+
+        $data = $request->validated();
+        $comment->update($data);
+
+        return new CommentResource($comment);
     }
 
     /**
@@ -55,13 +67,22 @@ class CommentController extends Controller
      */
     public function destroy(Comment $comment)
     {
-        //
+        $this->authorize('delete', $comment);
+
+        if ($comment->answers->count() == 0) {
+            $comment->delete();
+
+            return response()->noContent();
+        } else {
+            return response()->json(['status' => false, 'message' => 'Delete imposible. You have answers.']);
+        }
+
     }
 
     public function storeRandomComment()
     {
         $this->authorize('createRandom', Comment::class);
-        $randomComment = (new createRandomCommentAction)();
+        $randomComment = (new createRandomCommentAction())();
 
         return new CommentResource($randomComment);
     }

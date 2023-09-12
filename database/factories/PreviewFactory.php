@@ -19,7 +19,7 @@ class PreviewFactory extends Factory
     public function definition(): array
     {
         $posts = Post::factory(1)->create();
-        
+
         return [
             'path' => $this->faker->loremflickr('preview'),
             'post_id' => $posts->first()->id,

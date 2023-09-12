@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Actions\User;
 
 class prepareRolesBeforeSyncAction
@@ -10,6 +11,7 @@ class prepareRolesBeforeSyncAction
         foreach ($validated as $role) {
             $tmp[] = $role['id'];
         }
+
         return $tmp;
     }
 }

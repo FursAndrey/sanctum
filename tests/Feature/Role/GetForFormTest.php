@@ -5,7 +5,6 @@ namespace Tests\Feature\Role;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class GetForFormTest extends TestCase
@@ -21,7 +20,7 @@ class GetForFormTest extends TestCase
             ]
         );
     }
-    
+
     public function test_can_not_return_roles_for_unauthorised_user(): void
     {
         //тестируемый запрос от имени пользователя
@@ -30,7 +29,7 @@ class GetForFormTest extends TestCase
         $response->assertStatus(401);
         $response->assertJson(
             [
-                "message"=>"Unauthenticated."
+                'message' => 'Unauthenticated.',
             ]
         );
     }
@@ -40,10 +39,10 @@ class GetForFormTest extends TestCase
         //создание пользователя и присвоение ему роли
         $role = Role::create(
             [
-                'title'=>'not_admin',
-                'discription'=>'Creator of this site',
-                'created_at'=>null,
-                'updated_at'=>null
+                'title' => 'not_admin',
+                'discription' => 'Creator of this site',
+                'created_at' => null,
+                'updated_at' => null,
             ]
         );
         $user = User::factory()->create();
@@ -55,7 +54,7 @@ class GetForFormTest extends TestCase
         $response->assertStatus(403);
         $response->assertJsonFragment(
             [
-                "message"=>"This action is unauthorized."
+                'message' => 'This action is unauthorized.',
             ]
         );
     }
@@ -64,20 +63,20 @@ class GetForFormTest extends TestCase
     {
         $role_not_admin = Role::create(
             [
-                'title'=>'not_admin',
-                'discription'=>'Creator of this site',
-                'created_at'=>null,
-                'updated_at'=>null
+                'title' => 'not_admin',
+                'discription' => 'Creator of this site',
+                'created_at' => null,
+                'updated_at' => null,
             ]
         );
 
         //создание пользователя и присвоение ему роли
         $role = Role::create(
             [
-                'title'=>'Admin',
-                'discription'=>'Creator of this site',
-                'created_at'=>null,
-                'updated_at'=>null
+                'title' => 'Admin',
+                'discription' => 'Creator of this site',
+                'created_at' => null,
+                'updated_at' => null,
             ]
         );
         $user = User::factory()->create();
@@ -89,18 +88,18 @@ class GetForFormTest extends TestCase
         $response->assertStatus(200);
         $response->assertJson(
             [
-                'data'=>[
+                'data' => [
                     [
-                        "id" => $role_not_admin->id,
-                        "title" => $role_not_admin->title,
-                        "discription" => $role_not_admin->discription,
+                        'id' => $role_not_admin->id,
+                        'title' => $role_not_admin->title,
+                        'discription' => $role_not_admin->discription,
                     ],
                     [
-                        "id" => $role->id,
-                        "title" => $role->title,
-                        "discription" => $role->discription,
+                        'id' => $role->id,
+                        'title' => $role->title,
+                        'discription' => $role->discription,
                     ],
-                ]
+                ],
             ]
         );
     }

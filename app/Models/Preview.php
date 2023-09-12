@@ -9,21 +9,20 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Preview extends Model
 {
     use HasFactory;
-    
+
     protected $fillable = [
         'path',
         'post_id',
         'user_id',
     ];
 
-    public function getUrlAttribute():string
+    public function getUrlAttribute(): string
     {
-        return url('storage/' . $this->path);
+        return url('storage/'.$this->path);
     }
-    
-    public function post():BelongsTo
+
+    public function post(): BelongsTo
     {
         return $this->belongsTo(Post::class);
     }
-
 }
