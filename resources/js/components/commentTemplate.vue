@@ -14,16 +14,21 @@
             <div class="text-sm text-left text-slate-400">{{ comment.user }}</div>
             <div class="text-sm text-right text-slate-400">{{ comment.published }}</div>
             <div v-if="!isEdit">{{ comment.body }}</div>
-            <textarea v-if="(isOwner(comment.user) || isAdmin()) && isEdit" v-model="comment.body" placeholder="body of comment" class="w-full h-32 p-3 border-2 rounded-lg border-sky-500"></textarea>
+            <textarea 
+                v-if="(isOwner(comment.user) || isAdmin()) && (isEdit && idEdit == comment.id)" 
+                v-model="comment.body" 
+                placeholder="body of comment" 
+                class="w-full h-32 p-3 border-2 rounded-lg border-sky-500"
+                ></textarea>
             <div class="flex">
                 <div 
-                    v-if="(isOwner(comment.user) || isAdmin()) && isEdit"
+                    v-if="(isOwner(comment.user) || isAdmin()) && (isEdit && idEdit == comment.id)"
                     class="w-32 p-3 me-6 font-bold bg-green-700 hover:bg-green-900 text-white rounded-lg text-center cursor-pointer"
                     @click="changeComment(comment)">
                     Save
                 </div>
                 <div 
-                    v-if="isAdmin() && isEdit"
+                    v-if="isAdmin() && (isEdit && idEdit == comment.id)"
                     class="w-32 p-3 me-6 font-bold bg-orange-500 hover:bg-orange-700 text-white rounded-lg text-center cursor-pointer"
                     @click="toggleEditComment()">
                     Cancel
@@ -73,6 +78,7 @@ export default {
     setup(props, {emit}) {
         const isShow = ref(false);
         const isEdit = ref(false);
+        const idEdit = ref(0);
 
         const { isAuth, isAdmin, isOwner } = useInspector();
         const { comment, comments, errorMessage, getComments, storeComment, updateComment, destroyComment } = useComments();
@@ -137,8 +143,9 @@ export default {
         }
 
         const editComment = (comment) => {
-            if (isOwner(comment.user) === true) {
+            if (isOwner(comment.user) === true || isAdmin() === true) {
                 toggleEditComment();
+                idEdit.value = comment.id;
             }
         }
         
@@ -148,6 +155,7 @@ export default {
             errorMessage,
             isShow,
             isEdit,
+            idEdit,
             toggleComment,
             toggleEditComment,
             isAuth,
