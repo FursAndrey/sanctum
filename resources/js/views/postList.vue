@@ -10,6 +10,7 @@
                 >
                 <img class="mx-auto w-64 mb-3" v-if="post.preview" :src="post.preview.url_preview" :alt="post.title"/>
                 <div class="whitespace-nowrap pb-4 text-right text-sm text-gray-500">{{ post.published }}</div>
+                <comment-count-template>{{ post.commentCount }}</comment-count-template>
                 {{ post.title }}
             </router-link>
         </div>
@@ -21,9 +22,11 @@
 import { onMounted } from 'vue';
 import usePosts from '../composition/posts';
 import paginationTemplate from '../components/paginationTemplate.vue';
+import CommentCountTemplate from '../components/commentCountTemplate.vue';
 export default {
     components: { 
-        paginationTemplate
+        paginationTemplate,
+        CommentCountTemplate
     },
     name: 'postList',
     
