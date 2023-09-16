@@ -102,7 +102,7 @@ class DestroyTest extends TestCase
         );
         $this->assertDatabaseHas('posts', $oldPost);
     }
-    
+
     public function test_a_post_can_be_deleted_with_all_if_it_has_comments()
     {
         //создание пользователя и присвоение ему роли
@@ -116,7 +116,7 @@ class DestroyTest extends TestCase
         );
         $bot = User::factory()->create();
         $bot->roles()->sync($botRole->id);
-        
+
         $role = Role::create(
             [
                 'title' => 'Admin',
@@ -130,7 +130,7 @@ class DestroyTest extends TestCase
 
         $post = Post::factory(1)->create()->first();
         $comments = Comment::factory(3)->create();
-        
+
         $oldComments = $comments->map(function ($comment) {
             return [
                 'id' => $comment->id,
@@ -140,7 +140,7 @@ class DestroyTest extends TestCase
                 'parent_id' => 0,
             ];
         })->toArray();
-        
+
         $oldPost = [
             'title' => $post->title,
             'body' => $post->body,
