@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\TelegramController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\LikeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -31,6 +32,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::patch('/posts2/{post}', [PostController::class, 'update2'])->name('postUpdate2');
     Route::post('/preview', [PreviewController::class, 'store'])->name('store');
     Route::apiResource('/comments', CommentController::class)->only(['store', 'update', 'destroy']);
+    Route::post('/postLike/{post}', [LikeController::class, 'postToggleLike'])->name('postToggleLike');
 });
 Route::apiResource('/posts', PostController::class)->only(['index', 'show']);
 Route::get('/comments/{post}/{connemt}', [CommentController::class, 'index'])->name('commentsOfPost')->where(['post' => '[0-9]+', 'connemt' => '[0-9]+']);
