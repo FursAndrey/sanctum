@@ -3,6 +3,7 @@
         <h1 class="text-3xl font-bold text-center mb-6">{{ post.title }}</h1>
         <div class="text-sm text-right text-slate-400">{{ post.published }}</div>
         <div><img class="mb-3 mx-auto w-100" v-if="post.preview" :src="post.preview.url_original" :alt="post.title"/></div>
+        <post-like-template v-bind:is_liked="post.is_liked" v-bind:like_count="post.likeCount" v-bind:post_id="String(post.id)"></post-like-template>
         <div>{{ post.body }}</div>
         <router-link :to="{ name: 'postList'}" class="block w-48 p-2 font-bold bg-sky-700 text-white rounded-lg text-center mt-10">
             Return to post list
@@ -22,8 +23,12 @@
 import { onMounted } from 'vue';
 import usePosts from '../composition/posts';
 import commentTemplate from '../components/commentTemplate.vue';
+import PostLikeTemplate from '../components/postLikeTemplate.vue';
 export default {
-    components: { commentTemplate },
+    components: { 
+        commentTemplate, 
+        PostLikeTemplate 
+    },
     name: "postPage",
 
     props: {
@@ -36,8 +41,8 @@ export default {
     setup(props) {
         const { post, getPost } = usePosts();
         
-        const getCurrentPost = () => {
-            getPost(props.id);
+        const getCurrentPost = async () => {
+            await getPost(props.id);
         }
         
         const createdComment = async () => {
