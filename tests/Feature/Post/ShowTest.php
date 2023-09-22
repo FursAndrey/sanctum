@@ -35,6 +35,8 @@ class ShowTest extends TestCase
                     'body' => $post->body,
                     'published' => $post->published,
                     'commentCount' => 0,
+                    'likeCount' => 0,
+                    'is_liked' => false,
                     'preview' => null,
                 ],
             ]

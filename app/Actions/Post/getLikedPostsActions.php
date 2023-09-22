@@ -11,11 +11,15 @@ class getLikedPostsActions
     public function __invoke(LengthAwarePaginator $posts): LengthAwarePaginator
     {
         // DB::enableQueryLog();
-        $likedPosts = Like::where('user_id', '=', auth()->user()->id)
-            ->where('likeable_type', '=', 'App\Models\Post')
-            ->get('likeable_id')
-            ->pluck('likeable_id')
-            ->toArray();
+        if (is_null(auth()->user())) {
+            $likedPosts = [];
+        } else {
+            $likedPosts = Like::where('user_id', '=', auth()->user()->id)
+                ->where('likeable_type', '=', 'App\Models\Post')
+                ->get('likeable_id')
+                ->pluck('likeable_id')
+                ->toArray();
+        }
         // dump(DB::getQueryLog());
         $posts->getCollection()->transform(function ($post) use ($likedPosts) {
             if (in_array($post->id, $likedPosts)) {
