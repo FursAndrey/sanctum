@@ -24,9 +24,9 @@ class PostToggleTest extends TestCase
 
     public function test_post_can_not_lake_by_unauthorised_user()
     {
-        $post = Post::factory(1)->create()->first();
+        $postId = mt_rand(1, 10);
 
-        $response = $this->post('/api/postLike/'.$post->id);
+        $response = $this->post('/api/postLike/'.$postId);
 
         $response->assertStatus(401);
     }
