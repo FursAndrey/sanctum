@@ -33,6 +33,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::post('/preview', [PreviewController::class, 'store'])->name('store');
     Route::apiResource('/comments', CommentController::class)->only(['store', 'update', 'destroy']);
     Route::post('/postLike/{post}', [LikeController::class, 'postToggleLike'])->name('postToggleLike');
+    Route::post('/commentLike/{comment}', [LikeController::class, 'commentToggleLike'])->name('commentToggleLike');
 });
 Route::apiResource('/posts', PostController::class)->only(['index', 'show']);
 Route::get('/comments/{post}/{connemt}', [CommentController::class, 'index'])->name('commentsOfPost')->where(['post' => '[0-9]+', 'connemt' => '[0-9]+']);
