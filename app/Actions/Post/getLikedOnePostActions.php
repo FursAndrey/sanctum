@@ -20,7 +20,7 @@ class getLikedOnePostActions
                 ->first('likeable_id')
                 ?->likeable_id;
         }
-        
+
         // dump(DB::getQueryLog());
         $post->is_liked = $post->id == $likedPost;
 

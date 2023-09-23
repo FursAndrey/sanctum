@@ -47,7 +47,7 @@ class CommentToggleTest extends TestCase
         );
         $user = User::factory()->create();
         $user->roles()->sync($role->id);
-        
+
         $comments = Comment::factory(1)->create()->first();
 
         $response = $this->actingAs($user)->post('/api/commentLike/'.$comments->id);

@@ -38,7 +38,7 @@ class LikeController extends Controller
             ->where('likeable_id', '=', $comment->id)
             ->where('user_id', '=', auth()->user()->id)
             ->first();
-            
+
         if (is_null($like)) {
             $comment->likes()->create([
                 'user_id' => auth()->user()->id,

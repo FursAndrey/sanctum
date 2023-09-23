@@ -2,7 +2,6 @@
 
 namespace App\Actions\Post;
 
-use App\Models\Comment;
 use App\Models\Like;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
