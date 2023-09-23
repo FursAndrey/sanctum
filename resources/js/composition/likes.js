@@ -10,9 +10,17 @@ export default function useLikes() {
                 like.value = res.data;
             });
     }
+
+    const toggleCommentLike = async (comment) => {
+        await axios.post('/api/commentLike/'+comment)
+            .then(res => {
+                like.value = res.data;
+            });
+    }
     
     return {
         like,
         togglePostLike,
+        toggleCommentLike,
     }
 }
