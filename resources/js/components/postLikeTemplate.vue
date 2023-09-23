@@ -19,6 +19,7 @@
 
 <script>
 import useLikes from '../composition/likes';
+import useInspector from '../composition/inspector';
 import { ref, onMounted } from "vue";
 export default {
     name: 'postLikeTemplate',
@@ -43,13 +44,17 @@ export default {
         const isToggled = ref(false);
         const likesCount = ref(0);
         const { like, togglePostLike } = useLikes();
+        const { isAuth } = useInspector();
 
         const likeToggle = async () => {
-            await togglePostLike(props.post_id);
+            
+            if (isAuth === true) {
+                await togglePostLike(props.post_id);
 
-            isLiked.value = like.value.is_liked;
-            likesCount.value = like.value.likes_count;
-            isToggled.value = true;
+                isLiked.value = like.value.is_liked;
+                likesCount.value = like.value.likes_count;
+                isToggled.value = true;
+            }
         }
 
         const isLikedInit = () => {
