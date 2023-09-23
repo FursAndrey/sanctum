@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Actions\Post\createPostWithPreviewAction;
+use App\Actions\Post\getLikedOnePostActions;
+use App\Actions\Post\getLikedPostsActions;
 use App\Actions\Preview\cutImageIdAction;
 use App\Actions\Preview\destroyAllUnjoinedPreviewsAction;
 use App\Actions\Preview\destroyOnePreviewAction;
@@ -29,6 +31,7 @@ class PostController extends Controller
     public function index()
     {
         $posts = Post::orderBy('id', 'desc')->paginate(10);
+        $posts = (new getLikedPostsActions)($posts);
 
         return new PostCollection($posts);
     }
@@ -96,6 +99,8 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
+        $post = (new getLikedOnePostActions)($post);
+
         return new PostResource($post);
     }
 

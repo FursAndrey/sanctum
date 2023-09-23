@@ -45,6 +45,7 @@
                     @click="deletedComment(comment.id)">
                     Delete
                 </div>
+                <comment-like-template v-bind:is_liked="comment.is_liked" v-bind:like_count="comment.likeCount" v-bind:comment_id="comment.id"></comment-like-template>
             </div>
             <comment-template 
                 v-bind:post_id="String(this.post_id)" 
@@ -61,9 +62,13 @@
 <script>
 import useComments from '../composition/comments';
 import useInspector from '../composition/inspector';
+import commentLikeTemplate from '../components/commentLikeTemplate.vue';
 import { ref } from "vue";
 export default {
     name: 'commentTemplate',
+    components: { 
+        commentLikeTemplate,
+    },
     props: {
         post_id: {
             type: String,
