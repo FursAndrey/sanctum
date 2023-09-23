@@ -60,6 +60,8 @@ class IndexTest extends TestCase
                 'published' => $comment->published,
                 'user' => $user->name,
                 'answerCount' => 0,
+                'likeCount' => 0,
+                'is_liked' => false,
             ];
         })->toArray();
         $expectedJson = array_reverse($expectedJson);

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Actions\Comment\createRandomCommentAction;
+use App\Actions\Post\getLikedCommentsActions;
 use App\Http\Requests\Comment\StoreRequest;
 use App\Http\Requests\Comment\UpdateRequest;
 use App\Http\Resources\CommentResource;
@@ -22,6 +23,7 @@ class CommentController extends Controller
             $commentsQuery->where('parent_id', '=', $comment);
         }
         $comments = $commentsQuery->orderBy('id', 'desc')->get();
+        $comments = (new getLikedCommentsActions)($comments);
 
         return CommentResource::collection($comments);
     }
