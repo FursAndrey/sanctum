@@ -15,13 +15,13 @@
         </div>
 
         <div class="header-hamburger-menu">
-            <input id="header_menu__toggle" type="checkbox" />
+            <input id="header_menu__toggle" type="checkbox" v-model="headerHamburgerMenuIsOpen"/>
             <label class="menu__btn" for="header_menu__toggle">
                 <span></span>
             </label>
             <div class="menu-title">MENU</div>
 
-            <ul class="menu__box">
+            <ul class="menu__box" @click="headerHamburgerMenuClose">
                 <li class="p-2"><router-link :to="{ name: 'postList'}" class="menu__item">Post list</router-link></li>
                 <li class="p-2"><router-link :to="{ name: 'about'}" class="menu__item">About</router-link></li>
                 <li v-if="!token" class="p-2"><router-link :to="{ name: 'login'}" class="menu__item">Login</router-link></li>
@@ -52,7 +52,8 @@ export default {
     data() {
         return {
             token: null,
-            currentUserForMenu: ''
+            currentUserForMenu: '',
+            headerHamburgerMenuIsOpen: false
         }
     },
 
@@ -105,6 +106,10 @@ export default {
                     this.$router.push({name: 'login'});
                 })
         },
+
+        headerHamburgerMenuClose() {
+            this.headerHamburgerMenuIsOpen = false;
+        }
     },
 
     setup() {
@@ -165,11 +170,14 @@ div.admin-menu,
 }
 
 @media (max-width: 750px) {
-    .admin-hamburger-menu > input, .admin-hamburger-menu > label,
+    
+    .admin-hamburger-menu, .admin-hamburger-menu > input, .admin-hamburger-menu > label {
+        display: none;
+    }
     .header-hamburger-menu > input, .header-hamburger-menu > label, .menu-title {
         display: block;
     }
-    .admin-hamburger-menu, .header-hamburger-menu {
+    .header-hamburger-menu {
         position: relative;
         height: 40px;
     }
