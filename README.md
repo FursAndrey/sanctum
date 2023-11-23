@@ -1,66 +1,68 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
-
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
-
-## About Laravel
-
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
-
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
-
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
-
-## Learning Laravel
-
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
-
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
-
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+<h2>Учебный проект</h2>
+<p>Это учебный проект. Он создан исключительно для изучения веб-разработки.</p>
+<p>Развернуть проект можно следующим способом:</p>
+<ul>
+    <li>клонировать с гитхаба: <i>git clone https://github.com/FursAndrey/sanctum.git</i></li>
+    <li>загрузить Laravel: <i>composer install</i></li>
+    <li>копировать .env.example в .env: <i>cp .env.example .env</i></li>
+    <li>копировать config/telegram.example в config/telegram.php: <i>cp telegram.example telegram.php</i></li>
+    <li>создать новый ключ для проекта команда: <i>php artisan key:generate</i></li>
+    <li>создаю базу данных для проекта</li>
+    <li>открать .env для редактирования командой: <i>vi .env</i></li>
+    <li>в файле .env настроить подключение к базу данных</li>
+    <li>в файле .env настроить подключение к telegram-боту (ключ бота и канал группы)</li>
+    <li>для сохранения изменений нажать: ESC, затем ввести: :wq</li>
+    <li>для проверки что изменения сохранены, ввести: cat .env</li>
+    <li>создать таблицы и запустить минграции: <i>php artisan migrate --seed</i></li>
+    <li>создать симлинк на папку storage: <i>php artisan storage:link</i></li>
+    <li>в router/index.js history: createWebHistory(import.meta.env.BASE_URL) заменить на history: createWebHistory()</li>
+    <li>загрузить в папку public JS файлы для VUE.JS</li>
+    <li>сделать симлинки на index.php build storage: ln -s `адрес файла на который нужно сослаться` `имя файла-ссылки`</li>
+    <li>создать пользователя (можно через интерфейс)</li>
+    <li>дать пользователю роль "администратор" через тинкер или напрямую в БД</li>
+</ul>
+<h3>Описание функционала проекта</h3>
+<ol>
+    <li>
+        <span>Для не авторизованных пользователей и пользователей, не иеющих роли "администратор", доступны:</span>
+        <ol>
+            <li>форма для авторизации</li>
+            <li>форма для регистрации</li>
+            <li>просмотр списка постов</li>
+            <li>просмотр страницы поста</li>
+            <li>просмотр списка коментариев к каждому посту</li>
+            <li>просмотр количества лайков к каждому посту или коментарию</li>
+            <li>просмотр статичной страницы</li>
+            <li>просмотр своего профиля</li>
+        </ol>
+    </li>
+    <li>
+        <span>Для авторизованных пользователей, не иеющих роли "администратор", доступны также:</span>
+        <ol>
+            <li>просмотр своего профиля</li>
+            <li>добавление коментария</li>
+            <li>добавление ответа на коментарий</li>
+            <li>редактирование собственного коментария</li>
+            <li>редактирование собственного ответа на коментарий</li>
+            <li>возможность поставить лайк посту или коментарию</li>
+        </ol>
+    </li>
+    <li>
+        <span>Для пользователей, иеющих роль "администратор", доступны:</span>
+        <ol>
+            <li>CRUD для постов</li>
+            <li>CRUD для ролей</li>
+            <li>удаление пользователей и назначение им ролей</li>
+            <li>редактирование и удаление любых коментариев и ответов на коментарии</li>
+        </ol>
+    </li>
+    <li>
+        <span>Телеграм-бот:</span>
+        <ol>
+            <li>Генерация 1 случайного поста</li>
+            <li>Генерация 1 случайного коментария к случайному посту</li>
+            <li>Отправка в группу уведомления о публикации нового поста со ссылкой на этот пост</li>
+            <li>Отправка в группу уведомления о публикации нового коментария к посту со ссылкой на этот пост</li>
+        </ol>
+    </li>
+</ol>
