@@ -17,7 +17,7 @@
     <li>создать симлинк на папку storage: <i>php artisan storage:link</i></li>
     <li>в router/index.js history: createWebHistory(import.meta.env.BASE_URL) заменить на history: createWebHistory()</li>
     <li>загрузить в папку public JS файлы для VUE.JS</li>
-    <li>сделать симлинки на index.php build storage: ln -s `адрес файла на который нужно состаться` `имя файла-ссылки`</li>
+    <li>сделать симлинки на index.php build storage: ln -s `адрес файла на который нужно сослаться` `имя файла-ссылки`</li>
     <li>создать пользователя (можно через интерфейс)</li>
     <li>дать пользователю роль "администратор" через тинкер или напрямую в БД</li>
 </ul>
