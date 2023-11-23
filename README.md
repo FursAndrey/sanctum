@@ -1,19 +1,20 @@
 <h2>Учебный проект</h2>
+<p>Это учебный проект. Он создан исключительно для изучения веб-разработки.</p>
 <p>Развернуть проект можно следующим способом:</p>
 <ul>
-    <li>клонировать с гитхаба: git clone https://github.com/FursAndrey/sanctum.git</li>
-    <li>загрузить Laravel: composer install</li>
-    <li>копировать .env.example в .env: cp .env.example .env</li>
-    <li>копировать config/telegram.example в config/telegram.php: cp telegram.example telegram.php</li>
-    <li>создать новый ключ для проекта команда: php artisan key:generate</li>
+    <li>клонировать с гитхаба: <i>git clone https://github.com/FursAndrey/sanctum.git</i></li>
+    <li>загрузить Laravel: <i>composer install</i></li>
+    <li>копировать .env.example в .env: <i>cp .env.example .env</i></li>
+    <li>копировать config/telegram.example в config/telegram.php: <i>cp telegram.example telegram.php</i></li>
+    <li>создать новый ключ для проекта команда: <i>php artisan key:generate</i></li>
     <li>создаю базу данных для проекта</li>
-    <li>открать .env для редактирования командой: vi .env</li>
+    <li>открать .env для редактирования командой: <i>vi .env</i></li>
     <li>в файле .env настроить подключение к базу данных</li>
     <li>в файле .env настроить подключение к telegram-боту (ключ бота и канал группы)</li>
     <li>для сохранения изменений нажать: ESC, затем ввести: :wq</li>
     <li>для проверки что изменения сохранены, ввести: cat .env</li>
-    <li>создать таблицы и запустить минграции: php artisan migrate --seed</li>
-    <li>создать симлинк на папку storage: php artisan storage:link</li>
+    <li>создать таблицы и запустить минграции: <i>php artisan migrate --seed</i></li>
+    <li>создать симлинк на папку storage: <i>php artisan storage:link</i></li>
     <li>в router/index.js history: createWebHistory(import.meta.env.BASE_URL) заменить на history: createWebHistory()</li>
     <li>загрузить в папку public JS файлы для VUE.JS</li>
     <li>сделать симлинки на index.php build storage: ln -s `адрес файла на который нужно состаться` `имя файла-ссылки`</li>
