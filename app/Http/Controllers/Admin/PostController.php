@@ -30,7 +30,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::orderBy('id', 'desc')->paginate(10);
+        $posts = Post::orderBy('id', 'desc')->with(['comments','likes'])->paginate(10);
         $posts = (new getLikedPostsActions)($posts);
 
         return new PostCollection($posts);
