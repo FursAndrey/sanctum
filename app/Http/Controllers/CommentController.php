@@ -22,7 +22,7 @@ class CommentController extends Controller
         } else {
             $commentsQuery->where('parent_id', '=', $comment);
         }
-        $comments = $commentsQuery->orderBy('id', 'desc')->with(['user','likes','answers'])->get();
+        $comments = $commentsQuery->orderBy('id', 'desc')->with(['user', 'likes', 'answers'])->get();
         $comments = (new getLikedCommentsActions)($comments);
 
         return CommentResource::collection($comments);
