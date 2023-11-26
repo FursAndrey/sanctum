@@ -21,6 +21,36 @@ class DestroyTest extends TestCase
         );
     }
 
+    public function test_a_role_has_a_user_and_can_be_deleted_by_admin_user()
+    {
+        //создание пользователя и присвоение ему роли
+        $role = Role::create(
+            [
+                'title' => 'Admin',
+                'discription' => 'Creator of this site',
+                'created_at' => null,
+                'updated_at' => null,
+            ]
+        );
+        $user = User::factory()->create();
+        $user->roles()->sync($role->id);
+
+        $deletedRole = [
+            'title' => 'some text',
+            'discription' => 'Creator of this site',
+        ];
+        $delRole = Role::create($deletedRole);
+
+        $anotherUser = User::factory()->create();
+        $anotherUser->roles()->sync($delRole->id);
+
+        //тестируемый запрос от имени пользователя
+        $response = $this->actingAs($user)->delete('/api/roles/'.$delRole->id);
+
+        $response->assertStatus(204);
+        $this->assertDatabaseMissing('roles', $deletedRole);
+    }
+
     public function test_a_role_can_be_deleted_by_admin_user()
     {
         //создание пользователя и присвоение ему роли
@@ -35,17 +65,17 @@ class DestroyTest extends TestCase
         $user = User::factory()->create();
         $user->roles()->sync($role->id);
 
-        $oldRoleArray = [
+        $deletedRole = [
             'title' => 'some text',
             'discription' => 'Creator of this site',
         ];
-        $oldRole = Role::create($oldRoleArray);
+        $delRole = Role::create($deletedRole);
 
         //тестируемый запрос от имени пользователя
-        $response = $this->actingAs($user)->delete('/api/roles/'.$oldRole->id);
+        $response = $this->actingAs($user)->delete('/api/roles/'.$delRole->id);
 
         $response->assertStatus(204);
-        $this->assertDatabaseMissing('roles', $oldRoleArray);
+        $this->assertDatabaseMissing('roles', $deletedRole);
     }
 
     public function test_a_role_can_not_be_deleted_by_not_admin_user()
@@ -62,14 +92,14 @@ class DestroyTest extends TestCase
         $user = User::factory()->create();
         $user->roles()->sync($role->id);
 
-        $oldRoleArray = [
+        $deletedRole = [
             'title' => 'some text',
             'discription' => 'Creator of this site',
         ];
-        $oldRole = Role::create($oldRoleArray);
+        $delRole = Role::create($deletedRole);
 
         //тестируемый запрос от имени пользователя
-        $response = $this->actingAs($user)->delete('/api/roles/'.$oldRole->id);
+        $response = $this->actingAs($user)->delete('/api/roles/'.$delRole->id);
 
         $response->assertStatus(403);
         $response->assertJsonFragment(
@@ -77,19 +107,19 @@ class DestroyTest extends TestCase
                 'message' => 'This action is unauthorized.',
             ]
         );
-        $this->assertDatabaseHas('roles', $oldRoleArray);
+        $this->assertDatabaseHas('roles', $deletedRole);
     }
 
     public function test_a_role_can_not_be_deleted_by_unauthorised_user()
     {
-        $oldRoleArray = [
+        $deletedRole = [
             'title' => 'some text',
             'discription' => 'Creator of this site',
         ];
-        $oldRole = Role::create($oldRoleArray);
+        $delRole = Role::create($deletedRole);
 
         //тестируемый запрос от имени пользователя
-        $response = $this->delete('/api/roles/'.$oldRole->id);
+        $response = $this->delete('/api/roles/'.$delRole->id);
 
         $response->assertStatus(401);
         $response->assertJson(
@@ -97,6 +127,6 @@ class DestroyTest extends TestCase
                 'message' => 'Unauthenticated.',
             ]
         );
-        $this->assertDatabaseHas('roles', $oldRoleArray);
+        $this->assertDatabaseHas('roles', $deletedRole);
     }
 }
