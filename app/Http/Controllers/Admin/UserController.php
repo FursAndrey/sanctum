@@ -72,7 +72,7 @@ class UserController extends Controller
     {
         $this->authorize('delete', $user);
 
-        $user->roles()->sync([]);
+        $user->roles()->detach();
         $user->delete();
 
         return response()->noContent();
