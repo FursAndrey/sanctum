@@ -26,7 +26,6 @@ class MyDebug extends Command
      */
     public function handle(): void
     {
-        TestJob::dispatch()->onQueue('test_job');
         echo 'Hello World!';
     }
 }
