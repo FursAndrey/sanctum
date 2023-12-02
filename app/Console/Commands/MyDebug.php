@@ -2,7 +2,6 @@
 
 namespace App\Console\Commands;
 
-use App\Jobs\TestJob;
 use Illuminate\Console\Command;
 
 class MyDebug extends Command

@@ -17,6 +17,11 @@ export default function useUsers() {
         let response = await axios.get('/api/users');
         users.value = response.data.data;
     }
+
+    const getUsersForChats = async () => {
+        let response = await axios.get('/api/users/forChat');
+        users.value = response.data.data;
+    }
     
     const updateUser = async (id) => {
         errorMessage.value = '';
@@ -49,6 +54,7 @@ export default function useUsers() {
         errorMessage,
         getUser,
         getUsers,
+        getUsersForChats,
         updateUser,
         destroyUser,
         storeRandomUser

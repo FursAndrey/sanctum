@@ -7,7 +7,8 @@ use App\Actions\User\prepareRolesBeforeSyncAction;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\UpdateRequest;
 use App\Http\Resources\CurrentUserForMenuResource;
-use App\Http\Resources\UserResource;
+use App\Http\Resources\User\UserForChatResource;
+use App\Http\Resources\User\UserResource;
 use App\Models\User;
 
 class UserController extends Controller
@@ -89,5 +90,14 @@ class UserController extends Controller
         $randomUser = (new createRandomUserAction())();
 
         return new UserResource($randomUser);
+    }
+
+    public function getUsersForChat()
+    {
+        $this->authorize('viewAnyForChat', User::class);
+
+        $users = User::where('id', '!=', auth()->id())->get();
+
+        return UserForChatResource::collection($users);
     }
 }
