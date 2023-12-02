@@ -23,6 +23,7 @@
 
             <ul class="menu__box" @click="headerHamburgerMenuClose">
                 <li class="p-2"><router-link :to="{ name: 'postList'}" class="menu__item">Post list</router-link></li>
+                <li v-if="token" class="p-2"><router-link :to="{ name: 'chats'}" class="menu__item">Chats</router-link></li>
                 <li class="p-2"><router-link :to="{ name: 'about'}" class="menu__item">About</router-link></li>
                 <li v-if="!token" class="p-2"><router-link :to="{ name: 'login'}" class="menu__item">Login</router-link></li>
                 <li v-if="!token" class="p-2"><router-link :to="{ name: 'registration'}" class="menu__item">Registration</router-link></li>
@@ -76,8 +77,8 @@ export default {
                     this.getToken();
 
                     const fullPath = to.fullPath;
-                    //если не авторизованый пользователь лезет в админку или в профиль - отправить на страницу логина
-                    if (fullPath.indexOf('admin/') != -1 || fullPath.indexOf('profile/') != -1) {
+                    //если не авторизованый пользователь лезет в админку, в профиль или чаты - отправить на страницу логина
+                    if (fullPath.indexOf('admin/') != -1 || fullPath.indexOf('profile/') != -1 || fullPath.indexOf('chats') != -1) {
                         if (!this.token) {
                             this.$router.push({name: 'login'})
                         }
