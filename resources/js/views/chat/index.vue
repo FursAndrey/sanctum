@@ -19,7 +19,7 @@
                             <span>
                                 {{ user.name }}
                             </span>
-                            <span class="px-3 py-2 bg-violet-800 text-white rounded-lg cursor-pointer">
+                            <span @click="createPersonalChat(user.id)" class="px-3 py-2 bg-violet-800 text-white rounded-lg cursor-pointer">
                                 Create chat
                             </span>
                         </div>
@@ -33,16 +33,23 @@
 <script>
 import { onMounted } from 'vue';
 import useUsers from '../../composition/users.js';
+import useChats from '../../composition/chats';
 export default {
     name: 'index',
     
     setup() {
         const { users, getUsersForChats } = useUsers();
+        const { errorMessage, storeChat } = useChats();
         
         onMounted(getUsersForChats);
 
+        const createPersonalChat = async (targetUserId) => {
+            await storeChat({ title: null, users: [targetUserId] });
+        }
+
         return {
-            users
+            users,
+            createPersonalChat
         }
     }
 }
