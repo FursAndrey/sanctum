@@ -4,7 +4,7 @@ import { useRouter } from "vue-router";
 
 export default function useChats() {
     // const chat = ref([]);
-    // const chats = ref([]);
+    const chats = ref([]);
     const errorMessage = ref('');
     // const router = useRouter();
     
@@ -13,10 +13,10 @@ export default function useChats() {
     //     chat.value = response.data.data;
     // }
 
-    // const getChats = async () => {
-    //     let response = await axios.get('/api/chats');
-    //     chats.value = response.data.data;
-    // }
+    const getChats = async () => {
+        let response = await axios.get('/api/chats');
+        chats.value = response.data;
+    }
 
     const storeChat = async (data) => {
         errorMessage.value = '';
@@ -46,10 +46,10 @@ export default function useChats() {
     
     return {
         // chat,
-        // chats,
+        chats,
         errorMessage,
         // getChat,
-        // getChats,
+        getChats,
         storeChat,
         // updateChat,
         // destroyChat

@@ -6,6 +6,32 @@
                 <h3 class="font-semibold text-lg mb-6 mx-auto w-20">
                     Chat list.
                 </h3>
+                <div v-if="chats">
+                    <div v-for="chat in chats" :key="chat.id" class="mb-2 pb-2 border-b border-gray-300 w-full">
+                        <router-link :to="{ name: 'about'}">
+                            <div class="flex justify-between w-full mb-2">
+                                <div>
+                                    <span>
+                                        {{ chat.id }}
+                                    </span>
+                                    <span class="ml-4 font-semibold">
+                                        {{ chat.title ?? 'Your chat' }}
+                                    </span>
+                                </div>
+                                <div v-if="chat.unreadable_messages_count > 0" class="px-2 py-1 bg-green-500 rounded-full text-white text-xs">
+                                    {{ chat.unreadable_messages_count }}
+                                </div>
+                            </div>
+                            <div v-if="chat.unreadable_messages_count > 0" :class="['ml-10 w-11/12 text-zinc-500 p-2', chat.unreadable_messages_count > 0 ? 'bg-gray-100' : '']">
+                                <div class="flex justify-between w-full">
+                                    <div class="text-xs w-max">{{ chat.last_message.user_name }}</div>
+                                    <div class="text-xs italic w-max">{{ chat.last_message.time }}</div>
+                                </div>
+                                <div>{{ chat.last_message.body }}</div>
+                            </div>
+                        </router-link>
+                    </div>
+                </div>
             </div>
             <div class="w-2/4 p-4 ml-2 bg-indigo-950 rounded-lg h-fit">
                 <div class="mb-6 mx-auto flex items-center justify-between">
@@ -39,9 +65,10 @@ export default {
     
     setup() {
         const { users, getUsersForChats } = useUsers();
-        const { errorMessage, storeChat } = useChats();
+        const { errorMessage, chats, storeChat, getChats } = useChats();
         
         onMounted(getUsersForChats);
+        onMounted(getChats);
 
         const createPersonalChat = async (targetUserId) => {
             await storeChat({ title: null, users: [targetUserId] });
@@ -49,6 +76,7 @@ export default {
 
         return {
             users,
+            chats,
             createPersonalChat
         }
     }
