@@ -15,7 +15,15 @@ class ChatController extends Controller
      */
     public function index()
     {
-        //
+        $chats = auth()->user()
+            ->chats()
+            ->has('messages')
+            ->with(['lastMessage', 'chatWith'])
+            ->withCount('unreadableMessages')
+            ->get();
+        $chats = ChatResource::collection($chats)->resolve();
+
+        return $chats;
     }
 
     /**
