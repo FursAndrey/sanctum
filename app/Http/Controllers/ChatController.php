@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Chat\StoreRequest;
 use App\Http\Resources\Chat\ChatResource;
+use App\Http\Resources\Chat\CurrentChatResource;
 use App\Models\Chat;
 use Exception;
 use Illuminate\Support\Facades\DB;
@@ -70,7 +71,7 @@ class ChatController extends Controller
      */
     public function show(Chat $chat)
     {
-        //
+        return CurrentChatResource::make($chat)->resolve();
     }
 
     /**
