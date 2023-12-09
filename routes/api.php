@@ -23,7 +23,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::post('/users/storeRandomUser', [UserController::class, 'storeRandomUser'])->name('storeRandomUser');
-    Route::get('/users/forChat', [UserController::class, 'getUsersForChat'])->name('getUsersForChat');
+    Route::get('/users/exceptMe', [UserController::class, 'getUsersExceptMe'])->name('getUsersExceptMe');
     Route::post('/posts/storeRandomPost', [PostController::class, 'storeRandomPost'])->name('storeRandomPost');
     Route::post('/comments/storeRandomComment', [CommentController::class, 'storeRandomComment'])->name('storeRandomComment');
     Route::apiResource('/users', UserController::class)->only(['index', 'show', 'update', 'destroy']);

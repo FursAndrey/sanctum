@@ -7,7 +7,7 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class IndexForChatTest extends TestCase
+class IndexExceptMeTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -24,7 +24,7 @@ class IndexForChatTest extends TestCase
     public function test_can_not_return_users_for_chat_for_unauthorised_user(): void
     {
         //тестируемый запрос от имени пользователя
-        $response = $this->get('/api/users/forChat');
+        $response = $this->get('/api/users/exceptMe');
 
         $response->assertStatus(401);
         $response->assertJson(
@@ -58,7 +58,7 @@ class IndexForChatTest extends TestCase
         })->toArray();
 
         //тестируемый запрос от имени пользователя
-        $response = $this->actingAs($user)->get('/api/users/forChat');
+        $response = $this->actingAs($user)->get('/api/users/exceptMe');
 
         $response->assertStatus(200);
         $response->assertJson(

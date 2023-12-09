@@ -7,7 +7,7 @@ use App\Actions\User\prepareRolesBeforeSyncAction;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\UpdateRequest;
 use App\Http\Resources\CurrentUserForMenuResource;
-use App\Http\Resources\User\UserForChatResource;
+use App\Http\Resources\User\UserExceptMeResource;
 use App\Http\Resources\User\UserResource;
 use App\Models\User;
 
@@ -92,12 +92,12 @@ class UserController extends Controller
         return new UserResource($randomUser);
     }
 
-    public function getUsersForChat()
+    public function getUsersExceptMe()
     {
-        $this->authorize('viewAnyForChat', User::class);
+        $this->authorize('viewAnyExceptMe', User::class);
 
         $users = User::where('id', '!=', auth()->id())->get();
 
-        return UserForChatResource::collection($users);
+        return UserExceptMeResource::collection($users);
     }
 }

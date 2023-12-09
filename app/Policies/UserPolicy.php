@@ -16,7 +16,7 @@ class UserPolicy
         return in_array('Admin', $roles);
     }
 
-    public function viewAnyForChat(User $user): bool
+    public function viewAnyExceptMe(User $user): bool
     {
         return true;
     }

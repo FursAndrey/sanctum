@@ -64,10 +64,10 @@ export default {
     name: 'index',
     
     setup() {
-        const { users, getUsersForChats } = useUsers();
+        const { users, getUsersExceptMe } = useUsers();
         const { errorMessage, chats, storeChat, getChats } = useChats();
         
-        onMounted(getUsersForChats);
+        onMounted(getUsersExceptMe);
         onMounted(getChats);
 
         const createPersonalChat = async (targetUserId) => {
