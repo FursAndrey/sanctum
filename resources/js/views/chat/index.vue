@@ -8,7 +8,7 @@
                 </h3>
                 <div v-if="chats">
                     <div v-for="chat in chats" :key="chat.id" class="mb-2 pb-2 border-b border-gray-300 w-full">
-                        <router-link :to="{ name: 'about'}">
+                        <router-link :to="{ name: 'chats.show', params:{ id: String(chat.id) }}">
                             <div class="flex justify-between w-full mb-2">
                                 <div>
                                     <span>

@@ -3,15 +3,15 @@ import axios from "axios";
 import { useRouter } from "vue-router";
 
 export default function useChats() {
-    // const chat = ref([]);
+    const chat = ref([]);
     const chats = ref([]);
     const errorMessage = ref('');
-    // const router = useRouter();
+    const router = useRouter();
     
-    // const getChat = async (id) => {
-    //     let response = await axios.get('/api/chats/' + id);
-    //     chat.value = response.data.data;
-    // }
+    const getChat = async (id) => {
+        let response = await axios.get('/api/chats/' + id);
+        chat.value = response.data;
+    }
 
     const getChats = async () => {
         let response = await axios.get('/api/chats');
@@ -22,8 +22,10 @@ export default function useChats() {
         errorMessage.value = '';
 
         try {
-            await axios.post('/api/chats', data);
-            // await router.push({ name: 'chat.index' });
+            await axios.post('/api/chats', data)
+            .then(chat => {
+                router.push({ name: 'chats.show', params:{ id: String(chat.data.id) } });
+            });
         } catch(e) {
             errorMessage.value = e.response.data.message;
         }
@@ -45,10 +47,10 @@ export default function useChats() {
     // }
     
     return {
-        // chat,
+        chat,
         chats,
         errorMessage,
-        // getChat,
+        getChat,
         getChats,
         storeChat,
         // updateChat,
