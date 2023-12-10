@@ -41,6 +41,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 
     Route::group(['middleware' => 'isMyChat'], function () {
         Route::apiResource('/chats', ChatController::class)->only(['show']);
+        Route::get('/messages/{chat}', [MessageController::class, 'index'])->name('indexMessages')->where(['chat' => '[0-9]+']);
         Route::post('/messages/{chat}', [MessageController::class, 'store'])->name('storeMessages')->where(['chat' => '[0-9]+']);
     });
 });

@@ -11,6 +11,28 @@ use App\Models\Message;
 class MessageController extends Controller
 {
     /**
+     * Display a listing of the resource.
+     */
+    public function index(Chat $chat)
+    {
+        $page = request('page') ?? 1;
+
+        $messages = $chat->messages()
+            ->with('user')
+            ->orderBy('id', 'DESC')
+            ->paginate(5, '*', 'page', $page);
+
+        $lastPage = $messages->LastPage();
+
+        $messages = MessageResource::collection($messages)->resolve();
+
+        return response()->json([
+            'messages' => $messages,
+            'lastPage' => $lastPage,
+        ]);
+    }
+
+    /**
      * Store a newly created resource in storage.
      */
     public function store(StoreRequest $request, Chat $chat)

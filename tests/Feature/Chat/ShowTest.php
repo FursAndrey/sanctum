@@ -96,14 +96,14 @@ class ShowTest extends TestCase
             'id' => $createdChat->id,
             'title' => 'With '.$user2->name,
             'users' => $user1->id.'-'.$user2->id,
-            'messages' => [],
         ];
 
         //тестируемый запрос от имени пользователя
         $response = $this->actingAs($user1)->get('/api/chats/'.$createdChat->id);
 
         $response->assertStatus(200);
-        $response->assertJsonFragment($expectedJson);
+        //точное соответствие
+        $response->assertExactJson($expectedJson);
     }
 
     public function test_can_return_chat_by_id_for_owher_user_with_messages()
@@ -137,30 +137,13 @@ class ShowTest extends TestCase
             'id' => $createdChat->id,
             'title' => 'With '.$user2->name,
             'users' => $user1->id.'-'.$user2->id,
-            'messages' => [
-                [
-                    'id' => $message1->id,
-                    'body' => $message1->body,
-                    'chat_id' => $message1->chat_id,
-                    'user_name' => $message1->user->name,
-                    'time' => $message1->created_at->format('d.m.Y H:i:s'),
-                    'is_owner' => true,
-                ],
-                [
-                    'id' => $message2->id,
-                    'body' => $message2->body,
-                    'chat_id' => $message2->chat_id,
-                    'user_name' => $message2->user->name,
-                    'time' => $message2->created_at->format('d.m.Y H:i:s'),
-                    'is_owner' => false,
-                ],
-            ],
         ];
 
         //тестируемый запрос от имени пользователя
         $response = $this->actingAs($user1)->get('/api/chats/'.$createdChat->id);
 
         $response->assertStatus(200);
-        $response->assertJsonFragment($expectedJson);
+        //точное соответствие
+        $response->assertExactJson($expectedJson);
     }
 }

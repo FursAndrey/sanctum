@@ -63,7 +63,7 @@ class ChatController extends Controller
             ]);
         }
 
-        return ChatResource::make($chat)->resolve();
+        return CurrentChatResource::make($chat)->resolve();
     }
 
     /**

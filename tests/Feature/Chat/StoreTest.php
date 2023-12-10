@@ -134,8 +134,6 @@ class StoreTest extends TestCase
         $expectedJson = [
             'title' => 'With '.$anotherUser->name,
             'users' => $user->id.'-'.$anotherUser->id,
-            'last_message' => null,
-            'unreadable_messages_count' => null,
         ];
 
         //тестируемый запрос от имени пользователя
