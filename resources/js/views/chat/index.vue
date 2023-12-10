@@ -22,7 +22,7 @@
                                     {{ chat.unreadable_messages_count }}
                                 </div>
                             </div>
-                            <div v-if="chat.unreadable_messages_count > 0" :class="['ml-10 w-11/12 text-zinc-500 p-2', chat.unreadable_messages_count > 0 ? 'bg-gray-100' : '']">
+                            <div v-if="chat.unreadable_messages_count > 0" :class="['ml-10 w-11/12 text-zinc-500 p-2 rounded-lg', chat.unreadable_messages_count > 0 ? 'bg-gray-100' : '']">
                                 <div class="flex justify-between w-full">
                                     <div class="text-xs w-max">{{ chat.last_message.user_name }}</div>
                                     <div class="text-xs italic w-max">{{ chat.last_message.time }}</div>
