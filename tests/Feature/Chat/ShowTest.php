@@ -5,6 +5,7 @@ namespace Tests\Feature\Chat;
 use App\Models\Chat;
 use App\Models\ChatUser;
 use App\Models\Message;
+use App\Models\MessageUser;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Str;
@@ -106,7 +107,7 @@ class ShowTest extends TestCase
         $response->assertExactJson($expectedJson);
     }
 
-    public function test_can_return_chat_by_id_for_owher_user_with_messages()
+    public function test_change_is_read_by_for_owher_user_after_open_chat()
     {
         //создание пользователей чатов
         $user1 = User::factory()->create();
@@ -122,16 +123,33 @@ class ShowTest extends TestCase
         ChatUser::create(['chat_id' => $createdChat->id, 'user_id' => $user2->id]);
 
         //создание сообщений для чатов
-        $message1 = Message::create([
-            'user_id' => $user1->id,
-            'chat_id' => $createdChat->id,
-            'body' => Str::random(30),
-        ]);
-        $message2 = Message::create([
+        $message = Message::create([
             'user_id' => $user2->id,
             'chat_id' => $createdChat->id,
             'body' => Str::random(30),
         ]);
+
+        $messageStatusForUser1 = [
+            'user_id' => $user1->id,
+            'chat_id' => $createdChat->id,
+            'message_id' => $message->id,
+        ];
+        MessageUser::create($messageStatusForUser1);
+
+        $unreadable = [
+            'user_id' => $user1->id,
+            'chat_id' => $createdChat->id,
+            'message_id' => $message->id,
+            'is_read' => false,
+        ];
+        $readable = [
+            'user_id' => $user1->id,
+            'chat_id' => $createdChat->id,
+            'message_id' => $message->id,
+            'is_read' => true,
+        ];
+        $this->assertDatabaseHas('message_users', $unreadable);
+        $this->assertDatabaseMissing('message_users', $readable);
 
         $expectedJson = [
             'id' => $createdChat->id,
@@ -145,5 +163,8 @@ class ShowTest extends TestCase
         $response->assertStatus(200);
         //точное соответствие
         $response->assertExactJson($expectedJson);
+
+        $this->assertDatabaseHas('message_users', $readable);
+        $this->assertDatabaseMissing('message_users', $unreadable);
     }
 }
