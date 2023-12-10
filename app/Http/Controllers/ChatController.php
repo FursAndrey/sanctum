@@ -72,6 +72,7 @@ class ChatController extends Controller
     public function show(Chat $chat)
     {
         $chat->unreadableMessages()->update(['is_read' => true]);
+
         return CurrentChatResource::make($chat)->resolve();
     }
 
