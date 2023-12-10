@@ -118,7 +118,8 @@ class IndexTest extends TestCase
         $response = $this->actingAs($user1)->get('/api/messages/'.$createdChat->id);
 
         $response->assertStatus(200);
-        $response->assertJsonFragment(
+        //точное соответствие
+        $response->assertExactJson(
             [
                 'messages' => [
                     [
@@ -131,6 +132,7 @@ class IndexTest extends TestCase
                     ],
                 ],
                 'lastPage' => 1,
+                'messagePerPage' => 5,
             ]
         );
     }

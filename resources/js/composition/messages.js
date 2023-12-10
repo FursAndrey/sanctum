@@ -13,10 +13,10 @@ export default function useMessages() {
     //     message.value = response.data;
     // }
 
-    // const getMessages = async () => {
-    //     let response = await axios.get('/api/messages');
-    //     messages.value = response.data;
-    // }
+    const getMessages = async (id) => {
+        let response = await axios.get('/api/messages/'+id);
+        messages.value = response.data;
+    }
 
     const storeMessage = async (data) => {
         errorMessage.value = '';
@@ -24,8 +24,11 @@ export default function useMessages() {
         try {
             await axios.post('/api/messages/'+data.chat_id, data)
             .then(message => {
-                console.log(message.data);
-                messages.value.unshift(message.data);
+                messages.value.messages.unshift(message.data);
+                if (messages.value.messages.length > messages.value.messagePerPage) {
+                    messages.value.messages.pop();
+                    messages.value.lastPage++;
+                }
             });
         } catch(e) {
             errorMessage.value = e.response.data.message;
@@ -52,7 +55,7 @@ export default function useMessages() {
         messages,
         errorMessage,
         // getMessage,
-        // getMessages,
+        getMessages,
         storeMessage,
         // updateMessage,
         // destroyMessage

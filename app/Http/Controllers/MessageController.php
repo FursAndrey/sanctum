@@ -16,11 +16,12 @@ class MessageController extends Controller
     public function index(Chat $chat)
     {
         $page = request('page') ?? 1;
+        $messagePerPage = 5;
 
         $messages = $chat->messages()
             ->with('user')
             ->orderBy('id', 'DESC')
-            ->paginate(5, '*', 'page', $page);
+            ->paginate($messagePerPage, '*', 'page', $page);
 
         $lastPage = $messages->LastPage();
 
@@ -29,6 +30,7 @@ class MessageController extends Controller
         return response()->json([
             'messages' => $messages,
             'lastPage' => $lastPage,
+            'messagePerPage' => $messagePerPage,
         ]);
     }
 

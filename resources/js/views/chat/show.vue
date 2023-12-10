@@ -15,20 +15,16 @@
                 </div>
             </div>
             <div v-if="messages">
-                <div v-for="message in messages" :key="message.id" :class="['m-3 p-3 w-max rounded-xl border text-zinc-950', message.is_owner ? 'bg-sky-50 border-sky-400' : 'bg-green-50 border-green-400 ml-auto']">
+                <div v-for="message in messages.messages" :key="message.id" :class="['m-3 p-3 w-max rounded-xl border text-zinc-950', message.is_owner ? 'bg-sky-50 border-sky-400' : 'bg-green-50 border-green-400 ml-auto']">
                     <div class="text-xs italic mb-2 text-left w-max ml-auto">
                         <div>{{ message.user_name }}</div>
                         <div>{{ message.time }}</div>
                     </div>
                     <div>{{ message.body }}</div>
                 </div>
-                <div class="mx-auto px-3 py-2 bg-blue-500 text-white rounded-lg cursor-pointer text-center w-max" v-if="this.page < this.lastPage">
+                <div class="mx-auto px-3 py-2 bg-blue-500 text-white rounded-lg cursor-pointer text-center w-max" v-if="this.page < messages.lastPage">
                     load
                 </div>
-            </div>
-            <div>
-                <!-- {{ chat }} -->
-                {{ messages }}
             </div>
         </div>
     </div>
@@ -51,7 +47,6 @@ export default {
     data() {
         return {
             page: 1,
-            lastPage: 10,
         }
     },
 
@@ -61,9 +56,10 @@ export default {
             'chat_id': props.id,
         });
         const { chat, getChat } = useChats();
-        const { errorMessage, messages, storeMessage } = useMessages();
+        const { errorMessage, messages, storeMessage, getMessages } = useMessages();
         
         onMounted(getChat(props.id));
+        onMounted(getMessages(props.id));
 
         const createMessage = async () => {
             await storeMessage({...newMessage});
