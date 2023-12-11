@@ -13,9 +13,20 @@ export default function useMessages() {
     //     message.value = response.data;
     // }
 
-    const getMessages = async (id) => {
-        let response = await axios.get('/api/messages/'+id);
-        messages.value = response.data;
+    const getMessages = async (id, page = 1) => {
+        let response = await axios.get('/api/messages/'+id+'?page='+page);
+        if (page > 1) {
+            for (let i = 0; i < response.data.messages.length; i++) {
+                //если конкретное сообщение уже есть в чате, не рисовать его снова
+                if (!messages.value.messages.some(m => m.id === response.data.messages[i].id)) {
+                    messages.value.lastPage = response.data.lastPage;
+                    messages.value.messages.push(response.data.messages[i]);
+                    // messages.value.messages.push(...response.data.messages);
+                }
+            }
+        } else {
+            messages.value = response.data;
+        }
     }
 
     const storeMessage = async (data) => {
@@ -25,10 +36,6 @@ export default function useMessages() {
             await axios.post('/api/messages/'+data.chat_id, data)
             .then(message => {
                 messages.value.messages.unshift(message.data);
-                if (messages.value.messages.length > messages.value.messagePerPage) {
-                    messages.value.messages.pop();
-                    messages.value.lastPage++;
-                }
             });
         } catch(e) {
             errorMessage.value = e.response.data.message;

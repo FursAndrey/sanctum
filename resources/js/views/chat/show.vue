@@ -22,7 +22,7 @@
                     </div>
                     <div>{{ message.body }}</div>
                 </div>
-                <div class="mx-auto px-3 py-2 bg-blue-500 text-white rounded-lg cursor-pointer text-center w-max" v-if="this.page < messages.lastPage">
+                <div class="mx-auto px-3 py-2 bg-blue-500 text-white rounded-lg cursor-pointer text-center w-max" @click="loadNextPageMessages()" v-if="currentPage < messages.lastPage">
                     load
                 </div>
             </div>
@@ -36,17 +36,11 @@ import useChats from '../../composition/chats';
 import useMessages from '../../composition/messages';
 export default {
     name: 'index',
-    
+
     props: {
         id: {
             required: true,
             type: String
-        }
-    },
-    
-    data() {
-        return {
-            page: 1,
         }
     },
 
@@ -55,11 +49,16 @@ export default {
             'body': '',
             'chat_id': props.id,
         });
+        let currentPage = ref(1);
         const { chat, getChat } = useChats();
         const { errorMessage, messages, storeMessage, getMessages } = useMessages();
-        
+
         onMounted(getChat(props.id));
         onMounted(getMessages(props.id));
+
+        const loadNextPageMessages = () => {
+            getMessages(props.id, ++currentPage.value);
+        }
 
         const createMessage = async () => {
             await storeMessage({...newMessage});
@@ -68,9 +67,11 @@ export default {
 
         return {
             chat,
+            currentPage,
             newMessage,
             messages,
             createMessage,
+            loadNextPageMessages,
         }
     }
 }
