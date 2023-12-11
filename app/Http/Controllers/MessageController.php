@@ -16,6 +16,8 @@ class MessageController extends Controller
     public function index(Chat $chat)
     {
         $page = request('page') ?? 1;
+        $page = (is_int((int) $page)) ? (int) $page : 1;
+
         $messagePerPage = 5;
 
         $messages = $chat->messages()
