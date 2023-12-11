@@ -15,7 +15,8 @@ export default function useMessages() {
 
     const getMessages = async (id, page = 1) => {
         let response = await axios.get('/api/messages/'+id+'?page='+page);
-        if (page > 1) {
+        //если страница не первая и часть сообщений уже загружена
+        if (page > 1 && messages.value.messages !== undefined) {
             for (let i = 0; i < response.data.messages.length; i++) {
                 //если конкретное сообщение уже есть в чате, не рисовать его снова
                 if (!messages.value.messages.some(m => m.id === response.data.messages[i].id)) {

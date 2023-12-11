@@ -22,11 +22,9 @@
                     </div>
                     <div>{{ message.body }}</div>
                 </div>
-                <div class="mx-auto px-3 py-2 bg-blue-500 text-white rounded-lg cursor-pointer text-center w-max" @click="loadNextPageMessages()" v-if="currentPage < messages.lastPage">
-                    load
-                </div>
             </div>
         </div>
+        <div ref="observer"></div>
     </div>
 </template>
 
@@ -44,12 +42,33 @@ export default {
         }
     },
 
+    mounted() {
+        const option = {
+            root: null,         //наблюдать за областью просмотра браузера
+            rootMargin: '0px',  //отступ вокруг root-элемента, когда он задан (CSS-margin)
+            threshold: 1.0      //от 0 до 1, 0 - если виден хоть 1 пиксель - запустить callback, 1 - если видны все пиксели - запустить callback
+        }
+        //что делать при обнаружении наблюдаемого объекта
+        const callback = (entries, observer) => {
+            //работать только при появлении наблюдаемого объекта (при скрытии - ничего)
+            if (entries[0].isIntersecting && this.haveMoreMessages) {
+                this.loadNextPageMessages();
+            }
+        }
+        //инициализация наблюдателю
+        const observer = new IntersectionObserver(callback, option);
+        //привязываем наблюдателя к наблюдаемому огбъекту
+        observer.observe(this.$refs.observer);
+    },
+
     setup(props) {
         let newMessage = reactive({
             'body': '',
             'chat_id': props.id,
         });
         let currentPage = ref(1);
+        let haveMoreMessages = ref(true);
+
         const { chat, getChat } = useChats();
         const { errorMessage, messages, storeMessage, getMessages } = useMessages();
 
@@ -58,6 +77,9 @@ export default {
 
         const loadNextPageMessages = () => {
             getMessages(props.id, ++currentPage.value);
+            if (messages.value.lastPage <= currentPage.value) {
+                haveMoreMessages.value = false;
+            }
         }
 
         const createMessage = async () => {
@@ -70,6 +92,7 @@ export default {
             currentPage,
             newMessage,
             messages,
+            haveMoreMessages,
             createMessage,
             loadNextPageMessages,
         }
