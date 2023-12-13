@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\StoreMessageEvent;
 use App\Http\Requests\Message\StoreRequest;
 use App\Http\Resources\Message\MessageResource;
 use App\Jobs\StoreMessageStatusJob;
@@ -51,6 +52,8 @@ class MessageController extends Controller
         ]);
 
         StoreMessageStatusJob::dispatchSync($message, $chat->users);
+
+        broadcast(new StoreMessageEvent($message))->toOthers();
 
         return MessageResource::make($message)->resolve();
     }

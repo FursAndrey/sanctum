@@ -42,6 +42,17 @@ export default {
         }
     },
 
+    created() {
+        window.Echo.private('store-message-channel-' + this.$route.params.id)
+        .listen('.store-message', res => {
+            this.messages.messages.unshift(res.message);
+
+            if (this.$route.fullPath === '/chats/' + this.$route.params.id) {   
+                axios.put('/api/messageUsers/'+this.$route.params.id, { message_id: res.message.id })
+            }
+        })
+    },
+
     mounted() {
         const option = {
             root: null,         //наблюдать за областью просмотра браузера
