@@ -63,6 +63,24 @@ import useChats from '../../composition/chats';
 export default {
     name: 'index',
     
+    created() {
+        
+        axios.get('/api/currentUser')
+            .then( res => {
+                let userId = res.data.data.id;
+
+                window.Echo.private('user-channel-' + userId)
+                .listen('.message-status', res => {
+                    this.chats.filter( chat => {
+                        if (chat.id === res.chatId) {
+                            chat.unreadable_messages_count = res.countMessages;
+                            chat.last_message = res.message;
+                        }
+                    });
+                })
+            })
+    },
+
     setup() {
         const { users, getUsersExceptMe } = useUsers();
         const { errorMessage, chats, storeChat, getChats } = useChats();

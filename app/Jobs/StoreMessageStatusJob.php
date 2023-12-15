@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Events\SendUnreadableMessagesCountEvent;
 use App\Models\Message;
 use App\Models\MessageUser;
 use Illuminate\Bus\Queueable;
@@ -35,17 +36,25 @@ class StoreMessageStatusJob implements ShouldQueue
     public function handle(): void
     {
         foreach ($this->chatIds as $key => $user_id) {
-            MessageUser::create([
+            $messageUser = [
                 'user_id' => $user_id,
                 'chat_id' => $this->message->chat_id,
                 'message_id' => $this->message->id,
-            ]);
+            ];
 
-            //будет отправлен пользователям через сокет
+            //если сообщение моё - оно прочитано
+            if ((int) auth()->user()->id === (int) $user_id) {
+                $messageUser['is_read'] = true;
+            }
+
+            MessageUser::create($messageUser);
+
+            //отправляем пользователям через сокет
             $countMessages = MessageUser::where('chat_id', '=', $this->message->chat_id)
                 ->where('user_id', '=', $user_id)
                 ->where('is_read', false)
                 ->count();
+            broadcast(new SendUnreadableMessagesCountEvent($countMessages, $this->message->chat_id, $user_id, $this->message))->toOthers();
         }
     }
 }

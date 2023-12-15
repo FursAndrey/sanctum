@@ -43,6 +43,7 @@ export default {
     },
 
     created() {
+        //входящие сообщения для остальных участников чатов
         window.Echo.private('store-message-channel-' + this.$route.params.id)
         .listen('.store-message', res => {
             this.messages.messages.unshift(res.message);
