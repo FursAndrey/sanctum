@@ -9,7 +9,11 @@
                 <h3 class="font-semibold text-lg mb-2">
                     Send messages
                 </h3>
-                <div>
+                <div  ref="observerInputFixed">
+                    <input type="text" v-model="newMessage.body" class="w-4/5 rounded-lg text-zinc-950 p-2">
+                    <span @click="createMessage()" class="ml-4 px-3 py-2 bg-sky-600 text-white rounded-lg cursor-pointer">Send</span>
+                </div>
+                <div  :class="['', this.fixedInput === true ? 'fixedInput' : 'unfixedInput']">
                     <input type="text" v-model="newMessage.body" class="w-4/5 rounded-lg text-zinc-950 p-2">
                     <span @click="createMessage()" class="ml-4 px-3 py-2 bg-sky-600 text-white rounded-lg cursor-pointer">Send</span>
                 </div>
@@ -24,7 +28,7 @@
                 </div>
             </div>
         </div>
-        <div ref="observer"></div>
+        <div ref="observerLoadMoreMessages"></div>
     </div>
 </template>
 
@@ -48,32 +52,53 @@ export default {
         .listen('.store-message', res => {
             this.messages.messages.unshift(res.message);
 
-            if (this.$route.fullPath === '/chats/' + this.$route.params.id) {   
+            if (this.$route.fullPath === '/chats/' + this.$route.params.id) {
                 axios.put('/api/messageUsers/'+this.$route.params.id, { message_id: res.message.id })
             }
         })
     },
 
     mounted() {
-        const option = {
+        const optionLoadMoreMessages = {
             root: null,         //наблюдать за областью просмотра браузера
             rootMargin: '0px',  //отступ вокруг root-элемента, когда он задан (CSS-margin)
             threshold: 1.0      //от 0 до 1, 0 - если виден хоть 1 пиксель - запустить callback, 1 - если видны все пиксели - запустить callback
         }
         //что делать при обнаружении наблюдаемого объекта
-        const callback = (entries, observer) => {
+        const callbackLoadMoreMessages = (entries, observerLoadMoreMessages) => {
             //работать только при появлении наблюдаемого объекта (при скрытии - ничего)
             if (entries[0].isIntersecting && this.haveMoreMessages) {
                 this.loadNextPageMessages();
             }
         }
         //инициализация наблюдателю
-        const observer = new IntersectionObserver(callback, option);
+        const observerLoadMoreMessages = new IntersectionObserver(callbackLoadMoreMessages, optionLoadMoreMessages);
         //привязываем наблюдателя к наблюдаемому огбъекту
-        observer.observe(this.$refs.observer);
+        observerLoadMoreMessages.observe(this.$refs.observerLoadMoreMessages);
+
+        const optionInputFixed = {
+            root: null,         //наблюдать за областью просмотра браузера
+            rootMargin: '0px',  //отступ вокруг root-элемента, когда он задан (CSS-margin)
+            threshold: 0      //от 0 до 1, 0 - если виден хоть 1 пиксель - запустить callback, 1 - если видны все пиксели - запустить callback
+        }
+        //что делать при обнаружении наблюдаемого объекта
+        const callbackInputFixed = (entries, observerInputFixed) => {
+            // //работать только при появлении наблюдаемого объекта
+            if (entries[0].isIntersecting === true && this.fixedInput === true) {
+                this.fixedInput = false;
+            }
+            if (entries[0].isIntersecting === false && this.fixedInput === false) {
+                this.fixedInput = true;
+            }
+        }
+        //инициализация наблюдателю
+        const observerInputFixed = new IntersectionObserver(callbackInputFixed, optionInputFixed);
+        //привязываем наблюдателя к наблюдаемому огбъекту
+        observerInputFixed.observe(this.$refs.observerInputFixed);
     },
 
     setup(props) {
+        const fixedInput = ref(true);
         let newMessage = reactive({
             'body': '',
             'chat_id': props.id,
@@ -105,6 +130,7 @@ export default {
             newMessage,
             messages,
             haveMoreMessages,
+            fixedInput,
             createMessage,
             loadNextPageMessages,
         }
@@ -113,4 +139,31 @@ export default {
 </script>
 
 <style scoped>
+.fixedInput {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: #003475;
+    padding: 10px 15px;
+    margin-bottom: 0;
+}
+.unfixedInput {
+    position: relative;
+    display: none;
+}
+
+@media (max-width: 750px) {
+    /* контент на всю ширину страницы */
+    div#app > div > div.mx-auto {
+        width: 95%;
+    }
+}
+
+@media (max-width: 500px) {
+    /* контент на всю ширину страницы */
+    input.rounded-lg.text-zinc-950.p-2 {
+        width: 60%;
+    }
+}
 </style>
