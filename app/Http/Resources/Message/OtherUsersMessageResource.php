@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\Message;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class UserResource extends JsonResource
+class OtherUsersMessageResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,11 +16,11 @@ class UserResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->name,
-            'tg_name' => $this->tg_name,
-            'email' => $this->email,
-            'created' => $this->created,
-            'roles' => RoleResource::collection($this->whenLoaded('roles')),
+            'body' => $this->body,
+            'chat_id' => $this->chat_id,
+            'user_name' => $this->user->name,
+            'time' => $this->created_at->format('d.m.Y H:i:s'),
+            'is_owner' => false,
         ];
     }
 }

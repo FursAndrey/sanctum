@@ -27,11 +27,13 @@ export default {
     props: {
         is_liked: {
             type: Boolean,
-            required: true
+            required: true,
+            default: false
         },
         like_count: {
-            type: String,
-            required: true
+            type: Number,
+            required: true,
+            default: 0
         },
         post_id: {
             type: String,

@@ -5,8 +5,11 @@ use App\Http\Controllers\Admin\PreviewController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\TelegramController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\LikeController;
+use App\Http\Controllers\MessageController;
+use App\Http\Controllers\MessageUserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,6 +25,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::post('/users/storeRandomUser', [UserController::class, 'storeRandomUser'])->name('storeRandomUser');
+    Route::get('/users/exceptMe', [UserController::class, 'getUsersExceptMe'])->name('getUsersExceptMe');
     Route::post('/posts/storeRandomPost', [PostController::class, 'storeRandomPost'])->name('storeRandomPost');
     Route::post('/comments/storeRandomComment', [CommentController::class, 'storeRandomComment'])->name('storeRandomComment');
     Route::apiResource('/users', UserController::class)->only(['index', 'show', 'update', 'destroy']);
@@ -34,6 +38,14 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::apiResource('/comments', CommentController::class)->only(['store', 'update', 'destroy']);
     Route::post('/postLike/{post}', [LikeController::class, 'postToggleLike'])->name('postToggleLike');
     Route::post('/commentLike/{comment}', [LikeController::class, 'commentToggleLike'])->name('commentToggleLike');
+    Route::apiResource('/chats', ChatController::class)->only(['index', 'store']);
+
+    Route::group(['middleware' => 'isMyChat'], function () {
+        Route::apiResource('/chats', ChatController::class)->only(['show']);
+        Route::get('/messages/{chat}', [MessageController::class, 'index'])->name('indexMessages')->where(['chat' => '[0-9]+']);
+        Route::post('/messages/{chat}', [MessageController::class, 'store'])->name('storeMessages')->where(['chat' => '[0-9]+']);
+        Route::put('/messageUsers/{chat}', [MessageUserController::class, 'update'])->name('updateMessageUsers')->where(['chat' => '[0-9]+']);
+    });
 });
 Route::apiResource('/posts', PostController::class)->only(['index', 'show']);
 Route::get('/comments/{post}/{connemt}', [CommentController::class, 'index'])->name('commentsOfPost')->where(['post' => '[0-9]+', 'connemt' => '[0-9]+']);

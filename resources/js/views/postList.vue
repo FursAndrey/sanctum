@@ -10,7 +10,7 @@
                 <div class="whitespace-nowrap pb-4 text-right text-sm text-gray-500">{{ post.published }}</div>
                 <div class="flex">
                     <comment-count-template>{{ post.commentCount }}</comment-count-template>
-                    <post-like-template v-bind:is_liked="post.is_liked" v-bind:like_count="post.likeCount" v-bind:post_id="post.id"></post-like-template>
+                    <post-like-template v-bind:is_liked="post.is_liked" v-bind:like_count="post.likeCount" v-bind:post_id="String(post.id)"></post-like-template>
                 </div>
                 <div class="flex-1 mb-4">{{ post.title }}</div>
                 <div>

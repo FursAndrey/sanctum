@@ -7,7 +7,8 @@ use App\Actions\User\prepareRolesBeforeSyncAction;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\UpdateRequest;
 use App\Http\Resources\CurrentUserForMenuResource;
-use App\Http\Resources\UserResource;
+use App\Http\Resources\User\UserExceptMeResource;
+use App\Http\Resources\User\UserResource;
 use App\Models\User;
 
 class UserController extends Controller
@@ -89,5 +90,14 @@ class UserController extends Controller
         $randomUser = (new createRandomUserAction())();
 
         return new UserResource($randomUser);
+    }
+
+    public function getUsersExceptMe()
+    {
+        $this->authorize('viewAnyExceptMe', User::class);
+
+        $users = User::where('id', '!=', auth()->id())->get();
+
+        return UserExceptMeResource::collection($users);
     }
 }

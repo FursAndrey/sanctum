@@ -2,7 +2,6 @@
 
 namespace App\Console\Commands;
 
-use App\Jobs\TestJob;
 use Illuminate\Console\Command;
 
 class MyDebug extends Command
@@ -26,7 +25,6 @@ class MyDebug extends Command
      */
     public function handle(): void
     {
-        TestJob::dispatch()->onQueue('test_job');
         echo 'Hello World!';
     }
 }

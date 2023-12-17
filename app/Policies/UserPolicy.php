@@ -16,6 +16,11 @@ class UserPolicy
         return in_array('Admin', $roles);
     }
 
+    public function viewAnyExceptMe(User $user): bool
+    {
+        return true;
+    }
+
     /**
      * Determine whether the user can view the model.
      */
