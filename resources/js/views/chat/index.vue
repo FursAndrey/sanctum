@@ -142,10 +142,9 @@ export default {
 .transform-180 {
     transform: rotate(180deg);
 }
-span.mobile-create-chat-btn, svg.toggle-content {
-    display: none;
-}
-div.hidden-mobile-content {
+span.mobile-create-chat-btn
+, svg.toggle-content
+, div.hidden-mobile-content {
     display: none;
 }
 

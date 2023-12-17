@@ -161,7 +161,7 @@ export default {
 }
 
 @media (max-width: 500px) {
-    /* контент на всю ширину страницы */
+    /* уменьшить ширину поля ввода текста */
     input.rounded-lg.text-zinc-950.p-2 {
         width: 60%;
     }
