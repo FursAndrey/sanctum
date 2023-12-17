@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('chats', function (Blueprint $table) {
             $table->id();
             $table->string('title')->nullable();
-            $table->string('users')->unique();  //контроль уникальности,
+            $table->string('users', 150)->unique();  //контроль уникальности,
             //одна и таже группа пользователей не может создать несколько чатов,
             //группы пользователей должны отличаться по составу
             //если такой контроль не нужен - удалить колонку 'users'
