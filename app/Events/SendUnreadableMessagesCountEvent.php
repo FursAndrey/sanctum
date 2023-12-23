@@ -3,13 +3,9 @@
 namespace App\Events;
 
 use App\Http\Resources\Message\MessageResource;
-use App\Http\Resources\OtherUsersMessageResource;
 use App\Models\Message;
-use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
@@ -19,9 +15,13 @@ class SendUnreadableMessagesCountEvent implements ShouldBroadcastNow
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     private int $countMessages;
+
     private int $chatId;
+
     private int $userId;
+
     private Message $message;
+
     /**
      * Create a new event instance.
      */
@@ -41,10 +41,10 @@ class SendUnreadableMessagesCountEvent implements ShouldBroadcastNow
     public function broadcastOn(): array
     {
         return [
-            new PrivateChannel('user-channel-' . $this->userId),
+            new PrivateChannel('user-channel-'.$this->userId),
         ];
     }
-    
+
     /**
      * The event's broadcast name.
      */
