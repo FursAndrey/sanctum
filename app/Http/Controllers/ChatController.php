@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\Chat\deleteOneChatWithAllMessages;
 use App\Http\Requests\Chat\StoreRequest;
 use App\Http\Resources\Chat\ChatResource;
 use App\Http\Resources\Chat\CurrentChatResource;
@@ -87,8 +88,10 @@ class ChatController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    // public function destroy(Chat $chat)
-    // {
-    //     //
-    // }
+    public function destroy(Chat $chat)
+    {
+        (new deleteOneChatWithAllMessages())($chat);
+
+        return response()->noContent();
+    }
 }
