@@ -2,9 +2,31 @@
     <div>
         <h1 class="text-3xl font-bold text-center mb-4">Message list</h1>
         <div v-if="chat" class="p-4 mr-2 bg-indigo-950 rounded-lg h-fit">
-            <h3 class="font-semibold text-lg mb-6 mx-auto w-40">
-                {{ chat.title }}
-            </h3>
+            <div class="flex justify-between">
+                <h3 class="font-semibold text-lg mb-6 mx-auto w-40">
+                    {{ chat.title }}
+                </h3>
+                <svg @click="deleteChat()" class="cursor-pointer" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0,0,256,256">
+                    <g fill="#fffdfd" 
+                        fill-rule="nonzero" 
+                        stroke="none" 
+                        stroke-width="1" 
+                        stroke-linecap="butt" 
+                        stroke-linejoin="miter" 
+                        stroke-miterlimit="10" 
+                        stroke-dasharray="" 
+                        stroke-dashoffset="0" 
+                        font-family="none" 
+                        font-weight="none" 
+                        font-size="none" 
+                        text-anchor="none" 
+                        style="mix-blend-mode: normal">
+                        <g transform="scale(5.12,5.12)">
+                            <path d="M42,5h-10v-2c0,-1.65234 -1.34766,-3 -3,-3h-8c-1.65234,0 -3,1.34766 -3,3v2h-10c-0.55078,0 -1,0.44922 -1,1c0,0.55078 0.44922,1 1,1h1.08594l3.60938,40.51563c0.125,1.39063 1.30859,2.48438 2.69531,2.48438h19.21484c1.38672,0 2.57031,-1.09375 2.69531,-2.48437l3.61328,-40.51562h1.08594c0.55469,0 1,-0.44922 1,-1c0,-0.55078 -0.44531,-1 -1,-1zM20,44c0,0.55469 -0.44922,1 -1,1c-0.55078,0 -1,-0.44531 -1,-1v-33c0,-0.55078 0.44922,-1 1,-1c0.55078,0 1,0.44922 1,1zM20,3c0,-0.55078 0.44922,-1 1,-1h8c0.55078,0 1,0.44922 1,1v2h-10zM26,44c0,0.55469 -0.44922,1 -1,1c-0.55078,0 -1,-0.44531 -1,-1v-33c0,-0.55078 0.44922,-1 1,-1c0.55078,0 1,0.44922 1,1zM32,44c0,0.55469 -0.44531,1 -1,1c-0.55469,0 -1,-0.44531 -1,-1v-33c0,-0.55078 0.44531,-1 1,-1c0.55469,0 1,0.44922 1,1z"></path>
+                        </g>
+                    </g>
+                </svg>
+            </div>
             <div class="mb-6">
                 <h3 class="font-semibold text-lg mb-2">
                     Send messages
@@ -106,7 +128,7 @@ export default {
         let currentPage = ref(1);
         let haveMoreMessages = ref(true);
 
-        const { chat, getChat } = useChats();
+        const { chat, getChat, destroyChat } = useChats();
         const { errorMessage, messages, storeMessage, getMessages } = useMessages();
 
         onMounted(getChat(props.id));
@@ -124,6 +146,10 @@ export default {
             newMessage.body = '';
         }
 
+        const deleteChat = async () => {
+            await destroyChat(props.id);
+        }
+
         return {
             chat,
             currentPage,
@@ -133,6 +159,7 @@ export default {
             fixedInput,
             createMessage,
             loadNextPageMessages,
+            deleteChat
         }
     }
 }
