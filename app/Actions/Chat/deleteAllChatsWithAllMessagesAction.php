@@ -4,12 +4,12 @@ namespace App\Actions\Chat;
 
 use App\Models\User;
 
-class deleteAllChatsWithAllMessages
+class deleteAllChatsWithAllMessagesAction
 {
     public function __invoke(User $user): void
     {
         foreach ($user->chats as $chat) {
-            (new deleteOneChatWithAllMessages())($chat);
+            (new deleteOneChatWithAllMessagesAction())($chat);
         }
     }
 }

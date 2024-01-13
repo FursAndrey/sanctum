@@ -5,7 +5,7 @@ namespace App\Actions\Chat;
 use App\Models\Chat;
 use App\Models\MessageUser;
 
-class deleteOneChatWithAllMessages
+class deleteOneChatWithAllMessagesAction
 {
     public function __invoke(Chat $chat): void
     {

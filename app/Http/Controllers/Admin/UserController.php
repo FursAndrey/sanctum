@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Actions\Chat\deleteAllChatsWithAllMessages;
+use App\Actions\Chat\deleteAllChatsWithAllMessagesAction;
 use App\Actions\User\createRandomUserAction;
 use App\Actions\User\prepareRolesBeforeSyncAction;
 use App\Http\Controllers\Controller;
@@ -78,7 +78,7 @@ class UserController extends Controller
 
         //удаление всех чатов в которых был этот пользователь со всеми сообщениями
         if ($user->chats->count() != 0) {
-            (new deleteAllChatsWithAllMessages())($user);
+            (new deleteAllChatsWithAllMessagesAction())($user);
         }
 
         $user->delete();
