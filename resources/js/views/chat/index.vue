@@ -101,14 +101,21 @@ export default {
 
                 window.Echo.private('user-channel-' + userId)
                 .listen('.message-status', res => {
+                    /** обновляем существующие чаты (количество не прочитанных сообщений и последнее сообщение) */
                     this.chats.filter( chat => {
                         if (chat.id === res.chatId) {
                             chat.unreadable_messages_count = res.countMessages;
                             chat.last_message = res.message;
                         }
                     });
-                })
-            })
+                });
+
+                window.Echo.private('store-first-message-channel-' + userId)
+                .listen('.store-first-message', res => {
+                    /** добавляем новый чат (и сообщение) */
+                    this.chats.push(res.chat);
+                });
+            });
     },
 
     setup() {
