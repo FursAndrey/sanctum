@@ -26,6 +26,8 @@ class ChatController extends Controller
             ->get();
         $chats = ChatResource::collection($chats)->resolve();
 
+        $chats = array_values(collect($chats)->sortBy('last_message.id')->reverse()->toArray());
+
         return $chats;
     }
 

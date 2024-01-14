@@ -102,18 +102,22 @@ export default {
                 window.Echo.private('user-channel-' + userId)
                 .listen('.message-status', res => {
                     /** обновляем существующие чаты (количество не прочитанных сообщений и последнее сообщение) */
-                    this.chats.filter( chat => {
-                        if (chat.id === res.chatId) {
-                            chat.unreadable_messages_count = res.countMessages;
-                            chat.last_message = res.message;
-                        }
-                    });
+
+                    /** находим чат, который нужно обновить */
+                    let tmp_chat = this.chats.find( chat => chat.id === res.chatId );
+                    /** удаляем его из списка */
+                    this.chats = this.chats.filter( chat => chat.id !== res.chatId );
+                    /** обновляем его во временной переменной */
+                    tmp_chat.unreadable_messages_count = res.countMessages;
+                    tmp_chat.last_message = res.message;
+                    /** добавляем в верх списка */
+                    this.chats.unshift(tmp_chat);
                 });
 
                 window.Echo.private('store-first-message-channel-' + userId)
                 .listen('.store-first-message', res => {
                     /** добавляем новый чат (и сообщение) */
-                    this.chats.push(res.chat);
+                    this.chats.unshift(res.chat);
                 });
 
                 window.Echo.private('destroy-chat-channel-' + userId)
