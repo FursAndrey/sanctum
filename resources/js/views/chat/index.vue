@@ -115,6 +115,12 @@ export default {
                     /** добавляем новый чат (и сообщение) */
                     this.chats.push(res.chat);
                 });
+
+                window.Echo.private('destroy-chat-channel-' + userId)
+                .listen('.destroy-chat', res => {
+                    /** убираем чат из списка (если кто-то из участников его удалил) */
+                    this.chats = this.chats.filter( chat => chat.id !== res.chat );
+                });
             });
     },
 
