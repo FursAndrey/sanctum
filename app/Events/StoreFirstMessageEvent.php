@@ -2,35 +2,26 @@
 
 namespace App\Events;
 
-use App\Http\Resources\Message\MessageResource;
-use App\Models\Message;
+use App\Http\Resources\Chat\NewChatResource;
+use App\Models\Chat;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class SendUnreadableMessagesCountEvent implements ShouldBroadcastNow
+class StoreFirstMessageEvent implements ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    private int $countMessages;
-
-    private int $chatId;
-
-    private int $userId;
-
-    private Message $message;
+    private Chat $chat;
 
     /**
      * Create a new event instance.
      */
-    public function __construct(int $countMessages, int $chatId, int $userId, Message $message)
+    public function __construct(Chat $chat)
     {
-        $this->countMessages = $countMessages;
-        $this->chatId = $chatId;
-        $this->userId = $userId;
-        $this->message = $message;
+        $this->chat = $chat;
     }
 
     /**
@@ -40,9 +31,18 @@ class SendUnreadableMessagesCountEvent implements ShouldBroadcastNow
      */
     public function broadcastOn(): array
     {
-        return [
-            new PrivateChannel('user-channel-'.$this->userId),
-        ];
+        $channels = [];
+        $chatIdsArray = explode('-', $this->chat->users);
+
+        foreach ($chatIdsArray as $key => $user_id) {
+            if ((int) auth()->id() === (int) $user_id) {
+                continue;
+            }
+
+            $channels[] = new PrivateChannel('store-first-message-channel-'.$user_id);
+        }
+
+        return $channels;
     }
 
     /**
@@ -50,7 +50,7 @@ class SendUnreadableMessagesCountEvent implements ShouldBroadcastNow
      */
     public function broadcastAs(): string
     {
-        return 'message-status';
+        return 'store-first-message';
     }
 
     /**
@@ -61,9 +61,7 @@ class SendUnreadableMessagesCountEvent implements ShouldBroadcastNow
     public function broadcastWith(): array
     {
         return [
-            'countMessages' => $this->countMessages,
-            'chatId' => $this->chatId,
-            'message' => MessageResource::make($this->message)->resolve(),
+            'chat' => NewChatResource::make($this->chat)->resolve(),
         ];
     }
 }

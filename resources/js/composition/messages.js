@@ -6,7 +6,7 @@ export default function useMessages() {
     // const message = ref([]);
     const messages = ref([]);
     const errorMessage = ref('');
-    // const router = useRouter();
+    const router = useRouter();
     
     // const getMessage = async (id) => {
     //     let response = await axios.get('/api/messages/' + id);
@@ -39,6 +39,11 @@ export default function useMessages() {
                 messages.value.messages.unshift(message.data);
             });
         } catch(e) {
+            if (e.response.status === 401) {
+                router.push({ name: 'login' });
+            } else if (e.response.status === 404) {
+                router.push({ name: 'chats' });
+            }
             errorMessage.value = e.response.data.message;
         }
     }

@@ -266,4 +266,39 @@ class StoreTest extends TestCase
         $this->assertDatabaseCount('messages', 1);
         $this->assertDatabaseCount('message_users', 2);
     }
+
+    public function test_send_correct_message_for_invalid_chat()
+    {
+        //создание пользователей чатов
+        $user1 = User::factory()->create();
+        $user2 = User::factory()->create();
+
+        //создание чата
+        $chat = [
+            'title' => null,
+            'users' => $user1->id.'-'.$user2->id,
+        ];
+        $createdChat = Chat::create($chat);
+        ChatUser::create(['chat_id' => $createdChat->id, 'user_id' => $user1->id]);
+        ChatUser::create(['chat_id' => $createdChat->id, 'user_id' => $user2->id]);
+
+        $message = [
+            'body' => Str::random(30),
+            'chat_id' => $createdChat->id,
+        ];
+
+        $this->assertDatabaseCount('messages', 0);
+        $this->assertDatabaseCount('message_users', 0);
+        //тестируемый запрос от имени пользователя
+        $response = $this->actingAs($user1)->post('/api/messages/'.($createdChat->id * 10), $message);
+
+        $response->assertStatus(404);
+        $response->assertJson(
+            [
+                'message' => 'No query results for model [App\\Models\\Chat] '.($createdChat->id * 10),
+            ]
+        );
+        $this->assertDatabaseCount('messages', 0);
+        $this->assertDatabaseCount('message_users', 0);
+    }
 }

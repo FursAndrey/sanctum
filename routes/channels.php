@@ -22,3 +22,11 @@ Broadcast::channel('store-message-channel-{chat_id}', function ($user, $chat_id)
 
     return in_array($chat_id, $allowedChats);
 });
+
+Broadcast::channel('store-first-message-channel-{user_id}', function ($user, $user_id) {
+    return (int) $user->id === (int) $user_id;
+});
+
+Broadcast::channel('destroy-chat-channel-{user_id}', function ($user, $user_id) {
+    return (int) $user->id === (int) $user_id;
+});

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\Chat\deleteOneChatWithAllMessagesAction;
+use App\Events\DestroyChatEvent;
 use App\Http\Requests\Chat\StoreRequest;
 use App\Http\Resources\Chat\ChatResource;
 use App\Http\Resources\Chat\CurrentChatResource;
@@ -23,6 +25,8 @@ class ChatController extends Controller
             ->withCount('unreadableMessages')
             ->get();
         $chats = ChatResource::collection($chats)->resolve();
+
+        $chats = array_values(collect($chats)->sortBy('last_message.id')->reverse()->toArray());
 
         return $chats;
     }
@@ -87,8 +91,11 @@ class ChatController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    // public function destroy(Chat $chat)
-    // {
-    //     //
-    // }
+    public function destroy(Chat $chat)
+    {
+        (new deleteOneChatWithAllMessagesAction())($chat);
+        broadcast(new DestroyChatEvent($chat))->toOthers();
+
+        return response()->noContent();
+    }
 }

@@ -85,20 +85,8 @@ class IndexTest extends TestCase
             'body' => Str::random(30),
         ]);
 
+        /** чаты сортируются в порядке создания сообщенй, новые сообщения поднимают чат выше в списке */
         $expectedJson = [
-            [
-                'title' => 'With '.$anotherUser1->name,
-                'users' => $user->id.'-'.$anotherUser1->id,
-                'last_message' => [
-                    'id' => $message1->id,
-                    'body' => $message1->body,
-                    'chat_id' => $message1->chat_id,
-                    'user_name' => $message1->user->name,
-                    'time' => $message1->created_at->format('d.m.Y H:i:s'),
-                    'is_owner' => true,
-                ],
-                'unreadable_messages_count' => 0,
-            ],
             [
                 'title' => 'With '.$anotherUser2->name,
                 'users' => $user->id.'-'.$anotherUser2->id,
@@ -109,6 +97,19 @@ class IndexTest extends TestCase
                     'user_name' => $message2->user->name,
                     'time' => $message2->created_at->format('d.m.Y H:i:s'),
                     'is_owner' => false,
+                ],
+                'unreadable_messages_count' => 0,
+            ],
+            [
+                'title' => 'With '.$anotherUser1->name,
+                'users' => $user->id.'-'.$anotherUser1->id,
+                'last_message' => [
+                    'id' => $message1->id,
+                    'body' => $message1->body,
+                    'chat_id' => $message1->chat_id,
+                    'user_name' => $message1->user->name,
+                    'time' => $message1->created_at->format('d.m.Y H:i:s'),
+                    'is_owner' => true,
                 ],
                 'unreadable_messages_count' => 0,
             ],

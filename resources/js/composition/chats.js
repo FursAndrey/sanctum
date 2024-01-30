@@ -42,9 +42,10 @@ export default function useChats() {
     //     }
     // }
     
-    // const destroyChat = async (id) => {
-    //     await axios.delete('/api/chats/'+id);
-    // }
+    const destroyChat = async (id) => {
+        await axios.delete('/api/chats/'+id);
+        await router.push({ name: 'chats' });
+    }
     
     return {
         chat,
@@ -54,6 +55,6 @@ export default function useChats() {
         getChats,
         storeChat,
         // updateChat,
-        // destroyChat
+        destroyChat
     }
 }
