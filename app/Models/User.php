@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -78,5 +79,15 @@ class User extends Authenticatable
     public function chats(): BelongsToMany
     {
         return $this->belongsToMany(Chat::class, 'chat_users', 'user_id', 'chat_id');
+    }
+
+    public function banChat(): HasOne
+    {
+        return $this->hasOne(BanChat::class);
+    }
+
+    public function banComment(): HasOne
+    {
+        return $this->hasOne(BanComment::class);
     }
 }
