@@ -2,6 +2,8 @@
 
 namespace Tests\Feature\User;
 
+use App\Models\BanChat;
+use App\Models\BanComment;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -61,6 +63,49 @@ class ShowTest extends TestCase
                     'name' => $user->name,
                     'email' => $user->email,
                     'created' => $user->created,
+                    'ban_chat' => null,
+                    'ban_comment' => null,
+                    'roles' => [
+                        [
+                            'id' => $role->id,
+                            'title' => $role->title,
+                            'discription' => $role->discription,
+                        ],
+                    ],
+                ],
+            ]
+        );
+    }
+
+    public function test_not_admin_user_can_see_himself_by_id_if_ban()
+    {
+        //создание пользователя и присвоение ему роли
+        $role = Role::create(
+            [
+                'title' => 'not_admin',
+                'discription' => 'Creator of this site',
+                'created_at' => null,
+                'updated_at' => null,
+            ]
+        );
+        $user = User::factory()->create();
+        $user->roles()->sync($role->id);
+        $ban_chat = BanChat::create(['user_id' => $user->id]);
+        $ban_comment = BanComment::create(['user_id' => $user->id]);
+
+        //тестируемый запрос от имени пользователя
+        $response = $this->actingAs($user)->get('/api/users/'.$user->id);
+
+        $response->assertStatus(200);
+        $response->assertJson(
+            [
+                'data' => [
+                    'id' => $user->id,
+                    'name' => $user->name,
+                    'email' => $user->email,
+                    'created' => $user->created,
+                    'ban_chat' => $ban_chat->created_at->format('d.m.Y H:i:s'),
+                    'ban_comment' => $ban_comment->created_at->format('d.m.Y H:i:s'),
                     'roles' => [
                         [
                             'id' => $role->id,
@@ -126,6 +171,8 @@ class ShowTest extends TestCase
                     'name' => $user->name,
                     'email' => $user->email,
                     'created' => $user->created,
+                    'ban_chat' => null,
+                    'ban_comment' => null,
                     'roles' => [
                         [
                             'id' => $role->id,
