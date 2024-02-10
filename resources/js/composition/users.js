@@ -28,7 +28,13 @@ export default function useUsers() {
 
         try {
             const lastPath = router.options.history.state.back;
-            await axios.put('/api/users/' + id, { roles: user.value.roles, tg_name: user.value.tg_name });
+            await axios.put('/api/users/' + id, 
+                { 
+                    roles: user.value.roles, 
+                    tg_name: user.value.tg_name, 
+                    has_ban_chat: user.value.has_ban_chat, 
+                    has_ban_comment: user.value.has_ban_comment 
+                });
             await router.push({ path: lastPath });
         } catch (e) {
             errorMessage.value = e.response.data.message;
