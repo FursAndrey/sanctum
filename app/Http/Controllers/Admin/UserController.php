@@ -90,6 +90,13 @@ class UserController extends Controller
             (new deleteAllChatsWithAllMessagesAction())($user);
         }
 
+        if (! is_null($user->banChat) && $user->banChat->count() != 0) {
+            $user->banChat->delete();
+        }
+        if (! is_null($user->banComment) && $user->banComment->count() != 0) {
+            $user->banComment->delete();
+        }
+
         $user->delete();
 
         return response()->noContent();
