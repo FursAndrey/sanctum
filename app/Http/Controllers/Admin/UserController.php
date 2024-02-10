@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Actions\Ban\toggleBanChatAction;
+use App\Actions\Ban\toggleBanCommentAction;
 use App\Actions\Chat\deleteAllChatsWithAllMessagesAction;
 use App\Actions\User\createRandomUserAction;
 use App\Actions\User\prepareRolesBeforeSyncAction;
@@ -10,8 +12,6 @@ use App\Http\Requests\User\UpdateRequest;
 use App\Http\Resources\CurrentUserForMenuResource;
 use App\Http\Resources\User\UserExceptMeResource;
 use App\Http\Resources\User\UserResource;
-use App\Models\BanChat;
-use App\Models\BanComment;
 use App\Models\User;
 
 class UserController extends Controller
@@ -59,20 +59,10 @@ class UserController extends Controller
         $preparedRoles = (new prepareRolesBeforeSyncAction())($data);
         $user->roles()->sync($preparedRoles);
 
-        $banChat = BanChat::where('user_id', '=', $user->id)->first();
-        if ((bool) $data['has_ban_chat'] === true && is_null($banChat)) {
-            BanChat::create(['user_id' => $user->id]);
-        } elseif ((bool) $data['has_ban_chat'] === false && ! is_null($banChat)) {
-            $banChat->delete();
-        }
+        (new toggleBanChatAction())($user->id, $data['has_ban_chat']);
         unset($data['has_ban_chat']);
 
-        $banComment = BanComment::where('user_id', '=', $user->id)->first();
-        if ((bool) $data['has_ban_comment'] === true && is_null($banComment)) {
-            BanComment::create(['user_id' => $user->id]);
-        } elseif ((bool) $data['has_ban_comment'] === false && ! is_null($banComment)) {
-            $banComment->delete();
-        }
+        (new toggleBanCommentAction())($user->id, $data['has_ban_comment']);
         unset($data['has_ban_comment']);
 
         if (isset($data['tg_name'])) {
