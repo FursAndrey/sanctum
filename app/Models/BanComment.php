@@ -14,9 +14,10 @@ class BanComment extends Model
         'user_id',
     ];
 
+    protected $table = 'ban_comments';
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
-
 }

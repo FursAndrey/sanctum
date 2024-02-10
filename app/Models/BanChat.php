@@ -9,10 +9,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class BanChat extends Model
 {
     use HasFactory;
-    
+
     protected $fillable = [
         'user_id',
     ];
+
+    protected $table = 'ban_chats';
 
     public function user(): BelongsTo
     {
