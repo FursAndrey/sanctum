@@ -106,6 +106,8 @@ class ShowTest extends TestCase
                     'created' => $user->created,
                     'ban_chat' => $ban_chat->created_at->format('d.m.Y H:i:s'),
                     'ban_comment' => $ban_comment->created_at->format('d.m.Y H:i:s'),
+                    'has_ban_chat' => true,
+                    'has_ban_comment' => true,
                     'roles' => [
                         [
                             'id' => $role->id,
@@ -173,6 +175,8 @@ class ShowTest extends TestCase
                     'created' => $user->created,
                     'ban_chat' => null,
                     'ban_comment' => null,
+                    'has_ban_chat' => false,
+                    'has_ban_comment' => false,
                     'roles' => [
                         [
                             'id' => $role->id,

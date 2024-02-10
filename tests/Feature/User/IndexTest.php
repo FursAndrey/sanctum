@@ -135,6 +135,8 @@ class IndexTest extends TestCase
                         'created' => $user->created,
                         'ban_chat' => null,
                         'ban_comment' => null,
+                        'has_ban_chat' => null,
+                        'has_ban_comment' => null,
                         'roles' => [
                             [
                                 'id' => $role->id,
@@ -150,6 +152,8 @@ class IndexTest extends TestCase
                         'created' => $user2->created,
                         'ban_chat' => $ban_chat->created_at->format('d.m.Y H:i:s'),
                         'ban_comment' => $ban_comment->created_at->format('d.m.Y H:i:s'),
+                        'has_ban_chat' => true,
+                        'has_ban_comment' => true,
                         'roles' => [
                             [
                                 'id' => $role->id,
