@@ -2,8 +2,6 @@
 
 namespace Tests\Feature\User;
 
-use App\Models\BanChat;
-use App\Models\BanComment;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -402,9 +400,6 @@ class UpdateTest extends TestCase
         //подготовка юзера к обновлению
         $updatingUser = User::factory()->create();
         $updatingUser->roles()->sync($role->id);
-
-        BanChat::create(['user_id' => $updatingUser->id]);
-        BanComment::create(['user_id' => $updatingUser->id]);
 
         $newRole = [
             'roles' => [
