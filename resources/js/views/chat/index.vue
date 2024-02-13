@@ -90,6 +90,7 @@
 import { ref, onMounted } from 'vue';
 import useUsers from '../../composition/users.js';
 import useChats from '../../composition/chats';
+import useInspector from '../../composition/inspector';
 export default {
     name: 'index',
 
@@ -132,11 +133,15 @@ export default {
         const toggleUserList = ref(true);
         const { users, getUsersExceptMe } = useUsers();
         const { errorMessage, chats, storeChat, getChats } = useChats();
+        const { hasBanChat } = useInspector();
 
         onMounted(getUsersExceptMe);
         onMounted(getChats);
 
         const createPersonalChat = async (targetUserId) => {
+            if (hasBanChat() === true) {
+                return false;
+            }
             await storeChat({ title: null, users: [targetUserId] });
         }
 

@@ -28,7 +28,8 @@ class CommentPolicy
      */
     public function create(User $user): bool
     {
-        return ! is_null($user);
+        $banComment = ($user->banComment?->created_at) ? true : false;
+        return ! is_null($user) && $banComment === false;
     }
 
     /**
@@ -37,8 +38,9 @@ class CommentPolicy
     public function update(User $user, Comment $comment): bool
     {
         $roles = $user->roles->pluck('title')->toArray();
+        $banComment = ($user->banComment?->created_at) ? true : false;
 
-        return in_array('Admin', $roles) || (int) $user->id === (int) $comment->user_id;
+        return $banComment === false && (in_array('Admin', $roles) || (int) $user->id === (int) $comment->user_id);
     }
 
     /**

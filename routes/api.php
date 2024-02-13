@@ -38,12 +38,18 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::apiResource('/comments', CommentController::class)->only(['store', 'update', 'destroy']);
     Route::post('/postLike/{post}', [LikeController::class, 'postToggleLike'])->name('postToggleLike');
     Route::post('/commentLike/{comment}', [LikeController::class, 'commentToggleLike'])->name('commentToggleLike');
-    Route::apiResource('/chats', ChatController::class)->only(['index', 'store']);
+    Route::group(['middleware' => 'hasBanChat'], function () {
+        Route::apiResource('/chats', ChatController::class)->only(['store']);
+    });
+    Route::apiResource('/chats', ChatController::class)->only(['index']);
 
     Route::group(['middleware' => 'isMyChat'], function () {
-        Route::apiResource('/chats', ChatController::class)->only(['show', 'destroy']);
+        Route::group(['middleware' => 'hasBanChat'], function () {
+            Route::apiResource('/chats', ChatController::class)->only(['destroy']);
+            Route::post('/messages/{chat}', [MessageController::class, 'store'])->name('storeMessages')->where(['chat' => '[0-9]+']);
+        });
+        Route::apiResource('/chats', ChatController::class)->only(['show']);
         Route::get('/messages/{chat}', [MessageController::class, 'index'])->name('indexMessages')->where(['chat' => '[0-9]+']);
-        Route::post('/messages/{chat}', [MessageController::class, 'store'])->name('storeMessages')->where(['chat' => '[0-9]+']);
         Route::put('/messageUsers/{chat}', [MessageUserController::class, 'update'])->name('updateMessageUsers')->where(['chat' => '[0-9]+']);
     });
 });

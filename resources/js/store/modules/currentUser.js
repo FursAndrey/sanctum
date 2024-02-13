@@ -1,7 +1,7 @@
 export default {
     state () {
         return {
-            currentUserForSite: {'name': null,'roles': null},
+            currentUserForSite: {'name': null,'roles': null,'has_ban_chat': null,'has_ban_comment': null},
         }
     },
     mutations: {

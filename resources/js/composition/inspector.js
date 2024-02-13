@@ -18,7 +18,7 @@ export default function useInspector() {
             return false;
         }
     }
-    
+
     const isAuth = () => {
         let token = localStorage.getItem('x_xsrf_token');
         if (token === null) {
@@ -32,9 +32,19 @@ export default function useInspector() {
         return currentUser.value.name === userName;
     }
 
+    const hasBanChat = () => {
+        return currentUser.value.has_ban_chat;
+    }
+
+    const hasBanComment = () => {
+        return currentUser.value.has_ban_comment;
+    }
+
     return {
         isAdmin,
         isAuth,
-        isOwner
+        isOwner,
+        hasBanChat,
+        hasBanComment
     }
 }

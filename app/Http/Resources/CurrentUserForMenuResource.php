@@ -23,6 +23,8 @@ class CurrentUserForMenuResource extends JsonResource
                 'id' => (string) auth()->user()->id,
                 'name' => auth()->user()->name,
                 'roles' => auth()->user()->roles->pluck('title')->toArray(),
+                'has_ban_chat' => ($this->banChat?->created_at) ? true : false,
+                'has_ban_comment' => ($this->banComment?->created_at) ? true : false,
             ];
         }
     }
