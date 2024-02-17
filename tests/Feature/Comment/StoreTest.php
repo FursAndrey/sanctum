@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Comment;
 
+use App\Models\BanComment;
 use App\Models\Comment;
 use App\Models\Post;
 use App\Models\Role;
@@ -226,7 +227,7 @@ class StoreTest extends TestCase
         $this->assertDatabaseMissing('comments', $comment);
     }
 
-    public function test_comment_can_be_storing_by_not_admin_user()
+    public function test_comment_can_be_storing_by_not_admin_user_without_ban_comment()
     {
         //создание пользователя и присвоение ему роли
         $role = Role::create(
@@ -253,6 +254,42 @@ class StoreTest extends TestCase
         $response->assertStatus(201);
         $this->assertDatabaseCount('comments', 1);
         $this->assertDatabaseHas('comments', $comment);
+    }
+
+    public function test_comment_can_not_be_storing_by_not_admin_user_with_ban_comment()
+    {
+        //создание пользователя и присвоение ему роли
+        $role = Role::create(
+            [
+                'title' => 'notAdmin',
+                'discription' => 'Creator of this site',
+                'created_at' => null,
+                'updated_at' => null,
+            ]
+        );
+        $user = User::factory()->create();
+        $user->roles()->sync($role->id);
+
+        BanComment::create(['user_id' => $user->id]);
+
+        $post = Post::factory(1)->create()->first();
+
+        $comment = [
+            'body' => 'some text',
+            'post_id' => $post->id,
+        ];
+
+        //тестируемый запрос от имени пользователя
+        $response = $this->actingAs($user)->post('/api/comments', $comment);
+
+        $response->assertStatus(403);
+        $response->assertJsonFragment(
+            [
+                'message' => 'This action is unauthorized.',
+            ]
+        );
+        $this->assertDatabaseCount('comments', 0);
+        $this->assertDatabaseMissing('comments', $comment);
     }
 
     public function test_comment_can_have_answer()

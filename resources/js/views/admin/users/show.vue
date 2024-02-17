@@ -9,6 +9,14 @@
                 {{ role.title }}
             </div>
         </div>
+        <div>
+            <p>Блокировки:</p>
+            <div v-if="user.ban_chat || user.ban_comment">
+                <span v-if="user.ban_chat" class="text-left block">Чаты заблокированы: {{ user.ban_chat }}</span>
+                <span v-if="user.ban_comment" class="text-left block">Комментарии заблокированы: {{ user.ban_comment }}</span>
+            </div>
+            <div v-else>отсутствуют</div>
+        </div>
         <router-link :to="{ name: 'user.index'}" class="block w-48 p-2 font-bold bg-sky-700 text-white rounded-lg text-center mt-10">Return to users</router-link>
     </div>
 </template>

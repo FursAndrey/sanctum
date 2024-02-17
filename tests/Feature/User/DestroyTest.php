@@ -2,6 +2,8 @@
 
 namespace Tests\Feature\User;
 
+use App\Models\BanChat;
+use App\Models\BanComment;
 use App\Models\Chat;
 use App\Models\ChatUser;
 use App\Models\Message;
@@ -56,7 +58,7 @@ class DestroyTest extends TestCase
         $this->assertDatabaseMissing('users', $deletingUserArray);
     }
 
-    public function test_user_can_be_deleted_by_admin_user()
+    public function test_user_without_bans_can_be_deleted_by_admin_user()
     {
         //создание пользователя и присвоение ему роли
         $role = Role::create(
@@ -77,6 +79,37 @@ class DestroyTest extends TestCase
             'name' => $deletingUser->name,
             'email' => $deletingUser->email,
         ];
+
+        //тестируемый запрос от имени пользователя
+        $response = $this->actingAs($user)->delete('/api/users/'.$deletingUser->id);
+
+        $response->assertStatus(204);
+        $this->assertDatabaseMissing('users', $deletingUserArray);
+    }
+
+    public function test_user_with_bans_can_be_deleted_by_admin_user()
+    {
+        //создание пользователя и присвоение ему роли
+        $role = Role::create(
+            [
+                'title' => 'Admin',
+                'discription' => 'Creator of this site',
+                'created_at' => null,
+                'updated_at' => null,
+            ]
+        );
+        $user = User::factory()->create();
+        $user->roles()->sync($role->id);
+
+        //подготовка юзера к удалению
+        $deletingUser = User::factory()->create();
+        $deletingUserArray = [
+            'id' => $deletingUser->id,
+            'name' => $deletingUser->name,
+            'email' => $deletingUser->email,
+        ];
+        BanChat::create(['user_id' => $deletingUser->id]);
+        BanComment::create(['user_id' => $deletingUser->id]);
 
         //тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->delete('/api/users/'.$deletingUser->id);

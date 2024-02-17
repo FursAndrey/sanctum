@@ -27,6 +27,14 @@ class UpdateRequest extends FormRequest
                 'required',
                 'array',
             ],
+            'has_ban_chat' => [
+                'required',
+                'boolean',
+            ],
+            'has_ban_comment' => [
+                'required',
+                'boolean',
+            ],
             'roles.*.id' => [
                 'required',
                 'integer',

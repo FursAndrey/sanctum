@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Message;
 
+use App\Models\BanChat;
 use App\Models\Chat;
 use App\Models\ChatUser;
 use App\Models\User;
@@ -265,6 +266,42 @@ class StoreTest extends TestCase
         $response->assertJson($expectedJson);
         $this->assertDatabaseCount('messages', 1);
         $this->assertDatabaseCount('message_users', 2);
+    }
+
+    public function test_send_correct_message_for_storing_if_user_has_ban_chat()
+    {
+        //создание пользователей чатов
+        $user1 = User::factory()->create();
+        $user2 = User::factory()->create();
+
+        //создание чата
+        $chat = [
+            'title' => null,
+            'users' => $user1->id.'-'.$user2->id,
+        ];
+        $createdChat = Chat::create($chat);
+        ChatUser::create(['chat_id' => $createdChat->id, 'user_id' => $user1->id]);
+        ChatUser::create(['chat_id' => $createdChat->id, 'user_id' => $user2->id]);
+
+        BanChat::create(['user_id' => $user1->id]);
+        $message = [
+            'body' => Str::random(30),
+            'chat_id' => $createdChat->id,
+        ];
+
+        $this->assertDatabaseCount('messages', 0);
+        $this->assertDatabaseCount('message_users', 0);
+        //тестируемый запрос от имени пользователя
+        $response = $this->actingAs($user1)->post('/api/messages/'.$createdChat->id, $message);
+
+        $response->assertStatus(423);
+        $response->assertJsonFragment(
+            [
+                'message' => 'You can\'t do this. You are blocked.',
+            ]
+        );
+        $this->assertDatabaseCount('messages', 0);
+        $this->assertDatabaseCount('message_users', 0);
     }
 
     public function test_send_correct_message_for_invalid_chat()

@@ -1,7 +1,7 @@
 <template>
     <div :class="[this.comment_id === '0'? '' : 'ms-16']">
         <h2 class="text-2xl font-bold text-center cursor-pointer" @click="getCommentsForPost()"><slot></slot></h2>
-        <div class="w-32 p-3 me-6 rounded-lg bg-sky-500 text-white hover:bg-sky-700 font-semibold" @click="toggleComment()">
+        <div class="w-32 p-3 me-6 rounded-lg bg-sky-500 text-white hover:bg-sky-700 font-semibold cursor-pointer" @click="toggleComment()">
             <span v-if="this.comment_id === '0'">Add comment</span>
             <span v-else>Add answer</span>
         </div>
@@ -79,20 +79,24 @@ export default {
             required:false
         },
     },
-    
+
     setup(props, {emit}) {
         const isShow = ref(false);
         const isEdit = ref(false);
         const idEdit = ref(0);
 
-        const { isAuth, isAdmin, isOwner } = useInspector();
+        const { isAuth, isAdmin, isOwner, hasBanComment } = useInspector();
         const { comment, comments, errorMessage, getComments, storeComment, updateComment, destroyComment } = useComments();
 
         const getCommentsForPost = () => {
             getComments(props.post_id, props.comment_id)
         }
-        
+
         const createComment = () => {
+            if (hasBanComment() === true) {
+                return false;
+            }
+
             storeComment(props.post_id, comment, props.comment_id);
             if (errorMessage.value == '') {
                 toggleComment();
@@ -103,14 +107,24 @@ export default {
         }
 
         const toggleComment = () => {
+            if (hasBanComment() === true) {
+                return false;
+            }
             isShow.value = !isShow.value;
         }
 
         const toggleEditComment = () => {
+            if (hasBanComment() === true) {
+                return false;
+            }
             isEdit.value = !isEdit.value;
         }
 
         const deletedComment = async (id) => {
+            if (hasBanComment() === true) {
+                return false;
+            }
+
             if (!window.confirm('Are you sure?')) {
                 return false;
             }
@@ -121,6 +135,10 @@ export default {
         }
 
         const changeComment = (comment) => {
+            if (hasBanComment() === true) {
+                return false;
+            }
+
             updateComment(comment);
             toggleEditComment();
         }
@@ -149,7 +167,7 @@ export default {
                 idEdit.value = comment.id;
             }
         }
-        
+
         return {
             comment,
             comments,

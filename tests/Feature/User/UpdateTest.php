@@ -125,6 +125,123 @@ class UpdateTest extends TestCase
             ]);
     }
 
+    public function test_has_ban_chat_and_has_ban_comment_attributes_boolean_for_updating_user()
+    {
+        //создание пользователя и присвоение ему роли
+        $role = Role::create(
+            [
+                'title' => 'Admin',
+                'discription' => 'Creator of this site',
+                'created_at' => null,
+                'updated_at' => null,
+            ]
+        );
+        $user = User::factory()->create();
+        $user->roles()->sync($role->id);
+
+        //подготовка юзера к обновлению
+        $updatingUser = User::factory()->create();
+        $updatingUser->roles()->sync($role->id);
+
+        $newRole = [
+            'roles' => [
+                [
+                    'id' => $role->id,
+                ],
+            ],
+            'has_ban_chat' => 10,
+            'has_ban_comment' => [true],
+        ];
+
+        //тестируемый запрос от имени пользователя
+        $response = $this->actingAs($user)->put('/api/users/'.$updatingUser->id, $newRole);
+
+        $response
+            ->assertStatus(422)
+            ->assertInvalid('has_ban_chat')
+            ->assertInvalid('has_ban_comment')
+            ->assertJsonValidationErrors([
+                'has_ban_chat' => 'The has ban chat field must be true or false.',
+                'has_ban_comment' => 'The has ban comment field must be true or false.',
+            ]);
+    }
+
+    public function test_has_ban_chat_attribute_is_required_for_updating_user()
+    {
+        //создание пользователя и присвоение ему роли
+        $role = Role::create(
+            [
+                'title' => 'Admin',
+                'discription' => 'Creator of this site',
+                'created_at' => null,
+                'updated_at' => null,
+            ]
+        );
+        $user = User::factory()->create();
+        $user->roles()->sync($role->id);
+
+        //подготовка юзера к обновлению
+        $updatingUser = User::factory()->create();
+        $updatingUser->roles()->sync($role->id);
+
+        $newRole = [
+            'roles' => [
+                [
+                    'id' => $role->id,
+                ],
+            ],
+            'has_ban_comment' => false,
+        ];
+
+        //тестируемый запрос от имени пользователя
+        $response = $this->actingAs($user)->put('/api/users/'.$updatingUser->id, $newRole);
+
+        $response
+            ->assertStatus(422)
+            ->assertInvalid('has_ban_chat')
+            ->assertJsonValidationErrors([
+                'has_ban_chat' => 'The has ban chat field is required.',
+            ]);
+    }
+
+    public function test_has_ban_comment_attribute_is_required_for_updating_user()
+    {
+        //создание пользователя и присвоение ему роли
+        $role = Role::create(
+            [
+                'title' => 'Admin',
+                'discription' => 'Creator of this site',
+                'created_at' => null,
+                'updated_at' => null,
+            ]
+        );
+        $user = User::factory()->create();
+        $user->roles()->sync($role->id);
+
+        //подготовка юзера к обновлению
+        $updatingUser = User::factory()->create();
+        $updatingUser->roles()->sync($role->id);
+
+        $newRole = [
+            'roles' => [
+                [
+                    'id' => $role->id,
+                ],
+            ],
+            'has_ban_chat' => false,
+        ];
+
+        //тестируемый запрос от имени пользователя
+        $response = $this->actingAs($user)->put('/api/users/'.$updatingUser->id, $newRole);
+
+        $response
+            ->assertStatus(422)
+            ->assertInvalid('has_ban_comment')
+            ->assertJsonValidationErrors([
+                'has_ban_comment' => 'The has ban comment field is required.',
+            ]);
+    }
+
     public function test_role_id_attribute_is_integer_for_updating_user()
     {
         //создание пользователя и присвоение ему роли
@@ -199,7 +316,7 @@ class UpdateTest extends TestCase
             ]);
     }
 
-    public function test_user_can_be_updated_by_admin_user()
+    public function test_user_can_be_updated_by_admin_user_without_bans()
     {
         //создание пользователя и присвоение ему роли
         $role = Role::create(
@@ -234,6 +351,8 @@ class UpdateTest extends TestCase
                     'id' => $anotherRole->id,
                 ],
             ],
+            'has_ban_chat' => false,
+            'has_ban_comment' => false,
         ];
 
         //тестируемый запрос от имени пользователя
@@ -252,6 +371,77 @@ class UpdateTest extends TestCase
             [
                 'user_id' => $updatingUser->id,
                 'role_id' => $anotherRole->id,
+            ]
+        );
+    }
+
+    public function test_user_can_be_updated_by_admin_user_with_bans()
+    {
+        //создание пользователя и присвоение ему роли
+        $role = Role::create(
+            [
+                'title' => 'Admin',
+                'discription' => 'Creator of this site',
+                'created_at' => null,
+                'updated_at' => null,
+            ]
+        );
+        $anotherRole = Role::create(
+            [
+                'title' => 'not_Admin',
+                'discription' => 'not Creator of this site',
+                'created_at' => null,
+                'updated_at' => null,
+            ]
+        );
+        $user = User::factory()->create();
+        $user->roles()->sync($role->id);
+
+        //подготовка юзера к обновлению
+        $updatingUser = User::factory()->create();
+        $updatingUser->roles()->sync($role->id);
+
+        $newRole = [
+            'roles' => [
+                [
+                    'id' => $role->id,
+                ],
+                [
+                    'id' => $anotherRole->id,
+                ],
+            ],
+            'has_ban_chat' => true,
+            'has_ban_comment' => true,
+        ];
+
+        //тестируемый запрос от имени пользователя
+        $response = $this->actingAs($user)->put('/api/users/'.$updatingUser->id, $newRole);
+
+        $response->assertStatus(200);
+        $this->assertDatabaseHas(
+            'role_user',
+            [
+                'user_id' => $updatingUser->id,
+                'role_id' => $role->id,
+            ]
+        );
+        $this->assertDatabaseHas(
+            'role_user',
+            [
+                'user_id' => $updatingUser->id,
+                'role_id' => $anotherRole->id,
+            ]
+        );
+        $this->assertDatabaseHas(
+            'ban_chats',
+            [
+                'user_id' => $updatingUser->id,
+            ]
+        );
+        $this->assertDatabaseHas(
+            'ban_comments',
+            [
+                'user_id' => $updatingUser->id,
             ]
         );
     }
@@ -291,6 +481,8 @@ class UpdateTest extends TestCase
                     'id' => $anotherRole->id,
                 ],
             ],
+            'has_ban_chat' => false,
+            'has_ban_comment' => false,
         ];
 
         //тестируемый запрос от имени пользователя
@@ -513,6 +705,8 @@ class UpdateTest extends TestCase
                     'id' => $anotherRole->id,
                 ],
             ],
+            'has_ban_chat' => false,
+            'has_ban_comment' => false,
         ];
 
         //тестируемый запрос от имени пользователя

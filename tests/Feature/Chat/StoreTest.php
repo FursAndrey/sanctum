@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Chat;
 
+use App\Models\BanChat;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -142,6 +143,39 @@ class StoreTest extends TestCase
         $response->assertStatus(200);
         $response->assertJson($expectedJson);
         $this->assertDatabaseCount('chats', 1);
+    }
+
+    public function test_user_with_ban_chat_can_not_create_new_chat()
+    {
+        //создание пользователя и присвоение ему роли
+        $role = Role::create(
+            [
+                'title' => 'notAdmin',
+                'discription' => 'other user',
+                'created_at' => null,
+                'updated_at' => null,
+            ]
+        );
+        $user = User::factory()->create();
+        $user->roles()->sync($role->id);
+        BanChat::create(['user_id' => $user->id]);
+
+        $anotherUser = User::factory()->create();
+        $chat = [
+            'title' => null,
+            'users' => [$anotherUser->id],
+        ];
+
+        //тестируемый запрос от имени пользователя
+        $response = $this->actingAs($user)->post('/api/chats', $chat);
+
+        $response->assertStatus(423);
+        $response->assertJsonFragment(
+            [
+                'message' => 'You can\'t do this. You are blocked.',
+            ]
+        );
+        $this->assertDatabaseCount('chats', 0);
     }
 
     public function test_title_attribute_must_be_string_for_creating_chat()

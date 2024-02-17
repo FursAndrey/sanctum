@@ -22,6 +22,10 @@ class UserResource extends JsonResource
             'email' => $this->email,
             'created' => $this->created,
             'roles' => RoleResource::collection($this->whenLoaded('roles')),
+            'ban_chat' => $this->banChat?->created_at->format('d.m.Y H:i:s'),
+            'has_ban_chat' => ($this->banChat?->created_at) ? true : false,
+            'ban_comment' => $this->banComment?->created_at->format('d.m.Y H:i:s'),
+            'has_ban_comment' => ($this->banComment?->created_at) ? true : false,
         ];
     }
 }

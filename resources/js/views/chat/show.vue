@@ -58,6 +58,7 @@
 import { ref, onMounted, reactive } from 'vue';
 import useChats from '../../composition/chats';
 import useMessages from '../../composition/messages';
+import useInspector from '../../composition/inspector';
 export default {
     name: 'index',
 
@@ -130,6 +131,7 @@ export default {
 
         const { chat, getChat, destroyChat } = useChats();
         const { errorMessage, messages, storeMessage, getMessages } = useMessages();
+        const { hasBanChat } = useInspector();
 
         onMounted(getChat(props.id));
         onMounted(getMessages(props.id));
@@ -142,11 +144,17 @@ export default {
         }
 
         const createMessage = async () => {
+            if (hasBanChat() === true) {
+                return false;
+            }
             await storeMessage({...newMessage});
             newMessage.body = '';
         }
 
         const deleteChat = async () => {
+            if (hasBanChat() === true) {
+                return false;
+            }
             await destroyChat(props.id);
         }
 

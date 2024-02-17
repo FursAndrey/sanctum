@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Actions\Ban\toggleBanChatAction;
+use App\Actions\Ban\toggleBanCommentAction;
 use App\Actions\Chat\deleteAllChatsWithAllMessagesAction;
 use App\Actions\User\createRandomUserAction;
 use App\Actions\User\prepareRolesBeforeSyncAction;
@@ -21,7 +23,7 @@ class UserController extends Controller
     {
         $this->authorize('viewAny', User::class);
 
-        $users = User::with(['roles'])->get();
+        $users = User::with(['roles', 'banChat', 'banComment'])->get();
 
         return UserResource::collection($users);
     }
@@ -41,7 +43,7 @@ class UserController extends Controller
     {
         $this->authorize('view', $user);
 
-        $user = User::with(['roles'])->find($user->id);
+        $user = User::with(['roles', 'banChat', 'banComment'])->find($user->id);
 
         return new UserResource($user);
     }
@@ -56,6 +58,13 @@ class UserController extends Controller
         $data = $request->validated();
         $preparedRoles = (new prepareRolesBeforeSyncAction())($data);
         $user->roles()->sync($preparedRoles);
+
+        (new toggleBanChatAction())($user->id, $data['has_ban_chat']);
+        unset($data['has_ban_chat']);
+
+        (new toggleBanCommentAction())($user->id, $data['has_ban_comment']);
+        unset($data['has_ban_comment']);
+
         if (isset($data['tg_name'])) {
             unset($data['roles']);
             $user->update($data);
@@ -79,6 +88,13 @@ class UserController extends Controller
         //удаление всех чатов в которых был этот пользователь со всеми сообщениями
         if ($user->chats->count() != 0) {
             (new deleteAllChatsWithAllMessagesAction())($user);
+        }
+
+        if (! is_null($user->banChat) && $user->banChat->count() != 0) {
+            $user->banChat->delete();
+        }
+        if (! is_null($user->banComment) && $user->banComment->count() != 0) {
+            $user->banComment->delete();
         }
 
         $user->delete();
