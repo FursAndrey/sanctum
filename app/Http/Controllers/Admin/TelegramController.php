@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Actions\Comment\createRandomCommentAction;
 use App\Actions\Post\createPostWithPreviewAction;
 use App\Actions\Telegram\removeMenuAndItsCallActions;
+use App\Actions\Telegram\updateChatIdAction;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Services\TelegramService;
@@ -20,6 +21,15 @@ class TelegramController extends Controller
         $adminTgNames = User::with(['roles'])->whereRelation('roles', 'title', '=', 'Admin')->get('tg_name')->map->tg_name->toArray();
 
         // Log::info($event);
+
+        if (
+            isset($event['message']['chat']['type'])
+            && $event['message']['chat']['type'] === 'private'
+            && isset($event['message']['chat']['id'])
+            && isset($event['message']['chat']['username'])
+        ) {
+            (new updateChatIdAction())($event['message']['chat']['id'], $event['message']['chat']['username']);
+        }
 
         if (
             isset($event['callback_query'])

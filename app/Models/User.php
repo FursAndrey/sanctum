@@ -90,4 +90,9 @@ class User extends Authenticatable
     {
         return $this->hasOne(BanComment::class);
     }
+
+    public function privateTelegram(): HasOne
+    {
+        return $this->hasOne(PrivateTelegram::class);
+    }
 }

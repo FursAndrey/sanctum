@@ -29,6 +29,7 @@ class CommentPolicy
     public function create(User $user): bool
     {
         $banComment = ($user->banComment?->created_at) ? true : false;
+
         return ! is_null($user) && $banComment === false;
     }
 
