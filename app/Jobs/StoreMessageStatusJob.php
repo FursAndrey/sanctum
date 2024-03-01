@@ -2,9 +2,12 @@
 
 namespace App\Jobs;
 
+use App\Actions\checkEnvIsProdAction;
 use App\Events\SendUnreadableMessagesCountEvent;
 use App\Models\Message;
 use App\Models\MessageUser;
+use App\Models\PrivateTelegram;
+use App\Services\TelegramService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -55,6 +58,18 @@ class StoreMessageStatusJob implements ShouldQueue
                 ->where('is_read', false)
                 ->count();
             broadcast(new SendUnreadableMessagesCountEvent($countMessages, $this->message->chat_id, $user_id, $this->message))->toOthers();
+
+            if ((new checkEnvIsProdAction)(config('app.env'))) {
+                $telegramChatId = PrivateTelegram::where('user_id', '=', $user_id)->get('private_chat_id')->first()?->private_chat_id;
+
+                if (is_null($telegramChatId)) {
+                    continue;
+                }
+
+                $message = 'В чате byfirst.xyz вам отправлено следующее сообщение: '. $this->message->body;
+                $telegramService = new TelegramService();
+                $telegramService->sendMessage($telegramChatId, $message);
+            }
         }
     }
 }
