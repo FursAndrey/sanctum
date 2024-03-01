@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Actions\checkEnvIsProdAction;
 use App\Models\Comment;
 use App\Models\Post;
 use App\Observers\CommentObserver;
@@ -29,7 +30,7 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        if (config('app.env') !== 'testing' && config('app.env') !== 'local') {
+        if ((new checkEnvIsProdAction)(config('app.env'))) {
             Post::observe(new PostObserver());
             Comment::observe(new CommentObserver());
         }
