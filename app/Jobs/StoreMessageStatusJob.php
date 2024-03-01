@@ -66,7 +66,7 @@ class StoreMessageStatusJob implements ShouldQueue
                     continue;
                 }
 
-                $message = 'В чате byfirst.xyz вам отправлено следующее сообщение: '. $this->message->body;
+                $message = 'В чате byfirst.xyz пользователь <b>' . $this->message->user->name . "</b> отправил вам следующее сообщение:\n<i>". $this->message->body."</i>";
                 $telegramService = new TelegramService();
                 $telegramService->sendMessage($telegramChatId, $message);
             }
