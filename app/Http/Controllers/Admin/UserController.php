@@ -56,15 +56,21 @@ class UserController extends Controller
         $this->authorize('update', $user);
 
         $data = $request->validated();
-        $preparedRoles = (new prepareRolesBeforeSyncAction())($data);
-        $user->roles()->sync($preparedRoles);
+        
+        $roles = $user->roles->pluck('title')->toArray();
+        /** эти изменения может делать только админ */
+        if (in_array('Admin', $roles)) {
+            $preparedRoles = (new prepareRolesBeforeSyncAction())($data);
+            $user->roles()->sync($preparedRoles);
 
-        (new toggleBanChatAction())($user->id, $data['has_ban_chat']);
-        unset($data['has_ban_chat']);
+            (new toggleBanChatAction())($user->id, $data['has_ban_chat']);
+            unset($data['has_ban_chat']);
 
-        (new toggleBanCommentAction())($user->id, $data['has_ban_comment']);
-        unset($data['has_ban_comment']);
+            (new toggleBanCommentAction())($user->id, $data['has_ban_comment']);
+            unset($data['has_ban_comment']);
+        }
 
+        /** это может делать каждый (для себя) */
         if (isset($data['tg_name'])) {
             unset($data['roles']);
             $user->update($data);
