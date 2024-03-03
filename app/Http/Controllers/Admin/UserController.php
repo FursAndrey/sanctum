@@ -56,7 +56,7 @@ class UserController extends Controller
         $this->authorize('update', $user);
 
         $data = $request->validated();
-        
+
         $roles = $user->roles->pluck('title')->toArray();
         /** эти изменения может делать только админ */
         if (in_array('Admin', $roles)) {

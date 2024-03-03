@@ -330,7 +330,7 @@ class UpdateTest extends TestCase
         $anotherRole = Role::create(
             [
                 'title' => 'not_Admin',
-                'discription' => 'not Creator of this site',
+                'discription' => Str::random(10),
                 'created_at' => null,
                 'updated_at' => null,
             ]
@@ -389,7 +389,7 @@ class UpdateTest extends TestCase
         $anotherRole = Role::create(
             [
                 'title' => 'not_Admin',
-                'discription' => 'not Creator of this site',
+                'discription' => Str::random(10),
                 'created_at' => null,
                 'updated_at' => null,
             ]
@@ -452,7 +452,7 @@ class UpdateTest extends TestCase
         $role = Role::create(
             [
                 'title' => 'not_admin',
-                'discription' => 'Creator of this site',
+                'discription' => Str::random(10),
                 'created_at' => null,
                 'updated_at' => null,
             ]
@@ -460,7 +460,7 @@ class UpdateTest extends TestCase
         $anotherRole = Role::create(
             [
                 'title' => 'test',
-                'discription' => 'not Creator of this site',
+                'discription' => Str::random(10),
                 'created_at' => null,
                 'updated_at' => null,
             ]
@@ -516,7 +516,7 @@ class UpdateTest extends TestCase
         $role = Role::create(
             [
                 'title' => 'not_Admin',
-                'discription' => 'Creator of this site',
+                'discription' => Str::random(10),
                 'created_at' => null,
                 'updated_at' => null,
             ]
@@ -535,7 +535,7 @@ class UpdateTest extends TestCase
         $response = $this->actingAs($user)->put('/api/users/'.$user->id, $forUpdate);
 
         $response->assertStatus(200);
-        
+
         $this->assertDatabaseHas(
             'users',
             [
@@ -560,7 +560,7 @@ class UpdateTest extends TestCase
         $role = Role::create(
             [
                 'title' => 'not_Admin',
-                'discription' => 'Creator of this site',
+                'discription' => Str::random(10),
                 'created_at' => null,
                 'updated_at' => null,
             ]
@@ -610,7 +610,7 @@ class UpdateTest extends TestCase
         $role = Role::create(
             [
                 'title' => 'not_admin',
-                'discription' => 'Creator of this site',
+                'discription' => Str::random(10),
                 'created_at' => null,
                 'updated_at' => null,
             ]
@@ -618,7 +618,7 @@ class UpdateTest extends TestCase
         $anotherRole = Role::create(
             [
                 'title' => 'test',
-                'discription' => 'not Creator of this site',
+                'discription' => Str::random(10),
                 'created_at' => null,
                 'updated_at' => null,
             ]
@@ -782,7 +782,7 @@ class UpdateTest extends TestCase
         $anotherRole = Role::create(
             [
                 'title' => 'not_Admin',
-                'discription' => 'Creator of this site',
+                'discription' => Str::random(10),
                 'created_at' => null,
                 'updated_at' => null,
             ]
@@ -809,14 +809,14 @@ class UpdateTest extends TestCase
 
         $response->assertStatus(200);
     }
-    
+
     public function test_second_user_take_same_tg_name()
     {
         //создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'not_Admin',
-                'discription' => 'Creator of this site',
+                'discription' => Str::random(10),
                 'created_at' => null,
                 'updated_at' => null,
             ]
