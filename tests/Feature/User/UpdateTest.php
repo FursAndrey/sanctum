@@ -809,4 +809,36 @@ class UpdateTest extends TestCase
 
         $response->assertStatus(200);
     }
+    
+    public function test_second_user_take_same_tg_name()
+    {
+        //создание пользователя и присвоение ему роли
+        $role = Role::create(
+            [
+                'title' => 'not_Admin',
+                'discription' => 'Creator of this site',
+                'created_at' => null,
+                'updated_at' => null,
+            ]
+        );
+        $user1 = User::factory()->create(['tg_name' => 'tg_name']);
+        $user1->roles()->sync($role->id);
+
+        $user2 = User::factory()->create();
+        $user2->roles()->sync($role->id);
+
+        $forUpdate = [
+            'tg_name' => 'tg_name',
+        ];
+
+        //тестируемый запрос от имени пользователя
+        $response = $this->actingAs($user2)->put('/api/users/'.$user2->id, $forUpdate);
+
+        $response
+            ->assertStatus(422)
+            ->assertInvalid('tg_name')
+            ->assertJsonValidationErrors([
+                'tg_name' => 'The tg name has already been taken.',
+            ]);
+    }
 }
