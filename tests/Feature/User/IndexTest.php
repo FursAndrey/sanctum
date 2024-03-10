@@ -7,6 +7,7 @@ use App\Models\BanComment;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Str;
 use Tests\TestCase;
 
 class IndexTest extends TestCase
@@ -42,7 +43,7 @@ class IndexTest extends TestCase
         $role = Role::create(
             [
                 'title' => 'not_admin',
-                'discription' => 'Creator of this site',
+                'discription' => Str::random(10),
                 'created_at' => null,
                 'updated_at' => null,
             ]

@@ -7,6 +7,7 @@ use App\Models\Post;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Str;
 use Tests\TestCase;
 
 class CommentToggleTest extends TestCase
@@ -40,7 +41,7 @@ class CommentToggleTest extends TestCase
         $role = Role::create(
             [
                 'title' => 'bot',
-                'discription' => 'Creator of this site',
+                'discription' => Str::random(10),
                 'created_at' => null,
                 'updated_at' => null,
             ]

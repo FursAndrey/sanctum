@@ -85,7 +85,7 @@ export default {
                     }
 
                     //если пользователь авторизован, но не имеет роли "админ" и лезет в админку или в профиль
-                    if (fullPath.indexOf('admin/') != -1 || fullPath.indexOf('profile/') != -1) {
+                    if (fullPath.indexOf('admin/') != -1) {
                         if (!this.isAdmin()) {
                             this.$router.push({name: 'errors.403'})
                         }

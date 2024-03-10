@@ -22,31 +22,43 @@ class UpdateRequest extends FormRequest
      */
     public function rules(): array
     {
-        $rules = [
-            'roles' => [
-                'required',
-                'array',
-            ],
-            'has_ban_chat' => [
-                'required',
-                'boolean',
-            ],
-            'has_ban_comment' => [
-                'required',
-                'boolean',
-            ],
-            'roles.*.id' => [
-                'required',
-                'integer',
-                'exists:roles,id',
-            ],
-            'tg_name' => [
-                'nullable',
-                'string',
-                'max:100',
-                Rule::unique('users')->ignore($this->user->id),
-            ],
-        ];
+        $roles = $this->user->roles->pluck('title')->toArray();
+        if (in_array('Admin', $roles)) {
+            $rules = [
+                'roles' => [
+                    'required',
+                    'array',
+                ],
+                'has_ban_chat' => [
+                    'required',
+                    'boolean',
+                ],
+                'has_ban_comment' => [
+                    'required',
+                    'boolean',
+                ],
+                'roles.*.id' => [
+                    'required',
+                    'integer',
+                    'exists:roles,id',
+                ],
+                'tg_name' => [
+                    'nullable',
+                    'string',
+                    'max:100',
+                    Rule::unique('users')->ignore($this->user->id),
+                ],
+            ];
+        } else {
+            $rules = [
+                'tg_name' => [
+                    'required',
+                    'string',
+                    'max:100',
+                    Rule::unique('users')->ignore($this->user->id),
+                ],
+            ];
+        }
 
         return $rules;
     }

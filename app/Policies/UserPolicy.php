@@ -48,7 +48,7 @@ class UserPolicy
     {
         $roles = $user->roles->pluck('title')->toArray();
 
-        return in_array('Admin', $roles);
+        return in_array('Admin', $roles) || (int) $user->id === (int) $model->id;
     }
 
     /**

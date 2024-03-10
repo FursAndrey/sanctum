@@ -330,7 +330,7 @@ class UpdateTest extends TestCase
         $anotherRole = Role::create(
             [
                 'title' => 'not_Admin',
-                'discription' => 'not Creator of this site',
+                'discription' => Str::random(10),
                 'created_at' => null,
                 'updated_at' => null,
             ]
@@ -389,7 +389,7 @@ class UpdateTest extends TestCase
         $anotherRole = Role::create(
             [
                 'title' => 'not_Admin',
-                'discription' => 'not Creator of this site',
+                'discription' => Str::random(10),
                 'created_at' => null,
                 'updated_at' => null,
             ]
@@ -446,13 +446,13 @@ class UpdateTest extends TestCase
         );
     }
 
-    public function test_user_can_not_be_updated_by_not_admin_user()
+    public function test_user_if_not_admin_can_not_update_others_fields_except_tg_name()
     {
         //создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'not_admin',
-                'discription' => 'Creator of this site',
+                'discription' => Str::random(10),
                 'created_at' => null,
                 'updated_at' => null,
             ]
@@ -460,7 +460,7 @@ class UpdateTest extends TestCase
         $anotherRole = Role::create(
             [
                 'title' => 'test',
-                'discription' => 'not Creator of this site',
+                'discription' => Str::random(10),
                 'created_at' => null,
                 'updated_at' => null,
             ]
@@ -488,12 +488,12 @@ class UpdateTest extends TestCase
         //тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->put('/api/users/'.$updatingUser->id, $newRole);
 
-        $response->assertStatus(403);
-        $response->assertJsonFragment(
-            [
-                'message' => 'This action is unauthorized.',
-            ]
-        );
+        $response
+            ->assertStatus(422)
+            ->assertInvalid('tg_name')
+            ->assertJsonValidationErrors([
+                'tg_name' => 'The tg name field is required.',
+            ]);
         $this->assertDatabaseHas(
             'role_user',
             [
@@ -510,12 +510,107 @@ class UpdateTest extends TestCase
         );
     }
 
+    public function test_user_can_update_tg_name_for_himself_if_not_admin()
+    {
+        //создание пользователя и присвоение ему роли
+        $role = Role::create(
+            [
+                'title' => 'not_Admin',
+                'discription' => Str::random(10),
+                'created_at' => null,
+                'updated_at' => null,
+            ]
+        );
+        $user = User::factory()->create(['tg_name' => Str::random(10)]);
+        $user->roles()->sync($role->id);
+
+        $oldTgName = $user->tg_name;
+        $newTgName = Str::random(10);
+
+        $forUpdate = [
+            'tg_name' => $newTgName,
+        ];
+
+        //тестируемый запрос от имени пользователя
+        $response = $this->actingAs($user)->put('/api/users/'.$user->id, $forUpdate);
+
+        $response->assertStatus(200);
+
+        $this->assertDatabaseHas(
+            'users',
+            [
+                'name' => $user->name,
+                'id' => $user->id,
+                'tg_name' => $newTgName,
+            ]
+        );
+        $this->assertDatabaseMissing(
+            'users',
+            [
+                'name' => $user->name,
+                'id' => $user->id,
+                'tg_name' => $oldTgName,
+            ]
+        );
+    }
+
+    public function test_user_can_update_tg_name_for_another_user_if_not_admin()
+    {
+        //создание пользователя и присвоение ему роли
+        $role = Role::create(
+            [
+                'title' => 'not_Admin',
+                'discription' => Str::random(10),
+                'created_at' => null,
+                'updated_at' => null,
+            ]
+        );
+        $user = User::factory()->create();
+        $user->roles()->sync($role->id);
+
+        $user2 = User::factory()->create(['tg_name' => Str::random(10)]);
+        $user2->roles()->sync($role->id);
+
+        $oldTgName = $user2->tg_name;
+        $newTgName = Str::random(10);
+
+        $forUpdate = [
+            'tg_name' => $newTgName,
+        ];
+
+        //тестируемый запрос от имени пользователя
+        $response = $this->actingAs($user)->put('/api/users/'.$user2->id, $forUpdate);
+
+        $response->assertStatus(403);
+        $response->assertJsonFragment(
+            [
+                'message' => 'This action is unauthorized.',
+            ]
+        );
+        $this->assertDatabaseHas(
+            'users',
+            [
+                'name' => $user2->name,
+                'id' => $user2->id,
+                'tg_name' => $oldTgName,
+            ]
+        );
+        $this->assertDatabaseMissing(
+            'users',
+            [
+                'name' => $user2->name,
+                'id' => $user2->id,
+                'tg_name' => $newTgName,
+            ]
+        );
+    }
+
     public function test_user_can_not_be_updated_by_unauthorised_user()
     {
         $role = Role::create(
             [
                 'title' => 'not_admin',
-                'discription' => 'Creator of this site',
+                'discription' => Str::random(10),
                 'created_at' => null,
                 'updated_at' => null,
             ]
@@ -523,7 +618,7 @@ class UpdateTest extends TestCase
         $anotherRole = Role::create(
             [
                 'title' => 'test',
-                'discription' => 'not Creator of this site',
+                'discription' => Str::random(10),
                 'created_at' => null,
                 'updated_at' => null,
             ]
@@ -687,7 +782,7 @@ class UpdateTest extends TestCase
         $anotherRole = Role::create(
             [
                 'title' => 'not_Admin',
-                'discription' => 'Creator of this site',
+                'discription' => Str::random(10),
                 'created_at' => null,
                 'updated_at' => null,
             ]
@@ -713,5 +808,37 @@ class UpdateTest extends TestCase
         $response = $this->actingAs($user)->put('/api/users/'.$user->id, $forUpdate);
 
         $response->assertStatus(200);
+    }
+
+    public function test_second_user_take_same_tg_name()
+    {
+        //создание пользователя и присвоение ему роли
+        $role = Role::create(
+            [
+                'title' => 'not_Admin',
+                'discription' => Str::random(10),
+                'created_at' => null,
+                'updated_at' => null,
+            ]
+        );
+        $user1 = User::factory()->create(['tg_name' => 'tg_name']);
+        $user1->roles()->sync($role->id);
+
+        $user2 = User::factory()->create();
+        $user2->roles()->sync($role->id);
+
+        $forUpdate = [
+            'tg_name' => 'tg_name',
+        ];
+
+        //тестируемый запрос от имени пользователя
+        $response = $this->actingAs($user2)->put('/api/users/'.$user2->id, $forUpdate);
+
+        $response
+            ->assertStatus(422)
+            ->assertInvalid('tg_name')
+            ->assertJsonValidationErrors([
+                'tg_name' => 'The tg name has already been taken.',
+            ]);
     }
 }

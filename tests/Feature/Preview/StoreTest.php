@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Tests\TestCase;
 
 class StoreTest extends TestCase
@@ -156,7 +157,7 @@ class StoreTest extends TestCase
         $role = Role::create(
             [
                 'title' => 'not_dmin',
-                'discription' => 'Creator of this site',
+                'discription' => Str::random(10),
                 'created_at' => null,
                 'updated_at' => null,
             ]

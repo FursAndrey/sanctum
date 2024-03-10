@@ -6,6 +6,7 @@ use App\Models\Post;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Str;
 use Tests\TestCase;
 
 class StoreRandomTest extends TestCase
@@ -40,7 +41,7 @@ class StoreRandomTest extends TestCase
         $roleBot = Role::create(
             [
                 'title' => 'bot',
-                'discription' => 'Creator of this site',
+                'discription' => Str::random(10),
                 'created_at' => null,
                 'updated_at' => null,
             ]
@@ -62,7 +63,7 @@ class StoreRandomTest extends TestCase
         $role = Role::create(
             [
                 'title' => 'not_admin',
-                'discription' => 'Creator of this site',
+                'discription' => Str::random(10),
                 'created_at' => null,
                 'updated_at' => null,
             ]
@@ -73,7 +74,7 @@ class StoreRandomTest extends TestCase
         $roleBot = Role::create(
             [
                 'title' => 'bot',
-                'discription' => 'Creator of this site',
+                'discription' => Str::random(10),
                 'created_at' => null,
                 'updated_at' => null,
             ]

@@ -38,7 +38,7 @@ class UpdateTest extends TestCase
 
         $oldRoleArray = [
             'title' => 'some text',
-            'discription' => 'Creator of this site',
+            'discription' => Str::random(10),
         ];
         $oldRole = Role::create($oldRoleArray);
         $newRole = [
@@ -77,7 +77,7 @@ class UpdateTest extends TestCase
 
         $oldRoleArray = [
             'title' => 'some text',
-            'discription' => 'Creator of this site',
+            'discription' => Str::random(10),
         ];
         $oldRole = Role::create($oldRoleArray);
         $newRole = [
@@ -116,7 +116,7 @@ class UpdateTest extends TestCase
 
         $oldRoleArray = [
             'title' => 'some text',
-            'discription' => 'Creator of this site',
+            'discription' => Str::random(10),
         ];
         $oldRole = Role::create($oldRoleArray);
         $newRole = [
@@ -140,7 +140,7 @@ class UpdateTest extends TestCase
         $role = Role::create(
             [
                 'title' => 'not_admin',
-                'discription' => 'Creator of this site',
+                'discription' => Str::random(10),
                 'created_at' => null,
                 'updated_at' => null,
             ]
@@ -150,7 +150,7 @@ class UpdateTest extends TestCase
 
         $oldRoleArray = [
             'title' => 'some text',
-            'discription' => 'Creator of this site',
+            'discription' => Str::random(10),
         ];
         $oldRole = Role::create($oldRoleArray);
         $newRole = [
@@ -177,7 +177,7 @@ class UpdateTest extends TestCase
     {
         $oldRoleArray = [
             'title' => 'some text',
-            'discription' => 'Creator of this site',
+            'discription' => Str::random(10),
         ];
         $oldRole = Role::create($oldRoleArray);
         $newRole = [

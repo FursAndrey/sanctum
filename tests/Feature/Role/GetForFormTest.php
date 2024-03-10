@@ -5,6 +5,7 @@ namespace Tests\Feature\Role;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Str;
 use Tests\TestCase;
 
 class GetForFormTest extends TestCase
@@ -40,7 +41,7 @@ class GetForFormTest extends TestCase
         $role = Role::create(
             [
                 'title' => 'not_admin',
-                'discription' => 'Creator of this site',
+                'discription' => Str::random(10),
                 'created_at' => null,
                 'updated_at' => null,
             ]
@@ -64,7 +65,7 @@ class GetForFormTest extends TestCase
         $role_not_admin = Role::create(
             [
                 'title' => 'not_admin',
-                'discription' => 'Creator of this site',
+                'discription' => Str::random(10),
                 'created_at' => null,
                 'updated_at' => null,
             ]
@@ -74,7 +75,7 @@ class GetForFormTest extends TestCase
         $role = Role::create(
             [
                 'title' => 'Admin',
-                'discription' => 'Creator of this site',
+                'discription' => Str::random(10),
                 'created_at' => null,
                 'updated_at' => null,
             ]

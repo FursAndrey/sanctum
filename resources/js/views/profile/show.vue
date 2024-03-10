@@ -4,6 +4,11 @@
         <div class="text-sm text-right text-slate-400">{{ user.created }}</div>
         <div>My name: {{ user.name }}</div>
         <div>My email: {{ user.email }}</div>
+        <div>My telegram login: <span v-if="user.tg_name">{{ user.tg_name }}</span><span v-else>не заполнено</span></div>
+        <div v-if="user.has_ban_chat || user.has_ban_comment">
+            <div v-if="user.has_ban_chat">Чат заблокирован {{ user.ban_chat }}</div>
+            <div v-if="user.has_ban_comment">Комментарии заблокированы {{ user.ban_comment }}</div>
+        </div>
         <div>
             <p>My roles:</p>
             <div v-for="role in user.roles" :key="role.id" class="indent-1.5">
