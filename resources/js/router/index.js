@@ -5,6 +5,11 @@ const router = createRouter({
     history: createWebHistory(),
     routes: [
         {
+            path: '/calculator',
+            component: () => import('../views/Calculator.vue'),
+            name: 'calculator',
+        },
+        {
             path: '/',
             component: () => import('../views/postList.vue'),
             name: 'postList',
