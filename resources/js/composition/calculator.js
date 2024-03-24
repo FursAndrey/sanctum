@@ -5,7 +5,7 @@ import { ref, reactive } from "vue";
 export default function useCalculator() {
     // const item = ref([]);
     const items = reactive([]);
-    // const errorMessage = ref('');
+    const errorMessage = ref('');
     // const router = useRouter();
     
     // const getChat = async (id) => {
@@ -16,8 +16,9 @@ export default function useCalculator() {
     const getItems = async () => {}
 
     const addItem = async (newItem) => {
-        let i = newItem.p / 2;
-        items.push({num: newItem.num, p: newItem.p, i: i});
+        items.push({num: newItem.num, p: newItem.p});
+
+        sendForCalc();
     }
 
     const removeItem = async (item) => {
@@ -26,6 +27,8 @@ export default function useCalculator() {
                 items.splice(index, 1);
             }
         }
+
+        sendForCalc();
     }
 
     const editItem = async (oldItemNum, newItem) => {
@@ -33,23 +36,21 @@ export default function useCalculator() {
             if (items[index].num === oldItemNum) {
                 items[index].num = newItem.num;
                 items[index].p = newItem.p;
-                items[index].i = newItem.p / 2;
             }
         }
+
+        sendForCalc();
     }
 
-    // const storeChat = async (data) => {
-    //     errorMessage.value = '';
+    const sendForCalc = async () => {
+        errorMessage.value = '';
 
-    //     try {
-    //         await axios.post('/api/items', data)
-    //         .then(item => {
-    //             router.push({ name: 'items.show', params:{ id: String(item.data.id) } });
-    //         });
-    //     } catch(e) {
-    //         errorMessage.value = e.response.data.message;
-    //     }
-    // }
+        try {
+            await axios.post('/api/calculator', {items: items});
+        } catch(e) {
+            errorMessage.value = e.response.data.message;
+        }
+    }
 
     // const updateChat = async (id) => {
     //     errorMessage.value = '';
@@ -70,7 +71,7 @@ export default function useCalculator() {
     return {
         // item,
         items,
-        // errorMessage,
+        errorMessage,
         // getChat,
         getItems,
         addItem,
