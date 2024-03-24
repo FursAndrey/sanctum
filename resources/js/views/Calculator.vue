@@ -1,8 +1,13 @@
 <template>
     <div>
         <h1 class="text-3xl font-bold text-center">Калькулятор</h1>
-        <div>
+        <div class="p-4 my-4 border border-indigo-600 shadow-md shadow-indigo-800">
             Результаты расчета:
+            <div v-if="total.value">
+                <span>Количество элементов: {{ total.value.count }}шт</span>&nbsp;
+                <span>Psum: {{ total.value.Psum }}кВт</span>&nbsp;
+                <span>Isum: {{ total.value.Isum }}А</span>
+            </div>
         </div>
         <div class="flex justify-between flex-wrap">
             <div
@@ -55,7 +60,7 @@ export default {
             'num': '',
             'p': '',
         });
-        const { items, getItems, addItem, removeItem, editItem } = useCalculator();
+        const { items, total, getItems, addItem, removeItem, editItem } = useCalculator();
         const showModal = ref(false);
         const editModal = ref(false);
         
@@ -94,9 +99,12 @@ export default {
             editItem(oldItemForChange.num, {...newItem});
             oldItemForChange.num = '';
             showModal.value = false;
+            newItem.num = '';
+            newItem.p = '';
         }
 
         return {
+            total,
             items,
             showModal,
             editModal,

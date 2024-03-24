@@ -4,6 +4,7 @@ import axios from "axios";
 
 export default function useCalculator() {
     // const item = ref([]);
+    const total = reactive([]);
     const items = reactive([]);
     const errorMessage = ref('');
     // const router = useRouter();
@@ -44,9 +45,19 @@ export default function useCalculator() {
 
     const sendForCalc = async () => {
         errorMessage.value = '';
+        total.value = [];
 
         try {
-            await axios.post('/api/calculator', {items: items});
+            await axios.post('/api/calculator', {items: items})
+                .then(res => {
+                    
+                    for (let index = 0; index < items.length; index++) {
+                        items[index].num = res.data.items[index].num;
+                        items[index].p = res.data.items[index].p;
+                        items[index].i = res.data.items[index].i;
+                    }
+                    total.value = res.data.total;
+                });
         } catch(e) {
             errorMessage.value = e.response.data.message;
         }
@@ -70,6 +81,7 @@ export default function useCalculator() {
     
     return {
         // item,
+        total,
         items,
         errorMessage,
         // getChat,
