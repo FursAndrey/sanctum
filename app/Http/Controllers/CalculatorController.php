@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\Calculator\calculateInomAction;
+use App\Actions\Calculator\calculateTotalAction;
 use App\Http\Requests\Calculator\SendItemsRequest;
 
 class CalculatorController extends Controller
@@ -10,22 +12,15 @@ class CalculatorController extends Controller
     {
         $data = $request->validated();
 
-        $count = count($data['items']);
-        $Psum = 0;
-        $Isum = 0;
         foreach ($data['items'] as $key => $item) {
-            $data['items'][$key]['i'] = round($item['p'] / (sqrt(3) * 0.38), 2);
-            $Psum += $item['p'];
-            $Isum += $data['items'][$key]['i'];
+            $data['items'][$key]['i'] = (new calculateInomAction())($item['p']);
         }
+
+        $total = (new calculateTotalAction())($data['items']);
 
         return response()->json(
             [
-                'total' => [
-                    'count' => $count,
-                    'Psum' => round($Psum, 2),
-                    'Isum' => round($Isum, 2),
-                ],
+                'total' => $total,
                 'items' => $data['items'],
             ]
         );
