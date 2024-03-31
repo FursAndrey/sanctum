@@ -7,6 +7,8 @@
                 <span>Количество элементов: {{ total.value.count }}шт</span>&nbsp;
                 <span>Psum: {{ total.value.Psum }}кВт</span>&nbsp;
                 <span>Isum: {{ total.value.Isum }}А</span>
+                <span>cos: {{ total.value.cos }}</span>
+                <span>КПД: {{ total.value.kpd }}</span>
             </div>
         </div>
         <div class="flex justify-between flex-wrap">
@@ -17,6 +19,8 @@
                 <div class="flex-1 mb-4">№{{ item.num }}</div>
                 <div class="flex-1 mb-4">Мощность {{ item.p }}кВт</div>
                 <div class="flex-1 mb-4">Сила тока {{ item.i }}А</div>
+                <div class="flex-1 mb-4">cos {{ item.cos }}</div>
+                <div class="flex-1 mb-4">КПД {{ item.kpd }}</div>
                 <div class="flex justify-between">
                     <div class="edit-btn w-2/5 block p-3 text-center rounded-lg bg-indigo-800 cursor-pointer" @click="openChangeModal(item)"></div>
                     <div class="delete-btn w-2/5 block p-3 text-center rounded-lg bg-indigo-800 cursor-pointer" @click="deleteItem(item)"></div>
@@ -35,6 +39,12 @@
                 </div>
                 <div>
                     <input type="text" v-model="newItem.p" placeholder="Мощность" class="w-96 p-2 mb-6 border border-inherit rounded-lg">
+                </div>
+                <div>
+                    <input type="text" v-model="newItem.cos" placeholder="cos" class="w-96 p-2 mb-6 border border-inherit rounded-lg">
+                </div>
+                <div>
+                    <input type="text" v-model="newItem.kpd" placeholder="КПД" class="w-96 p-2 mb-6 border border-inherit rounded-lg">
                 </div>
                 <div class="flex">
                     <span v-if="editModal === false" @click="addNewItem()" class="p-2 me-6 font-bold bg-green-700 text-white rounded-lg text-center cursor-pointer">Добавить</span>
@@ -59,6 +69,8 @@ export default {
         const oldItemForChange = reactive({
             'num': '',
             'p': '',
+            'cos': '',
+            'kpd': '',
         });
         const { items, total, getItems, addItem, removeItem, editItem } = useCalculator();
         const showModal = ref(false);
@@ -81,6 +93,8 @@ export default {
             showModal.value = false;
             newItem.num = '';
             newItem.p = '';
+            newItem.cos = '';
+            newItem.kpd = '';
         }
 
         const deleteItem = (item) => {
@@ -92,6 +106,8 @@ export default {
             editModal.value = true;
             newItem.num = item.num;
             newItem.p = item.p;
+            newItem.cos = item.cos;
+            newItem.kpd = item.kpd;
             oldItemForChange.num = item.num;
         }
 
@@ -101,6 +117,8 @@ export default {
             showModal.value = false;
             newItem.num = '';
             newItem.p = '';
+            newItem.cos = '';
+            newItem.kpd = '';
         }
 
         return {
@@ -146,6 +164,6 @@ div.delete-btn {
 .modal > .modal-main {
     background-color: rgb(35, 0, 100);
     width: 50%;
-    height: 30%;
+    height: 40%;
 }
 </style>

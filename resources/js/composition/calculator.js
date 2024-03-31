@@ -17,7 +17,12 @@ export default function useCalculator() {
     const getItems = async () => {}
 
     const addItem = async (newItem) => {
-        items.push({num: newItem.num, p: newItem.p});
+        items.push({
+            num: newItem.num, 
+            p: newItem.p,
+            cos: newItem.cos,
+            kpd: newItem.kpd
+        });
 
         sendForCalc();
     }
@@ -37,6 +42,8 @@ export default function useCalculator() {
             if (items[index].num === oldItemNum) {
                 items[index].num = newItem.num;
                 items[index].p = newItem.p;
+                items[index].cos = newItem.cos;
+                items[index].kpd = newItem.kpd;
             }
         }
 
@@ -55,6 +62,8 @@ export default function useCalculator() {
                         items[index].num = res.data.items[index].num;
                         items[index].p = res.data.items[index].p;
                         items[index].i = res.data.items[index].i;
+                        items[index].cos = res.data.items[index].cos;
+                        items[index].kpd = res.data.items[index].kpd;
                     }
                     total.value = res.data.total;
                 });
