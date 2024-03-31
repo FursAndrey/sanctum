@@ -7,8 +7,6 @@
                 <span>Количество элементов: {{ total.value.count }}шт</span>&nbsp;
                 <span>Psum: {{ total.value.Psum }}кВт</span>&nbsp;
                 <span>Isum: {{ total.value.Isum }}А</span>
-                <span>cos: {{ total.value.cos }}</span>
-                <span>КПД: {{ total.value.kpd }}</span>
             </div>
         </div>
         <div class="flex justify-between flex-wrap">
