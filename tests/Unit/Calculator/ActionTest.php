@@ -35,6 +35,9 @@ class ActionTest extends TestCase
         $calculator = calculateInomFactory::make(2);
         $this->assertInstanceOf('App\\Actions\\Calculator\\calculateInomInterface', $calculator);
         $this->assertInstanceOf('App\\Actions\\Calculator\\calculateTermInomAction', $calculator);
+
+        $calculator = calculateInomFactory::make(99);
+        $this->assertNull($calculator);
     }
 
     public function test_calculate_total_action(): void
