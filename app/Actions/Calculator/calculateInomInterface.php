@@ -4,5 +4,5 @@ namespace App\Actions\Calculator;
 
 interface calculateInomInterface
 {
-    public function __invoke(float $Pnom): float;
+    public function __invoke(float $Pnom, float $cos, float $kpd): float;
 }
