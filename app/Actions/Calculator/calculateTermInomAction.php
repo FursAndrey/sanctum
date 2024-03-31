@@ -2,7 +2,7 @@
 
 namespace App\Actions\Calculator;
 
-class calculateInomAction implements calculateInomInterface
+class calculateTermInomAction implements calculateInomInterface
 {
     public function __invoke(float $Pnom): float
     {
