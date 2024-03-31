@@ -3,6 +3,7 @@
 namespace Tests\Unit\Calculator;
 
 use App\Actions\Calculator\calculateEngineInomAction;
+use App\Actions\Calculator\calculateInomFactory;
 use App\Actions\Calculator\calculateTermInomAction;
 use App\Actions\Calculator\calculateTotalAction;
 use PHPUnit\Framework\TestCase;
@@ -23,6 +24,17 @@ class ActionTest extends TestCase
         $this->assertEquals($expected, (new calculateEngineInomAction())(1.54, 0.8, 0.8));
         $expected = 29.77;
         $this->assertEquals($expected, (new calculateEngineInomAction())(12.54, 0.8, 0.8));
+    }
+
+    public function test_calculate_factory(): void
+    {
+        $calculator = calculateInomFactory::make(1);
+        $this->assertInstanceOf('App\\Actions\\Calculator\\calculateInomInterface', $calculator);
+        $this->assertInstanceOf('App\\Actions\\Calculator\\calculateEngineInomAction', $calculator);
+
+        $calculator = calculateInomFactory::make(2);
+        $this->assertInstanceOf('App\\Actions\\Calculator\\calculateInomInterface', $calculator);
+        $this->assertInstanceOf('App\\Actions\\Calculator\\calculateTermInomAction', $calculator);
     }
 
     public function test_calculate_total_action(): void
