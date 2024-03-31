@@ -26,6 +26,8 @@ class SendItemsRequest extends FormRequest
             'items.*' => 'required|array',
             '*.*.num' => 'required|integer|min:1',
             '*.*.p' => 'required|numeric|min:0.001',
+            '*.*.cos' => 'required|numeric|min:0.001|max:1',
+            '*.*.kpd' => 'required|numeric|min:0.001|max:1',
         ];
     }
 }

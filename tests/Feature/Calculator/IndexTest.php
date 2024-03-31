@@ -74,6 +74,8 @@ class IndexTest extends TestCase
             'items' => [
                 0 => [
                     'num' => 1,
+                    'cos' => 1,
+                    'kpd' => 1,
                 ],
             ],
         ];
@@ -95,6 +97,8 @@ class IndexTest extends TestCase
             'items' => [
                 0 => [
                     'p' => 1,
+                    'cos' => 1,
+                    'kpd' => 1,
                 ],
             ],
         ];
@@ -110,6 +114,52 @@ class IndexTest extends TestCase
             ]);
     }
 
+    public function test_items_0_cos_is_required(): void
+    {
+        $items = [
+            'items' => [
+                0 => [
+                    'num' => 1,
+                    'p' => 1,
+                    'kpd' => 1,
+                ],
+            ],
+        ];
+
+        //тестируемый запрос от имени пользователя
+        $response = $this->post('/api/calculator', $items);
+
+        $response
+            ->assertStatus(422)
+            ->assertInvalid('items.0.cos')
+            ->assertJsonValidationErrors([
+                'items.0.cos' => 'The items.0.cos field is required.',
+            ]);
+    }
+
+    public function test_items_0_kpd_is_required(): void
+    {
+        $items = [
+            'items' => [
+                0 => [
+                    'num' => 1,
+                    'p' => 1,
+                    'cos' => 1,
+                ],
+            ],
+        ];
+
+        //тестируемый запрос от имени пользователя
+        $response = $this->post('/api/calculator', $items);
+
+        $response
+            ->assertStatus(422)
+            ->assertInvalid('items.0.kpd')
+            ->assertJsonValidationErrors([
+                'items.0.kpd' => 'The items.0.kpd field is required.',
+            ]);
+    }
+
     public function test_items_0_num_must_be_integer(): void
     {
         $items = [
@@ -117,6 +167,8 @@ class IndexTest extends TestCase
                 0 => [
                     'num' => 1.54,
                     'p' => 1,
+                    'cos' => 1,
+                    'kpd' => 1,
                 ],
             ],
         ];
@@ -139,6 +191,8 @@ class IndexTest extends TestCase
                 0 => [
                     'num' => 1,
                     'p' => [1],
+                    'cos' => 1,
+                    'kpd' => 1,
                 ],
             ],
         ];
@@ -154,6 +208,150 @@ class IndexTest extends TestCase
             ]);
     }
 
+    public function test_items_0_cos_must_be_numeric(): void
+    {
+        $items = [
+            'items' => [
+                0 => [
+                    'num' => 1,
+                    'p' => 1,
+                    'cos' => [1],
+                    'kpd' => 1,
+                ],
+            ],
+        ];
+
+        //тестируемый запрос от имени пользователя
+        $response = $this->post('/api/calculator', $items);
+
+        $response
+            ->assertStatus(422)
+            ->assertInvalid('items.0.cos')
+            ->assertJsonValidationErrors([
+                'items.0.cos' => 'The items.0.cos field must be a number.',
+            ]);
+    }
+
+    public function test_items_0_kpd_must_be_numeric(): void
+    {
+        $items = [
+            'items' => [
+                0 => [
+                    'num' => 1,
+                    'p' => 1,
+                    'cos' => 1,
+                    'kpd' => [1],
+                ],
+            ],
+        ];
+
+        //тестируемый запрос от имени пользователя
+        $response = $this->post('/api/calculator', $items);
+
+        $response
+            ->assertStatus(422)
+            ->assertInvalid('items.0.kpd')
+            ->assertJsonValidationErrors([
+                'items.0.kpd' => 'The items.0.kpd field must be a number.',
+            ]);
+    }
+
+    public function test_items_0_cos_must_be_more_than_0001(): void
+    {
+        $items = [
+            'items' => [
+                0 => [
+                    'num' => 1,
+                    'p' => 1,
+                    'cos' => 0.0001,
+                    'kpd' => 1,
+                ],
+            ],
+        ];
+
+        //тестируемый запрос от имени пользователя
+        $response = $this->post('/api/calculator', $items);
+
+        $response
+            ->assertStatus(422)
+            ->assertInvalid('items.0.cos')
+            ->assertJsonValidationErrors([
+                'items.0.cos' => 'The items.0.cos field must be at least 0.001.',
+            ]);
+    }
+
+    public function test_items_0_kpd_must_be_more_than_0001(): void
+    {
+        $items = [
+            'items' => [
+                0 => [
+                    'num' => 1,
+                    'p' => 1,
+                    'cos' => 1,
+                    'kpd' => 0.0001,
+                ],
+            ],
+        ];
+
+        //тестируемый запрос от имени пользователя
+        $response = $this->post('/api/calculator', $items);
+
+        $response
+            ->assertStatus(422)
+            ->assertInvalid('items.0.kpd')
+            ->assertJsonValidationErrors([
+                'items.0.kpd' => 'The items.0.kpd field must be at least 0.001.',
+            ]);
+    }
+
+    public function test_items_0_cos_must_be_less_than_1(): void
+    {
+        $items = [
+            'items' => [
+                0 => [
+                    'num' => 1,
+                    'p' => 1,
+                    'cos' => 1.0001,
+                    'kpd' => 1,
+                ],
+            ],
+        ];
+
+        //тестируемый запрос от имени пользователя
+        $response = $this->post('/api/calculator', $items);
+
+        $response
+            ->assertStatus(422)
+            ->assertInvalid('items.0.cos')
+            ->assertJsonValidationErrors([
+                'items.0.cos' => 'The items.0.cos field must not be greater than 1.',
+            ]);
+    }
+
+    public function test_items_0_kpd_must_be_less_than_1(): void
+    {
+        $items = [
+            'items' => [
+                0 => [
+                    'num' => 1,
+                    'p' => 1,
+                    'cos' => 1,
+                    'kpd' => 1.0001,
+                ],
+            ],
+        ];
+
+        //тестируемый запрос от имени пользователя
+        $response = $this->post('/api/calculator', $items);
+
+        $response
+            ->assertStatus(422)
+            ->assertInvalid('items.0.kpd')
+            ->assertJsonValidationErrors([
+                'items.0.kpd' => 'The items.0.kpd field must not be greater than 1.',
+            ]);
+    }
+
     public function test_items_correct_format(): void
     {
         $items = [
@@ -161,10 +359,14 @@ class IndexTest extends TestCase
                 0 => [
                     'num' => 1,
                     'p' => 1.54,
+                    'cos' => 0.8,
+                    'kpd' => 0.8,
                 ],
                 1 => [
                     'num' => 12,
                     'p' => 12.54,
+                    'cos' => 0.95,
+                    'kpd' => 0.95,
                 ],
             ],
         ];
@@ -176,18 +378,22 @@ class IndexTest extends TestCase
             'total' => [
                 'count' => count($items['items']),
                 'Psum' => round($items['items'][0]['p'] + $items['items'][1]['p'], 2),
-                'Isum' => round(2.34 + 19.05, 2),
+                'Isum' => round(3.66 + 21.11, 2),
             ],
             'items' => [
                 0 => [
                     'num' => $items['items'][0]['num'],
                     'p' => $items['items'][0]['p'],
-                    'i' => 2.34,
+                    'cos' => $items['items'][0]['cos'],
+                    'kpd' => $items['items'][0]['kpd'],
+                    'i' => 3.66,
                 ],
                 1 => [
                     'num' => $items['items'][1]['num'],
                     'p' => $items['items'][1]['p'],
-                    'i' => 19.05,
+                    'i' => 21.11,
+                    'cos' => $items['items'][1]['cos'],
+                    'kpd' => $items['items'][1]['kpd'],
                 ],
             ],
         ];
