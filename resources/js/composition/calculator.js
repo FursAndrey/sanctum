@@ -21,7 +21,8 @@ export default function useCalculator() {
             num: newItem.num, 
             p: newItem.p,
             cos: newItem.cos,
-            kpd: newItem.kpd
+            kpd: newItem.kpd,
+            type: newItem.type
         });
 
         sendForCalc();
@@ -44,6 +45,7 @@ export default function useCalculator() {
                 items[index].p = newItem.p;
                 items[index].cos = newItem.cos;
                 items[index].kpd = newItem.kpd;
+                items[index].type = newItem.type;
             }
         }
 
@@ -64,6 +66,7 @@ export default function useCalculator() {
                         items[index].i = res.data.items[index].i;
                         items[index].cos = res.data.items[index].cos;
                         items[index].kpd = res.data.items[index].kpd;
+                        items[index].type = res.data.items[index].type;
                     }
                     total.value = res.data.total;
                 });
