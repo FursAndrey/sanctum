@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\PreviewController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\TelegramController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\CalculatorController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\LikeController;
@@ -58,3 +59,4 @@ Route::get('/comments/{post}/{connemt}', [CommentController::class, 'index'])->n
 Route::get('/currentUser', [UserController::class, 'getCurrentUserForMenu'])->name('getCurrentUserForMenu');
 
 Route::post('/telegram', [TelegramController::class, 'telegramCallback'])->name('telegramCallback');
+Route::post('/calculator', [CalculatorController::class, 'getCalc'])->name('getCalc');

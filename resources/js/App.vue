@@ -22,6 +22,7 @@
             <div class="menu-title">MENU</div>
 
             <ul class="menu__box" @click="headerHamburgerMenuClose">
+                <li class="p-2"><router-link :to="{ name: 'calculator'}" class="menu__item">Calculator</router-link></li>
                 <li class="p-2"><router-link :to="{ name: 'postList'}" class="menu__item">Post list</router-link></li>
                 <li v-if="token" class="p-2"><router-link :to="{ name: 'chats'}" class="menu__item">Chats</router-link></li>
                 <li class="p-2"><router-link :to="{ name: 'about'}" class="menu__item">About</router-link></li>
@@ -146,7 +147,7 @@ div.admin-menu,
 .menu__box {
     display: flex;
     justify-content: space-between;
-    width: 24rem;
+    width: 35rem;
     margin-left: auto;
     margin-right: auto;
 }
