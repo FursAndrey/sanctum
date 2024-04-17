@@ -17,13 +17,23 @@ export default function useCalculator() {
     const getItems = async () => {}
 
     const addItem = async (newItem) => {
-        items.push({
-            num: newItem.num, 
-            p: newItem.p,
-            cos: newItem.cos,
-            kpd: newItem.kpd,
-            type: newItem.type
-        });
+        if (newItem.type == 2) {
+            items.push({
+                num: newItem.num, 
+                p: newItem.p,
+                cos: 1,
+                kpd: 1,
+                type: newItem.type
+            });
+        } else {
+            items.push({
+                num: newItem.num, 
+                p: newItem.p,
+                cos: newItem.cos,
+                kpd: newItem.kpd,
+                type: newItem.type
+            });
+        }
 
         sendForCalc();
     }
@@ -41,11 +51,19 @@ export default function useCalculator() {
     const editItem = async (oldItemNum, newItem) => {
         for (let index = 0; index < items.length; index++) {
             if (items[index].num === oldItemNum) {
-                items[index].num = newItem.num;
-                items[index].p = newItem.p;
-                items[index].cos = newItem.cos;
-                items[index].kpd = newItem.kpd;
-                items[index].type = newItem.type;
+                if (newItem.type == 2) {
+                    items[index].num = newItem.num;
+                    items[index].p = newItem.p;
+                    items[index].cos = 1;
+                    items[index].kpd = 1;
+                    items[index].type = newItem.type;
+                } else {
+                    items[index].num = newItem.num;
+                    items[index].p = newItem.p;
+                    items[index].cos = newItem.cos;
+                    items[index].kpd = newItem.kpd;
+                    items[index].type = newItem.type;
+                }
             }
         }
 

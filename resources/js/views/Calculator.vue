@@ -6,7 +6,7 @@
             <div v-if="total.value">
                 <span>Количество элементов: {{ total.value.count }}шт</span>&nbsp;
                 <span>Psum: {{ total.value.Psum }}кВт</span>&nbsp;
-                <span>Isum: {{ total.value.Isum }}А</span>
+                <span>Isum: {{ total.value.Isum }}A</span>
             </div>
         </div>
         <div class="flex justify-between flex-wrap">
@@ -16,10 +16,10 @@
                 class="flex flex-col mx-auto w-64 m-4 p-4 text-justify border border-indigo-600 shadow-md shadow-indigo-800">
                 <div class="flex-1 mb-4">№{{ item.num }}</div>
                 <div class="flex-1 mb-4">Мощность {{ item.p }}кВт</div>
-                <div class="flex-1 mb-4">Сила тока {{ item.i }}А</div>
-                <div class="flex-1 mb-4">cos {{ item.cos }}</div>
-                <div class="flex-1 mb-4">КПД {{ item.kpd }}</div>
-                <div class="flex-1 mb-4">Тип {{ item.type }}</div>
+                <div class="flex-1 mb-4">Сила тока {{ item.i }}A</div>
+                <div class="flex-1 mb-4" v-if="item.type == 1">cos {{ item.cos }}</div>
+                <div class="flex-1 mb-4" v-if="item.type == 1">КПД {{ item.kpd }}</div>
+                <div class="flex-1 mb-4">Тип {{ showTypeName(item.type) }}</div>
                 <div class="flex justify-between">
                     <div class="edit-btn w-2/5 block p-3 text-center rounded-lg bg-indigo-800 cursor-pointer" @click="openChangeModal(item)"></div>
                     <div class="delete-btn w-2/5 block p-3 text-center rounded-lg bg-indigo-800 cursor-pointer" @click="deleteItem(item)"></div>
@@ -40,10 +40,10 @@
                 <div>
                     <input type="text" v-model="newItem.p" placeholder="Мощность" class="w-96 p-2 mb-6 border border-inherit rounded-lg">
                 </div>
-                <div>
+                <div v-if="newItem.type == 1">
                     <input type="text" v-model="newItem.cos" placeholder="cos" class="w-96 p-2 mb-6 border border-inherit rounded-lg">
                 </div>
-                <div>
+                <div v-if="newItem.type == 1">
                     <input type="text" v-model="newItem.kpd" placeholder="КПД" class="w-96 p-2 mb-6 border border-inherit rounded-lg">
                 </div>
                 <div>
@@ -138,6 +138,15 @@ export default {
             newItem.type = '';
         }
 
+        const showTypeName = (typeCode) => {
+            for (const code in types.value) {
+                if (types.value[code].value == typeCode) {
+                    return types.value[code].text;
+                }
+            }
+            return typeCode;
+        }
+
         return {
             error,
             types,
@@ -151,7 +160,8 @@ export default {
             addNewItem,
             deleteItem,
             openChangeModal,
-            changeOldItem
+            changeOldItem,
+            showTypeName
         }
     }
 }
