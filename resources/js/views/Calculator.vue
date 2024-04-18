@@ -5,8 +5,8 @@
             Результаты расчета:
             <div v-if="total.value">
                 <span>Количество элементов: {{ total.value.count }}шт</span>&nbsp;
-                <span>Psum: {{ total.value.Psum }}кВт</span>&nbsp;
-                <span>Isum: {{ total.value.Isum }}А</span>
+                <span>Ssum: {{ total.value.Psum }}кВА</span>&nbsp;
+                <span>Isum: {{ total.value.Isum }}A</span>
             </div>
         </div>
         <div class="flex justify-between flex-wrap">
@@ -15,11 +15,11 @@
                 :key="item.num" 
                 class="flex flex-col mx-auto w-64 m-4 p-4 text-justify border border-indigo-600 shadow-md shadow-indigo-800">
                 <div class="flex-1 mb-4">№{{ item.num }}</div>
-                <div class="flex-1 mb-4">Мощность {{ item.p }}кВт</div>
-                <div class="flex-1 mb-4">Сила тока {{ item.i }}А</div>
-                <div class="flex-1 mb-4">cos {{ item.cos }}</div>
-                <div class="flex-1 mb-4">КПД {{ item.kpd }}</div>
-                <div class="flex-1 mb-4">Тип {{ item.type }}</div>
+                <div class="flex-1 mb-4">Мощность: {{ item.p }}<span v-if="item.type == 3">кВА</span><span v-else>кВт</span></div>
+                <div class="flex-1 mb-4">Сила тока: {{ item.i }}A</div>
+                <div class="flex-1 mb-4" v-if="item.type == 1">cos: {{ item.cos }}</div>
+                <div class="flex-1 mb-4" v-if="item.type == 3">Продолжительность включения: {{ item.pv }}</div>
+                <div class="flex-1 mb-4">Тип: {{ showTypeName(item.type) }}</div>
                 <div class="flex justify-between">
                     <div class="edit-btn w-2/5 block p-3 text-center rounded-lg bg-indigo-800 cursor-pointer" @click="openChangeModal(item)"></div>
                     <div class="delete-btn w-2/5 block p-3 text-center rounded-lg bg-indigo-800 cursor-pointer" @click="deleteItem(item)"></div>
@@ -40,11 +40,11 @@
                 <div>
                     <input type="text" v-model="newItem.p" placeholder="Мощность" class="w-96 p-2 mb-6 border border-inherit rounded-lg">
                 </div>
-                <div>
+                <div v-if="newItem.type == 1">
                     <input type="text" v-model="newItem.cos" placeholder="cos" class="w-96 p-2 mb-6 border border-inherit rounded-lg">
                 </div>
-                <div>
-                    <input type="text" v-model="newItem.kpd" placeholder="КПД" class="w-96 p-2 mb-6 border border-inherit rounded-lg">
+                <div v-if="newItem.type == 3">
+                    <input type="text" v-model="newItem.pv" placeholder="Продолжительность включения" class="w-96 p-2 mb-6 border border-inherit rounded-lg">
                 </div>
                 <div>
                     <p>Выберите тип опорудования:</p>
@@ -78,12 +78,13 @@ export default {
             'num': '',
             'p': '',
             'cos': '',
-            'kpd': '',
+            'pv': '',
             'type': '',
         });
         const types = ref([
             { text: 'Металлорежущие станки', value: '1' },
-            { text: 'Печи, сварочные установки', value: '2' },
+            { text: 'Электрические печи', value: '2' },
+            { text: 'Сварочные установки', value: '3' },
         ]);
         const { items, total, getItems, addItem, removeItem, editItem } = useCalculator();
         const showModal = ref(false);
@@ -108,7 +109,7 @@ export default {
             newItem.num = '';
             newItem.p = '';
             newItem.cos = '';
-            newItem.kpd = '';
+            newItem.pv = '';
             newItem.type = '';
         }
 
@@ -122,7 +123,7 @@ export default {
             newItem.num = item.num;
             newItem.p = item.p;
             newItem.cos = item.cos;
-            newItem.kpd = item.kpd;
+            newItem.pv = item.pv;
             newItem.type = item.type;
             oldItemForChange.num = item.num;
         }
@@ -134,8 +135,17 @@ export default {
             newItem.num = '';
             newItem.p = '';
             newItem.cos = '';
-            newItem.kpd = '';
+            newItem.pv = '';
             newItem.type = '';
+        }
+
+        const showTypeName = (typeCode) => {
+            for (const code in types.value) {
+                if (types.value[code].value == typeCode) {
+                    return types.value[code].text;
+                }
+            }
+            return typeCode;
         }
 
         return {
@@ -151,7 +161,8 @@ export default {
             addNewItem,
             deleteItem,
             openChangeModal,
-            changeOldItem
+            changeOldItem,
+            showTypeName
         }
     }
 }

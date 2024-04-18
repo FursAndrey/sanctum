@@ -10,7 +10,7 @@ class calculateTotalAction
         $Psum = 0;
         $Isum = 0;
         foreach ($items as $key => $item) {
-            $Psum += $item['p'];
+            $Psum += $item['p'] / $item['cos'];
             $Isum += $items[$key]['i'];
         }
 

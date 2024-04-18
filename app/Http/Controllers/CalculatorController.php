@@ -14,7 +14,7 @@ class CalculatorController extends Controller
 
         foreach ($data['items'] as $key => $item) {
             $calculator = calculateInomFactory::make($item['type']);
-            $data['items'][$key]['i'] = $calculator($item['p'], $item['cos'], $item['kpd']);
+            $data['items'][$key]['i'] = $calculator($item['p'], $item['cos'], $item['pv']);
         }
 
         $total = (new calculateTotalAction())($data['items']);
