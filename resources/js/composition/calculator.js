@@ -17,20 +17,28 @@ export default function useCalculator() {
     const getItems = async () => {}
 
     const addItem = async (newItem) => {
-        if (newItem.type == 2) {
+        if (newItem.type == 1) {
+            items.push({
+                num: newItem.num, 
+                p: newItem.p,
+                cos: newItem.cos,
+                pv: 1,
+                type: newItem.type
+            });
+        } else if (newItem.type == 2) {
             items.push({
                 num: newItem.num, 
                 p: newItem.p,
                 cos: 1,
-                kpd: 1,
+                pv: 1,
                 type: newItem.type
             });
         } else {
             items.push({
                 num: newItem.num, 
                 p: newItem.p,
-                cos: newItem.cos,
-                kpd: newItem.kpd,
+                cos: 1,
+                pv: newItem.pv,
                 type: newItem.type
             });
         }
@@ -51,17 +59,23 @@ export default function useCalculator() {
     const editItem = async (oldItemNum, newItem) => {
         for (let index = 0; index < items.length; index++) {
             if (items[index].num === oldItemNum) {
-                if (newItem.type == 2) {
+                if (newItem.type == 1) {
+                    items[index].num = newItem.num;
+                    items[index].p = newItem.p;
+                    items[index].cos = newItem.cos;
+                    items[index].pv = 1;
+                    items[index].type = newItem.type;
+                } else if (newItem.type == 2) {
                     items[index].num = newItem.num;
                     items[index].p = newItem.p;
                     items[index].cos = 1;
-                    items[index].kpd = 1;
+                    items[index].pv = 1;
                     items[index].type = newItem.type;
                 } else {
                     items[index].num = newItem.num;
                     items[index].p = newItem.p;
-                    items[index].cos = newItem.cos;
-                    items[index].kpd = newItem.kpd;
+                    items[index].cos = 1;
+                    items[index].pv = newItem.pv;
                     items[index].type = newItem.type;
                 }
             }
@@ -83,7 +97,7 @@ export default function useCalculator() {
                         items[index].p = res.data.items[index].p;
                         items[index].i = res.data.items[index].i;
                         items[index].cos = res.data.items[index].cos;
-                        items[index].kpd = res.data.items[index].kpd;
+                        items[index].pv = res.data.items[index].pv;
                         items[index].type = res.data.items[index].type;
                     }
                     total.value = res.data.total;

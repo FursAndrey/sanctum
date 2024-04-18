@@ -451,6 +451,13 @@ class IndexTest extends TestCase
                     'cos' => 1,
                     'pv' => 1,
                 ],
+                3 => [
+                    'num' => 4,
+                    'type' => 3,
+                    'p' => 38,
+                    'cos' => 1,
+                    'pv' => 0.4,
+                ],
             ],
         ];
 
@@ -460,8 +467,8 @@ class IndexTest extends TestCase
         $expectedJson = [
             'total' => [
                 'count' => count($items['items']),
-                'Psum' => round($items['items'][0]['p'] + $items['items'][1]['p'] + $items['items'][2]['p'], 2),
-                'Isum' => round(2.92 + 20.06 + 15.19, 2),
+                'Psum' => 63.13,
+                'Isum' => round(2.92 + 20.06 + 15.19 + 36.51, 2),
             ],
             'items' => [
                 0 => [
@@ -487,6 +494,14 @@ class IndexTest extends TestCase
                     'cos' => $items['items'][2]['cos'],
                     'pv' => $items['items'][2]['pv'],
                     'type' => $items['items'][2]['type'],
+                ],
+                3 => [
+                    'num' => $items['items'][3]['num'],
+                    'p' => $items['items'][3]['p'],
+                    'i' => 36.51,
+                    'cos' => $items['items'][3]['cos'],
+                    'pv' => $items['items'][3]['pv'],
+                    'type' => $items['items'][3]['type'],
                 ],
             ],
         ];
