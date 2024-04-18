@@ -13,17 +13,17 @@ class ActionTest extends TestCase
     public function test_calculate_Inom_action(): void
     {
         $expected = 2.34;
-        $this->assertEquals($expected, (new calculateTermInomAction())(1.54));
+        $this->assertEquals($expected, (new calculateTermInomAction())(Pnom: 1.54));
         $expected = 19.05;
-        $this->assertEquals($expected, (new calculateTermInomAction())(12.54));
+        $this->assertEquals($expected, (new calculateTermInomAction())(Pnom: 12.54));
     }
 
     public function test_calculate_engine_Inom_action(): void
     {
-        $expected = 3.66;
-        $this->assertEquals($expected, (new calculateEngineInomAction())(1.54, 0.8, 0.8));
-        $expected = 29.77;
-        $this->assertEquals($expected, (new calculateEngineInomAction())(12.54, 0.8, 0.8));
+        $expected = 2.92;
+        $this->assertEquals($expected, (new calculateEngineInomAction())(Pnom: 1.54, cos: 0.8));
+        $expected = 23.82;
+        $this->assertEquals($expected, (new calculateEngineInomAction())(Pnom:12.54, cos: 0.8));
     }
 
     public function test_calculate_factory(): void

@@ -75,7 +75,7 @@ class IndexTest extends TestCase
                 0 => [
                     'num' => 1,
                     'cos' => 1,
-                    'kpd' => 1,
+                    'pv' => 1,
                 ],
             ],
         ];
@@ -98,7 +98,7 @@ class IndexTest extends TestCase
                 0 => [
                     'p' => 1,
                     'cos' => 1,
-                    'kpd' => 1,
+                    'pv' => 1,
                 ],
             ],
         ];
@@ -121,7 +121,7 @@ class IndexTest extends TestCase
                 0 => [
                     'num' => 1,
                     'p' => 1,
-                    'kpd' => 1,
+                    'pv' => 1,
                 ],
             ],
         ];
@@ -137,7 +137,7 @@ class IndexTest extends TestCase
             ]);
     }
 
-    public function test_items_0_kpd_is_required(): void
+    public function test_items_0_pv_is_required(): void
     {
         $items = [
             'items' => [
@@ -154,9 +154,9 @@ class IndexTest extends TestCase
 
         $response
             ->assertStatus(422)
-            ->assertInvalid('items.0.kpd')
+            ->assertInvalid('items.0.pv')
             ->assertJsonValidationErrors([
-                'items.0.kpd' => 'The items.0.kpd field is required.',
+                'items.0.pv' => 'The items.0.pv field is required.',
             ]);
     }
 
@@ -167,7 +167,7 @@ class IndexTest extends TestCase
                 0 => [
                     'num' => 1,
                     'p' => 1,
-                    'kpd' => 1,
+                    'pv' => 1,
                     'cos' => 1,
                 ],
             ],
@@ -192,7 +192,7 @@ class IndexTest extends TestCase
                     'num' => 1.54,
                     'p' => 1,
                     'cos' => 1,
-                    'kpd' => 1,
+                    'pv' => 1,
                 ],
             ],
         ];
@@ -217,7 +217,7 @@ class IndexTest extends TestCase
                     'p' => 1,
                     'type' => [1],
                     'cos' => 1,
-                    'kpd' => 1,
+                    'pv' => 1,
                 ],
             ],
         ];
@@ -241,7 +241,7 @@ class IndexTest extends TestCase
                     'num' => 1,
                     'p' => [1],
                     'cos' => 1,
-                    'kpd' => 1,
+                    'pv' => 1,
                 ],
             ],
         ];
@@ -265,7 +265,7 @@ class IndexTest extends TestCase
                     'num' => 1,
                     'p' => 1,
                     'cos' => [1],
-                    'kpd' => 1,
+                    'pv' => 1,
                 ],
             ],
         ];
@@ -281,7 +281,7 @@ class IndexTest extends TestCase
             ]);
     }
 
-    public function test_items_0_kpd_must_be_numeric(): void
+    public function test_items_0_pv_must_be_numeric(): void
     {
         $items = [
             'items' => [
@@ -289,7 +289,7 @@ class IndexTest extends TestCase
                     'num' => 1,
                     'p' => 1,
                     'cos' => 1,
-                    'kpd' => [1],
+                    'pv' => [1],
                 ],
             ],
         ];
@@ -299,9 +299,9 @@ class IndexTest extends TestCase
 
         $response
             ->assertStatus(422)
-            ->assertInvalid('items.0.kpd')
+            ->assertInvalid('items.0.pv')
             ->assertJsonValidationErrors([
-                'items.0.kpd' => 'The items.0.kpd field must be a number.',
+                'items.0.pv' => 'The items.0.pv field must be a number.',
             ]);
     }
 
@@ -329,7 +329,7 @@ class IndexTest extends TestCase
             ]);
     }
 
-    public function test_items_0_kpd_must_be_more_than_0001(): void
+    public function test_items_0_pv_must_be_more_than_0001(): void
     {
         $items = [
             'items' => [
@@ -337,7 +337,7 @@ class IndexTest extends TestCase
                     'num' => 1,
                     'p' => 1,
                     'cos' => 1,
-                    'kpd' => 0.0001,
+                    'pv' => 0.0001,
                 ],
             ],
         ];
@@ -347,9 +347,9 @@ class IndexTest extends TestCase
 
         $response
             ->assertStatus(422)
-            ->assertInvalid('items.0.kpd')
+            ->assertInvalid('items.0.pv')
             ->assertJsonValidationErrors([
-                'items.0.kpd' => 'The items.0.kpd field must be at least 0.001.',
+                'items.0.pv' => 'The items.0.pv field must be at least 0.001.',
             ]);
     }
 
@@ -361,7 +361,7 @@ class IndexTest extends TestCase
                     'num' => 1,
                     'p' => 1,
                     'cos' => 1.0001,
-                    'kpd' => 1,
+                    'pv' => 1,
                 ],
             ],
         ];
@@ -377,7 +377,7 @@ class IndexTest extends TestCase
             ]);
     }
 
-    public function test_items_0_kpd_must_be_less_than_1(): void
+    public function test_items_0_pv_must_be_less_than_1(): void
     {
         $items = [
             'items' => [
@@ -385,7 +385,7 @@ class IndexTest extends TestCase
                     'num' => 1,
                     'p' => 1,
                     'cos' => 1,
-                    'kpd' => 1.0001,
+                    'pv' => 1.0001,
                 ],
             ],
         ];
@@ -395,9 +395,9 @@ class IndexTest extends TestCase
 
         $response
             ->assertStatus(422)
-            ->assertInvalid('items.0.kpd')
+            ->assertInvalid('items.0.pv')
             ->assertJsonValidationErrors([
-                'items.0.kpd' => 'The items.0.kpd field must not be greater than 1.',
+                'items.0.pv' => 'The items.0.pv field must not be greater than 1.',
             ]);
     }
 
@@ -410,7 +410,7 @@ class IndexTest extends TestCase
                     'p' => 1,
                     'type' => rand(10, 100),
                     'cos' => 1,
-                    'kpd' => 0.8,
+                    'pv' => 0.8,
                 ],
             ],
         ];
@@ -435,21 +435,21 @@ class IndexTest extends TestCase
                     'type' => 1,
                     'p' => 1.54,
                     'cos' => 0.8,
-                    'kpd' => 0.8,
+                    'pv' => 1,
                 ],
                 1 => [
                     'num' => 12,
                     'type' => 1,
                     'p' => 12.54,
                     'cos' => 0.95,
-                    'kpd' => 0.95,
+                    'pv' => 1,
                 ],
                 2 => [
                     'num' => 3,
                     'type' => 2,
                     'p' => 10,
                     'cos' => 1,
-                    'kpd' => 1,
+                    'pv' => 1,
                 ],
             ],
         ];
@@ -461,23 +461,23 @@ class IndexTest extends TestCase
             'total' => [
                 'count' => count($items['items']),
                 'Psum' => round($items['items'][0]['p'] + $items['items'][1]['p'] + $items['items'][2]['p'], 2),
-                'Isum' => round(3.66 + 21.11 + 15.19, 2),
+                'Isum' => round(2.92 + 20.06 + 15.19, 2),
             ],
             'items' => [
                 0 => [
                     'num' => $items['items'][0]['num'],
                     'p' => $items['items'][0]['p'],
                     'cos' => $items['items'][0]['cos'],
-                    'kpd' => $items['items'][0]['kpd'],
+                    'pv' => $items['items'][0]['pv'],
                     'type' => $items['items'][0]['type'],
-                    'i' => 3.66,
+                    'i' => 2.92,
                 ],
                 1 => [
                     'num' => $items['items'][1]['num'],
                     'p' => $items['items'][1]['p'],
-                    'i' => 21.11,
+                    'i' => 20.06,
                     'cos' => $items['items'][1]['cos'],
-                    'kpd' => $items['items'][1]['kpd'],
+                    'pv' => $items['items'][1]['pv'],
                     'type' => $items['items'][1]['type'],
                 ],
                 2 => [
@@ -485,7 +485,7 @@ class IndexTest extends TestCase
                     'p' => $items['items'][2]['p'],
                     'i' => 15.19,
                     'cos' => $items['items'][2]['cos'],
-                    'kpd' => $items['items'][2]['kpd'],
+                    'pv' => $items['items'][2]['pv'],
                     'type' => $items['items'][2]['type'],
                 ],
             ],
