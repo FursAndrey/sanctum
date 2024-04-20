@@ -49,8 +49,7 @@ export default {
         const { isAuth } = useInspector();
 
         const likeToggle = async () => {
-            
-            if (isAuth === true) {
+            if (isAuth() === true) {
                 await togglePostLike(props.post_id);
 
                 isLiked.value = like.value.is_liked;

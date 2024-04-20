@@ -47,7 +47,7 @@ export default {
         const { isAuth } = useInspector();
 
         const likeToggle = async () => {
-            if (isAuth === true) {
+            if (isAuth() === true) {
                 await toggleCommentLike(props.comment_id);
 
                 isLiked.value = like.value.is_liked;
