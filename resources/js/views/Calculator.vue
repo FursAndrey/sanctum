@@ -38,10 +38,10 @@
         </div>
         <div class="modal flex items-center" v-if="showModal === true">
             <div class="modal-main mx-auto rounded-lg p-16">
-                <h2 class="text-3xl">Добавление / редактирование элементов</h2>
+                <h2 class="text-3xl mb-6">Добавление / редактирование элементов</h2>
                 <div>
                     <p>Номер</p>
-                    <input type="text" v-model="newItem.num" placeholder="Номер" class="w-96 p-2 my-6 border border-inherit rounded-lg">
+                    <input type="text" v-model="newItem.num" placeholder="Номер" class="w-96 p-2 mb-6 border border-inherit rounded-lg">
                     <p v-if="errorMessage.num != undefined && errorMessage.num != ''" class="my-2 p-2 bg-red-500 rounded-lg">{{ errorMessage.num }}</p>
                 </div>
                 <div>
