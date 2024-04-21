@@ -49,6 +49,7 @@ export default function useCalculator() {
             return true;
         } else {
             items.pop();
+            total.value.hasError = false;
             return false;
         }
     }
@@ -128,6 +129,7 @@ export default function useCalculator() {
                 erObj[tmp] = e.response.data.errors[key][0].replace(key, tmp);
             }
             errorMessage.value = erObj;
+            total.value.hasError = true;
         }
     }
 

@@ -7,9 +7,9 @@
                 <span>Количество элементов: {{ total.value.count }}шт</span>&nbsp;
                 <span>Ssum: {{ total.value.Psum }}кВА</span>&nbsp;
                 <span>Isum: {{ total.value.Isum }}A</span>
-            </div>
-            <div v-if="errorMessage != undefined && errorMessage != ''" class="my-2 p-4 bg-red-800 rounded-lg">
-                При добавлении / редактировании элемента произошла ошибка. Результат расчета может быть недостоверным, отредактируйте или удалите некорректные элементы.
+                <div v-if="total.value.hasError == true" class="my-2 p-4 bg-red-800 rounded-lg">
+                    При добавлении / редактировании элемента произошла ошибка. Результат расчета может быть недостоверным, отредактируйте или удалите некорректные элементы.
+                </div>
             </div>
         </div>
         <div class="flex justify-between flex-wrap">
@@ -40,18 +40,22 @@
             <div class="modal-main mx-auto rounded-lg p-16">
                 <h2 class="text-3xl">Добавление / редактирование элементов</h2>
                 <div>
+                    <p>Номер</p>
                     <input type="text" v-model="newItem.num" placeholder="Номер" class="w-96 p-2 my-6 border border-inherit rounded-lg">
                     <p v-if="errorMessage.num != undefined && errorMessage.num != ''" class="my-2 p-2 bg-red-500 rounded-lg">{{ errorMessage.num }}</p>
                 </div>
                 <div>
+                    <p>Мощность</p>
                     <input type="text" v-model="newItem.p" placeholder="Мощность" class="w-96 p-2 mb-6 border border-inherit rounded-lg">
                     <p v-if="errorMessage.p != undefined && errorMessage.p != ''" class="my-2 p-2 bg-red-500 rounded-lg">{{ errorMessage.p }}</p>
                 </div>
                 <div v-if="newItem.type == 1">
+                    <p>cos</p>
                     <input type="text" v-model="newItem.cos" placeholder="cos" class="w-96 p-2 mb-6 border border-inherit rounded-lg">
                     <p v-if="errorMessage.cos != undefined && errorMessage.cos != ''" class="my-2 p-2 bg-red-500 rounded-lg">{{ errorMessage.cos }}</p>
                 </div>
                 <div v-if="newItem.type == 3">
+                    <p>Продолжительность включения</p>
                     <input type="text" v-model="newItem.pv" placeholder="Продолжительность включения" class="w-96 p-2 mb-6 border border-inherit rounded-lg">
                     <p v-if="errorMessage.pv != undefined && errorMessage.pv != ''" class="my-2 p-2 bg-red-500 rounded-lg">{{ errorMessage.pv }}</p>
                 </div>
