@@ -43,7 +43,14 @@ export default function useCalculator() {
             });
         }
 
-        sendForCalc();
+        await sendForCalc();
+
+        if (errorMessage.value == '') {
+            return true;
+        } else {
+            items.pop();
+            return false;
+        }
     }
 
     const removeItem = async (item) => {
@@ -53,7 +60,7 @@ export default function useCalculator() {
             }
         }
 
-        sendForCalc();
+        await sendForCalc();
     }
 
     const editItem = async (oldItemNum, newItem) => {
@@ -81,17 +88,22 @@ export default function useCalculator() {
             }
         }
 
-        sendForCalc();
+        await sendForCalc();
+
+        if (errorMessage.value == '') {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     const sendForCalc = async () => {
         errorMessage.value = '';
-        total.value = [];
 
         try {
             await axios.post('/api/calculator', {items: items})
                 .then(res => {
-                    
+                    total.value = [];
                     for (let index = 0; index < items.length; index++) {
                         items[index].num = res.data.items[index].num;
                         items[index].p = res.data.items[index].p;
@@ -103,8 +115,24 @@ export default function useCalculator() {
                     total.value = res.data.total;
                 });
         } catch(e) {
-            errorMessage.value = e.response.data.message;
+            let erObj = {
+                num: '',
+                p: '',
+                cos: '',
+                pv: '',
+                type: '',
+            };
+            for (const key in e.response.data.errors) {
+                let tmp = key.split('.')[2];
+                
+                erObj[tmp] = e.response.data.errors[key][0].replace(key, tmp);
+            }
+            errorMessage.value = erObj;
         }
+    }
+
+    const resetErrors = () => {
+        errorMessage.value = '';
     }
 
     // const updateChat = async (id) => {
@@ -132,7 +160,8 @@ export default function useCalculator() {
         getItems,
         addItem,
         removeItem,
-        editItem
+        editItem,
+        resetErrors
         // storeChat,
         // updateChat,
         // destroyChat
