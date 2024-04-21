@@ -9,7 +9,7 @@
                 <span>Isum: {{ total.value.Isum }}A</span>
             </div>
             <div v-if="errorMessage != undefined && errorMessage != ''" class="my-2 p-4 bg-red-800 rounded-lg">
-                Результат расчета может быть недостоверным, отредактируйте или удалите некорректные элементы
+                При добавлении / редактировании элемента произошла ошибка. Результат расчета может быть недостоверным, отредактируйте или удалите некорректные элементы.
             </div>
         </div>
         <div class="flex justify-between flex-wrap">
@@ -18,7 +18,7 @@
                 :key="item.num" 
                 class="flex flex-col mx-auto w-64 m-4 p-4 text-justify border border-indigo-600 shadow-md shadow-indigo-800">
                 <div v-if="item.num == '' || item.p == '' || item.i == '' || item.cos == '' || item.pv == '' || item.type == ''" class="my-2 p-4 bg-red-800 rounded-lg">
-                    Элемент заполнен не корректно, отредактируйте его или удалите
+                    Элемент заполнен не корректно, отредактируйте его или удалите.
                 </div>
                 <div class="flex-1 mb-4">№{{ item.num }}</div>
                 <div class="flex-1 mb-4">Мощность: {{ item.p }}<span v-if="item.type == 3">кВА</span><span v-else>кВт</span></div>
