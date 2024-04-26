@@ -5,6 +5,7 @@
 /public/storage
 /storage/*.key
 /storage/media-library/temp
+/storage/api-docs
 /vendor
 .env
 .env.backup

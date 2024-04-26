@@ -7,6 +7,9 @@
                 <span>Количество элементов: {{ total.value.count }}шт</span>&nbsp;
                 <span>Ssum: {{ total.value.Psum }}кВА</span>&nbsp;
                 <span>Isum: {{ total.value.Isum }}A</span>
+                <div v-if="total.value.hasError == true" class="my-2 p-4 bg-red-800 rounded-lg">
+                    При добавлении / редактировании элемента произошла ошибка. Результат расчета может быть недостоверным, отредактируйте или удалите некорректные элементы.
+                </div>
             </div>
         </div>
         <div class="flex justify-between flex-wrap">
@@ -14,6 +17,9 @@
                 v-for="item in items" 
                 :key="item.num" 
                 class="flex flex-col mx-auto w-64 m-4 p-4 text-justify border border-indigo-600 shadow-md shadow-indigo-800">
+                <div v-if="item.num == '' || item.p == '' || item.i == '' || item.cos == '' || item.pv == '' || item.type == ''" class="my-2 p-4 bg-red-800 rounded-lg">
+                    Элемент заполнен не корректно, отредактируйте его или удалите.
+                </div>
                 <div class="flex-1 mb-4">№{{ item.num }}</div>
                 <div class="flex-1 mb-4">Мощность: {{ item.p }}<span v-if="item.type == 3">кВА</span><span v-else>кВт</span></div>
                 <div class="flex-1 mb-4">Сила тока: {{ item.i }}A</div>
@@ -32,19 +38,26 @@
         </div>
         <div class="modal flex items-center" v-if="showModal === true">
             <div class="modal-main mx-auto rounded-lg p-16">
-                <h2 class="text-3xl">Добавление / редактирование элементов</h2>
-                <p v-if="error != ''" class="my-2 p-2 bg-red-500 rounded-lg">{{ error }}</p>
+                <h2 class="text-3xl mb-6">Добавление / редактирование элементов</h2>
                 <div>
-                    <input type="text" v-model="newItem.num" placeholder="Номер" class="w-96 p-2 my-6 border border-inherit rounded-lg">
+                    <p>Номер</p>
+                    <input type="text" v-model="newItem.num" placeholder="Номер" class="w-96 p-2 mb-6 border border-inherit rounded-lg">
+                    <p v-if="errorMessage.num != undefined && errorMessage.num != ''" class="my-2 p-2 bg-red-500 rounded-lg">{{ errorMessage.num }}</p>
                 </div>
                 <div>
+                    <p>Мощность</p>
                     <input type="text" v-model="newItem.p" placeholder="Мощность" class="w-96 p-2 mb-6 border border-inherit rounded-lg">
+                    <p v-if="errorMessage.p != undefined && errorMessage.p != ''" class="my-2 p-2 bg-red-500 rounded-lg">{{ errorMessage.p }}</p>
                 </div>
                 <div v-if="newItem.type == 1">
+                    <p>cos</p>
                     <input type="text" v-model="newItem.cos" placeholder="cos" class="w-96 p-2 mb-6 border border-inherit rounded-lg">
+                    <p v-if="errorMessage.cos != undefined && errorMessage.cos != ''" class="my-2 p-2 bg-red-500 rounded-lg">{{ errorMessage.cos }}</p>
                 </div>
                 <div v-if="newItem.type == 3">
+                    <p>Продолжительность включения</p>
                     <input type="text" v-model="newItem.pv" placeholder="Продолжительность включения" class="w-96 p-2 mb-6 border border-inherit rounded-lg">
+                    <p v-if="errorMessage.pv != undefined && errorMessage.pv != ''" class="my-2 p-2 bg-red-500 rounded-lg">{{ errorMessage.pv }}</p>
                 </div>
                 <div>
                     <p>Выберите тип опорудования:</p>
@@ -53,6 +66,7 @@
                             {{ type1.text }}
                         </option>
                     </select>
+                    <p v-if="errorMessage.type != undefined && errorMessage.type != ''" class="my-2 p-2 bg-red-500 rounded-lg">{{ errorMessage.type }}</p>
                 </div>
                 <div class="flex">
                     <span v-if="editModal === false" @click="addNewItem()" class="p-2 me-6 font-bold bg-green-700 text-white rounded-lg text-center cursor-pointer">Добавить</span>
@@ -71,9 +85,7 @@ export default {
     name: 'calculator',
     
     setup() {
-        const newItem = reactive({
-            'num': '',
-        });
+        const newItem = reactive({});
         const oldItemForChange = reactive({
             'num': '',
             'p': '',
@@ -86,26 +98,19 @@ export default {
             { text: 'Электрические печи', value: '2' },
             { text: 'Сварочные установки', value: '3' },
         ]);
-        const { items, total, getItems, addItem, removeItem, editItem } = useCalculator();
+        const { items, total, errorMessage, getItems, addItem, removeItem, editItem, resetErrors } = useCalculator();
         const showModal = ref(false);
-        const error = ref('');
         const editModal = ref(false);
         
         onMounted(getItems());
 
+        /** открыть модальное окно для добавления нового элемента */
         const openModal = () => {
+            resetErrors();
             showModal.value = true;
             editModal.value = false;
             oldItemForChange.num = '';
-        }
-
-        const closeModal = () => {
-            showModal.value = false;
-        }
-
-        const addNewItem = () => {
-            addItem({...newItem});
-            showModal.value = false;
+            
             newItem.num = '';
             newItem.p = '';
             newItem.cos = '';
@@ -113,11 +118,30 @@ export default {
             newItem.type = '';
         }
 
+        const closeModal = () => {
+            showModal.value = false;
+        }
+
+        const addNewItem = async () => {
+            let check = await addItem({...newItem});
+
+            if (check === true) {
+                showModal.value = false;
+                newItem.num = '';
+                newItem.p = '';
+                newItem.cos = '';
+                newItem.pv = '';
+                newItem.type = '';
+            }
+        }
+
         const deleteItem = (item) => {
             removeItem(item);
         }
 
+        /** открыть модальное окно для редактирования элемента */
         const openChangeModal = (item) => {
+            resetErrors();
             showModal.value = true;
             editModal.value = true;
             newItem.num = item.num;
@@ -125,18 +149,26 @@ export default {
             newItem.cos = item.cos;
             newItem.pv = item.pv;
             newItem.type = item.type;
+
             oldItemForChange.num = item.num;
+            oldItemForChange.p = item.p;
+            oldItemForChange.cos = item.cos;
+            oldItemForChange.pv = item.pv;
+            oldItemForChange.type = item.type;
         }
 
-        const changeOldItem = () => {
-            editItem(oldItemForChange.num, {...newItem});
-            oldItemForChange.num = '';
-            showModal.value = false;
-            newItem.num = '';
-            newItem.p = '';
-            newItem.cos = '';
-            newItem.pv = '';
-            newItem.type = '';
+        const changeOldItem = async () => {
+            let check = await editItem(oldItemForChange.num, {...newItem});
+            
+            if (check === true) {
+                oldItemForChange.num = '';
+                showModal.value = false;
+                newItem.num = '';
+                newItem.p = '';
+                newItem.cos = '';
+                newItem.pv = '';
+                newItem.type = '';
+            }
         }
 
         const showTypeName = (typeCode) => {
@@ -149,13 +181,13 @@ export default {
         }
 
         return {
-            error,
             types,
             total,
             items,
             showModal,
             editModal,
             newItem,
+            errorMessage,
             openModal,
             closeModal,
             addNewItem,
@@ -184,7 +216,7 @@ div.delete-btn {
     background-image: url('/storage/app/public/theme/trash.png');
 }
 .modal {
-    background: rgba(0, 0, 0, 0.8);
+    background: rgba(0, 0, 0, 0.9);
     position: absolute;
     top: 0;
     left: 0;

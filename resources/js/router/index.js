@@ -37,12 +37,12 @@ const router = createRouter({
             props: true
         },
         {
-            path: '/login/login',
+            path: '/login',
             component: () => import('../views/login.vue'),
             name: 'login',
         },
         {
-            path: '/login/registration',
+            path: '/registration',
             component: () => import('../views/registration.vue'),
             name: 'registration',
         },

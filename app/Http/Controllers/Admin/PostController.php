@@ -19,14 +19,54 @@ use App\Http\Resources\Post\PostResource;
 use App\Models\Post;
 use Exception;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 // use Illuminate\Support\Facades\Log;
 
 class PostController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     *  @OA\Get(
+     *      path="/api/posts",
+     *      summary="Страница постов",
+     *      tags={"posts"},
+     *
+     *      @OA\Parameter(
+     *         description="Page number",
+     *         in="query",
+     *         name="page",
+     *         required=false,
+     *         example=1,
+     *      ),
+     *
+     *      @OA\Response(
+     *          response=200,
+     *          description="OK",
+     *
+     *          @OA\JsonContent(
+     *
+     *              @OA\Property(property="data", type="object",
+     *                  @OA\Property(property="posts", type="array",
+     *
+     *                      @OA\Items(
+     *
+     *                          @OA\Property(property="body", type="string", example="Body of this post"),
+     *                          @OA\Property(property="commentCount", type="integer", example=10),
+     *                          @OA\Property(property="id", type="integer", example=1),
+     *                          @OA\Property(property="is_liked", type="boolean", example=false),
+     *                          @OA\Property(property="likeCount", type="integer", example=3),
+     *                          @OA\Property(property="published", type="string", example="1 month ago"),
+     *                          @OA\Property(property="title", type="string", example="Title of this post"),
+     *                          @OA\Property(property="preview", type="object",
+     *                              @OA\Property(property="id", type="integer", example=3),
+     *                              @OA\Property(property="url_original", type="string", example="http://sanctum/storage/media/45/9TFZiOkNjfiGYdTyunVIxqZAGrAu7yI4MxGcqSyv.jpg"),
+     *                              @OA\Property(property="url_preview", type="string", example="http://sanctum/storage/media/45/conversions/9TFZiOkNjfiGYdTyunVIxqZAGrAu7yI4MxGcqSyv-preview.jpg"),
+     *                          ),
+     *                      ),
+     *                  ),
+     *              ),
+     *          ),
+     *      ),
+     *  )
      */
     public function index()
     {
@@ -63,6 +103,54 @@ class PostController extends Controller
         return new PostResource($post);
     }
 
+    /**
+     *  @OA\Post(
+     *      path="/api/posts2",
+     *      summary="Создание",
+     *      tags={"posts"},
+     *      security={{ "sanctum": "" }},
+     *
+     *      @OA\RequestBody(
+     *
+     *          @OA\JsonContent(
+     *              allOf={
+     *
+     *                  @OA\Schema(
+     *
+     *                      @OA\Property(property="body", type="string", example="Body of this post"),
+     *                      @OA\Property(property="title", type="string", example="Title of this post"),
+     *                  ),
+     *              }
+     *          ),
+     *      ),
+     * 
+     *      @OA\Response(
+     *          response=201,
+     *          description="OK",
+     *
+     *          @OA\JsonContent(
+     *
+     *              @OA\Property(property="data", type="object",
+     *                  @OA\Property(property="body", type="string", example="Body of this post"),
+     *                  @OA\Property(property="commentCount", type="integer", example=10),
+     *                  @OA\Property(property="id", type="integer", example=1),
+     *                  @OA\Property(property="is_liked", type="boolean", example=false),
+     *                  @OA\Property(property="likeCount", type="integer", example=3),
+     *                  @OA\Property(property="published", type="string", example="1 month ago"),
+     *                  @OA\Property(property="title", type="string", example="Title of this post"),
+     *                  @OA\Property(property="preview", type="object",
+     *                      @OA\Property(property="id", type="integer", example=3),
+     *                      @OA\Property(property="url_original", type="string", example="http://sanctum/storage/media/45/9TFZiOkNjfiGYdTyunVIxqZAGrAu7yI4MxGcqSyv.jpg"),
+     *                      @OA\Property(property="url_preview", type="string", example="http://sanctum/storage/media/45/conversions/9TFZiOkNjfiGYdTyunVIxqZAGrAu7yI4MxGcqSyv-preview.jpg"),
+     *                  ),
+     *              ),
+     *          ),
+     *      ),
+     *      @OA\Response(response=401, description="Unauthenticated"),
+     *      @OA\Response(response=403, description="Unauthorized"),
+     *      @OA\Response(response=422, description="Invalid params"),
+     *  )
+     */
     public function store2(MediaStoreRequest $request)
     {
         $this->authorize('create', Post::class);
@@ -95,7 +183,43 @@ class PostController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     *  @OA\Get(
+     *      path="/api/posts/{post}",
+     *      summary="Страница поста",
+     *      tags={"posts"},
+     *
+     *      @OA\Parameter(
+     *         description="Post ID",
+     *         in="path",
+     *         name="post",
+     *         required=true,
+     *         example=53,
+     *      ),
+     *
+     *      @OA\Response(
+     *          response=200,
+     *          description="OK",
+     *
+     *          @OA\JsonContent(
+     *
+     *              @OA\Property(property="data", type="object",
+     *                  @OA\Property(property="body", type="string", example="Body of this post"),
+     *                  @OA\Property(property="commentCount", type="integer", example=10),
+     *                  @OA\Property(property="id", type="integer", example=1),
+     *                  @OA\Property(property="is_liked", type="boolean", example=false),
+     *                  @OA\Property(property="likeCount", type="integer", example=3),
+     *                  @OA\Property(property="published", type="string", example="1 month ago"),
+     *                  @OA\Property(property="title", type="string", example="Title of this post"),
+     *                  @OA\Property(property="preview", type="object",
+     *                      @OA\Property(property="id", type="integer", example=3),
+     *                      @OA\Property(property="url_original", type="string", example="http://sanctum/storage/media/45/9TFZiOkNjfiGYdTyunVIxqZAGrAu7yI4MxGcqSyv.jpg"),
+     *                      @OA\Property(property="url_preview", type="string", example="http://sanctum/storage/media/45/conversions/9TFZiOkNjfiGYdTyunVIxqZAGrAu7yI4MxGcqSyv-preview.jpg"),
+     *                  ),
+     *              ),
+     *          ),
+     *      ),
+     *      @OA\Response(response=404, description="Page not found"),
+     *  )
      */
     public function show(Post $post)
     {
@@ -134,6 +258,63 @@ class PostController extends Controller
         return new PostResource($post);
     }
 
+    /**
+     *  @OA\Patch(
+     *      path="/api/posts2/{post}",
+     *      summary="Обновление",
+     *      tags={"posts"},
+     *      security={{ "sanctum": "" }},
+     *
+     *      @OA\Parameter(
+     *         description="Post ID",
+     *         in="path",
+     *         name="post",
+     *         required=true,
+     *         example=53,
+     *      ),
+     *
+     *      @OA\RequestBody(
+     *
+     *          @OA\JsonContent(
+     *              allOf={
+     *
+     *                  @OA\Schema(
+     *
+     *                      @OA\Property(property="body", type="string", example="Body of this updated post"),
+     *                      @OA\Property(property="title", type="string", example="Title of this updated post"),
+     *                  ),
+     *              }
+     *          ),
+     *      ),
+     * 
+     *      @OA\Response(
+     *          response=200,
+     *          description="OK",
+     *
+     *          @OA\JsonContent(
+     *
+     *              @OA\Property(property="data", type="object",
+     *                  @OA\Property(property="body", type="string", example="Body of this post"),
+     *                  @OA\Property(property="commentCount", type="integer", example=10),
+     *                  @OA\Property(property="id", type="integer", example=1),
+     *                  @OA\Property(property="is_liked", type="boolean", example=false),
+     *                  @OA\Property(property="likeCount", type="integer", example=3),
+     *                  @OA\Property(property="published", type="string", example="1 month ago"),
+     *                  @OA\Property(property="title", type="string", example="Title of this post"),
+     *                  @OA\Property(property="preview", type="object",
+     *                      @OA\Property(property="id", type="integer", example=3),
+     *                      @OA\Property(property="url_original", type="string", example="http://sanctum/storage/media/45/9TFZiOkNjfiGYdTyunVIxqZAGrAu7yI4MxGcqSyv.jpg"),
+     *                      @OA\Property(property="url_preview", type="string", example="http://sanctum/storage/media/45/conversions/9TFZiOkNjfiGYdTyunVIxqZAGrAu7yI4MxGcqSyv-preview.jpg"),
+     *                  ),
+     *              ),
+     *          ),
+     *      ),
+     *      @OA\Response(response=401, description="Unauthenticated"),
+     *      @OA\Response(response=403, description="Unauthorized"),
+     *      @OA\Response(response=404, description="Page not found"),
+     *      @OA\Response(response=422, description="Invalid params"),
+     *  )
+     */
     public function update2(MediaUpdateRequest $request, Post $post)
     {
         $this->authorize('update', $post);
@@ -178,7 +359,25 @@ class PostController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     *  @OA\Delete(
+     *      path="/api/posts/{post}",
+     *      summary="Удаление",
+     *      tags={"posts"},
+     *      security={{ "sanctum": "" }},
+     *
+     *      @OA\Parameter(
+     *         description="Post ID",
+     *         in="path",
+     *         name="post",
+     *         required=true,
+     *         example=53,
+     *      ),
+     *
+     *      @OA\Response(response=204, description="OK"),
+     *      @OA\Response(response=401, description="Unauthenticated"),
+     *      @OA\Response(response=403, description="Unauthorized"),
+     *      @OA\Response(response=404, description="Page not found"),
+     *  )
      */
     public function destroy(Post $post)
     {
@@ -198,6 +397,5 @@ class PostController extends Controller
         $randomPost = (new createPostWithPreviewAction())();
 
         return new PostResource($randomPost);
-        // return new PostResource($randomPreview->post);
     }
 }
