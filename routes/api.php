@@ -5,7 +5,8 @@ use App\Http\Controllers\Admin\PreviewController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\TelegramController;
 use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\CalculatorController;
+use App\Http\Controllers\Calculator\CalculatorController;
+use App\Http\Controllers\Calculator\CircuitBreakerController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\LikeController;
@@ -53,6 +54,8 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::get('/messages/{chat}', [MessageController::class, 'index'])->name('indexMessages')->where(['chat' => '[0-9]+']);
         Route::put('/messageUsers/{chat}', [MessageUserController::class, 'update'])->name('updateMessageUsers')->where(['chat' => '[0-9]+']);
     });
+
+    Route::apiResource('/circuitBreaker', CircuitBreakerController::class)->only(['index', 'store', 'destroy']);
 });
 Route::apiResource('/posts', PostController::class)->only(['index', 'show']);
 Route::get('/comments/{post}/{connemt}', [CommentController::class, 'index'])->name('commentsOfPost')->where(['post' => '[0-9]+', 'connemt' => '[0-9]+']);

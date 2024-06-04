@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Calculator;
 
 use App\Actions\Calculator\calculateInomFactory;
 use App\Actions\Calculator\calculateTotalAction;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Calculator\SendItemsRequest;
 
 class CalculatorController extends Controller
