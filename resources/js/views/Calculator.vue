@@ -6,7 +6,8 @@
             <div v-if="total.value">
                 <span>Количество элементов: {{ total.value.count }}шт</span>&nbsp;
                 <span>Ssum: {{ total.value.Psum }}кВА</span>&nbsp;
-                <span>Isum: {{ total.value.Isum }}A</span>
+                <span>Isum: {{ total.value.Isum }}A</span>&nbsp;
+                <span>Номинал АВ: {{ total.value.breakerNominal }}A</span>
                 <div v-if="total.value.hasError == true" class="my-2 p-4 bg-red-800 rounded-lg">
                     При добавлении / редактировании элемента произошла ошибка. Результат расчета может быть недостоверным, отредактируйте или удалите некорректные элементы.
                 </div>
@@ -23,6 +24,7 @@
                 <div class="flex-1 mb-4">№{{ item.num }}</div>
                 <div class="flex-1 mb-4">Мощность: {{ item.p }}<span v-if="item.type == 3">кВА</span><span v-else>кВт</span></div>
                 <div class="flex-1 mb-4">Сила тока: {{ item.i }}A</div>
+                <div class="flex-1 mb-4">Номинал АВ: {{ item.breakerNominal }}A</div>
                 <div class="flex-1 mb-4" v-if="item.type == 1">cos: {{ item.cos }}</div>
                 <div class="flex-1 mb-4" v-if="item.type == 3">Продолжительность включения: {{ item.pv }}</div>
                 <div class="flex-1 mb-4">Тип: {{ showTypeName(item.type) }}</div>

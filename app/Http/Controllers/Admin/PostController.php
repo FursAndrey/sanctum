@@ -123,7 +123,7 @@ class PostController extends Controller
      *              }
      *          ),
      *      ),
-     * 
+     *
      *      @OA\Response(
      *          response=201,
      *          description="OK",
@@ -146,6 +146,7 @@ class PostController extends Controller
      *              ),
      *          ),
      *      ),
+     *
      *      @OA\Response(response=401, description="Unauthenticated"),
      *      @OA\Response(response=403, description="Unauthorized"),
      *      @OA\Response(response=422, description="Invalid params"),
@@ -218,6 +219,7 @@ class PostController extends Controller
      *              ),
      *          ),
      *      ),
+     *
      *      @OA\Response(response=404, description="Page not found"),
      *  )
      */
@@ -286,7 +288,7 @@ class PostController extends Controller
      *              }
      *          ),
      *      ),
-     * 
+     *
      *      @OA\Response(
      *          response=200,
      *          description="OK",
@@ -309,6 +311,7 @@ class PostController extends Controller
      *              ),
      *          ),
      *      ),
+     *
      *      @OA\Response(response=401, description="Unauthenticated"),
      *      @OA\Response(response=403, description="Unauthorized"),
      *      @OA\Response(response=404, description="Page not found"),

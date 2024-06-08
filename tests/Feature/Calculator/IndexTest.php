@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Calculator;
 
+use App\Models\CircuitBreaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -428,6 +429,13 @@ class IndexTest extends TestCase
 
     public function test_items_correct_format(): void
     {
+        CircuitBreaker::create(['nominal' => 6]);
+        CircuitBreaker::create(['nominal' => 16]);
+        CircuitBreaker::create(['nominal' => 25]);
+        CircuitBreaker::create(['nominal' => 40]);
+        CircuitBreaker::create(['nominal' => 80]);
+        CircuitBreaker::create(['nominal' => 100]);
+
         $items = [
             'items' => [
                 0 => [
@@ -468,6 +476,7 @@ class IndexTest extends TestCase
             'total' => [
                 'count' => count($items['items']),
                 'Psum' => 63.13,
+                'breakerNominal' => 80,
                 'Isum' => round(2.92 + 20.06 + 15.19 + 36.51, 2),
             ],
             'items' => [
@@ -478,30 +487,34 @@ class IndexTest extends TestCase
                     'pv' => $items['items'][0]['pv'],
                     'type' => $items['items'][0]['type'],
                     'i' => 2.92,
+                    'breakerNominal' => 6,
                 ],
                 1 => [
                     'num' => $items['items'][1]['num'],
                     'p' => $items['items'][1]['p'],
-                    'i' => 20.06,
                     'cos' => $items['items'][1]['cos'],
                     'pv' => $items['items'][1]['pv'],
                     'type' => $items['items'][1]['type'],
+                    'i' => 20.06,
+                    'breakerNominal' => 25,
                 ],
                 2 => [
                     'num' => $items['items'][2]['num'],
                     'p' => $items['items'][2]['p'],
-                    'i' => 15.19,
                     'cos' => $items['items'][2]['cos'],
                     'pv' => $items['items'][2]['pv'],
                     'type' => $items['items'][2]['type'],
+                    'i' => 15.19,
+                    'breakerNominal' => 16,
                 ],
                 3 => [
                     'num' => $items['items'][3]['num'],
                     'p' => $items['items'][3]['p'],
-                    'i' => 36.51,
                     'cos' => $items['items'][3]['cos'],
                     'pv' => $items['items'][3]['pv'],
                     'type' => $items['items'][3]['type'],
+                    'i' => 36.51,
+                    'breakerNominal' => 40,
                 ],
             ],
         ];

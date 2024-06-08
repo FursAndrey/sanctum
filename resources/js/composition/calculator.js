@@ -112,6 +112,7 @@ export default function useCalculator() {
                         items[index].cos = res.data.items[index].cos;
                         items[index].pv = res.data.items[index].pv;
                         items[index].type = res.data.items[index].type;
+                        items[index].breakerNominal = res.data.items[index].breakerNominal;
                     }
                     total.value = res.data.total;
                 });
