@@ -122,7 +122,7 @@ class StoreTest extends TestCase
         $user->roles()->sync($role->id);
 
         $circuit_breaker = [
-            'nominal' => 999.1,
+            'nominal' => 4000.1,
         ];
 
         //тестируемый запрос от имени пользователя
@@ -132,7 +132,7 @@ class StoreTest extends TestCase
             ->assertStatus(422)
             ->assertInvalid('nominal')
             ->assertJsonValidationErrors([
-                'nominal' => 'The nominal field must not be greater than 999.',
+                'nominal' => 'The nominal field must not be greater than 4000.',
             ]);
     }
 
