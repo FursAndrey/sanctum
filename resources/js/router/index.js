@@ -10,6 +10,16 @@ const router = createRouter({
             name: 'calculator',
         },
         {
+            path: '/admin/breakers',
+            component: () => import('../views/admin/breakers/index.vue'),
+            name: 'breaker.index',
+        },
+        {
+            path: '/admin/breakers/create',
+            component: () => import('../views/admin/breakers/create.vue'),
+            name: 'breaker.create',
+        },
+        {
             path: '/',
             component: () => import('../views/postList.vue'),
             name: 'postList',

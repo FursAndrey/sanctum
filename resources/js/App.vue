@@ -11,6 +11,7 @@
                 <li class="p-2"><router-link :to="{ name: 'post.index'}" class="menu__item">Posts</router-link></li>
                 <li class="p-2"><router-link :to="{ name: 'role.index'}" class="menu__item">Roles</router-link></li>
                 <li class="p-2"><router-link :to="{ name: 'user.index'}" class="menu__item">Users</router-link></li>
+                <li class="p-2"><router-link :to="{ name: 'breaker.index'}" class="menu__item">AB</router-link></li>
             </ul>
         </div>
 
