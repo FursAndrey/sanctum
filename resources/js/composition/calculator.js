@@ -1,34 +1,26 @@
 import { ref, reactive } from "vue";
 import axios from "axios";
-// import { useRouter } from "vue-router";
 
 export default function useCalculator() {
-    // const item = ref([]);
     const total = reactive([]);
     const items = reactive([]);
     const errorMessage = ref('');
-    // const router = useRouter();
     
-    // const getChat = async (id) => {
-    //     let response = await axios.get('/api/items/' + id);
-    //     item.value = response.data;
-    // }
-
     const getItems = async () => {}
 
     const addItem = async (newItem) => {
         if (newItem.type == 1) {
             items.push({
                 num: newItem.num, 
-                p: newItem.p,
-                cos: newItem.cos,
+                p: newItem.p.replace(',', '.'),
+                cos: newItem.cos.replace(',', '.'),
                 pv: 1,
                 type: newItem.type
             });
         } else if (newItem.type == 2) {
             items.push({
                 num: newItem.num, 
-                p: newItem.p,
+                p: newItem.p.replace(',', '.'),
                 cos: 1,
                 pv: 1,
                 type: newItem.type
@@ -36,9 +28,9 @@ export default function useCalculator() {
         } else {
             items.push({
                 num: newItem.num, 
-                p: newItem.p,
+                p: newItem.p.replace(',', '.'),
                 cos: 1,
-                pv: newItem.pv,
+                pv: newItem.pv.replace(',', '.'),
                 type: newItem.type
             });
         }
@@ -69,21 +61,21 @@ export default function useCalculator() {
             if (items[index].num === oldItemNum) {
                 if (newItem.type == 1) {
                     items[index].num = newItem.num;
-                    items[index].p = newItem.p;
-                    items[index].cos = newItem.cos;
+                    items[index].p = newItem.p.replace(',', '.');
+                    items[index].cos = newItem.cos.replace(',', '.');
                     items[index].pv = 1;
                     items[index].type = newItem.type;
                 } else if (newItem.type == 2) {
                     items[index].num = newItem.num;
-                    items[index].p = newItem.p;
+                    items[index].p = newItem.p.replace(',', '.');
                     items[index].cos = 1;
                     items[index].pv = 1;
                     items[index].type = newItem.type;
                 } else {
                     items[index].num = newItem.num;
-                    items[index].p = newItem.p;
+                    items[index].p = newItem.p.replace(',', '.');
                     items[index].cos = 1;
-                    items[index].pv = newItem.pv;
+                    items[index].pv = newItem.pv.replace(',', '.');
                     items[index].type = newItem.type;
                 }
             }
@@ -138,35 +130,14 @@ export default function useCalculator() {
         errorMessage.value = '';
     }
 
-    // const updateChat = async (id) => {
-    //     errorMessage.value = '';
-        
-    //     try {
-    //         await axios.put('/api/items/' + id, {title: item.value.title, discription: item.value.discription});
-    //         await router.push({ name: 'item.index' });
-    //     } catch(e) {
-    //         errorMessage.value = e.response.data.message;
-    //     }
-    // }
-    
-    // const destroyChat = async (id) => {
-    //     await axios.delete('/api/items/'+id);
-    //     await router.push({ name: 'items' });
-    // }
-    
     return {
-        // item,
         total,
         items,
         errorMessage,
-        // getChat,
         getItems,
         addItem,
         removeItem,
         editItem,
         resetErrors
-        // storeChat,
-        // updateChat,
-        // destroyChat
     }
 }
