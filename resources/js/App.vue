@@ -11,6 +11,14 @@
                 <li class="p-2"><router-link :to="{ name: 'post.index'}" class="menu__item">Posts</router-link></li>
                 <li class="p-2"><router-link :to="{ name: 'role.index'}" class="menu__item">Roles</router-link></li>
                 <li class="p-2"><router-link :to="{ name: 'user.index'}" class="menu__item">Users</router-link></li>
+                <li class="p-2">
+                    <span class="menu__item cursor-pointer">TimeCalculator</span>
+                    <ul>
+                        <li class="p-2">
+                            <router-link :to="{ name: 'holyday.index'}" class="menu__item">Holydays</router-link>
+                        </li>
+                    </ul>
+                </li>
                 <li class="p-2"><router-link :to="{ name: 'breaker.index'}" class="menu__item">AB</router-link></li>
             </ul>
         </div>
@@ -158,6 +166,7 @@ div.admin-menu,
     position: absolute;
     background: black;
     width: 100%;
+    z-index: 1;
 }
 
 .menu__box li {
@@ -169,6 +178,15 @@ div.admin-menu,
 .menu__box li:hover ul {
     display: block;
     top: 40px;
+    left: 0px;
+}
+
+.admin-hamburger-menu > .menu__box > li > ul {
+    background: #211c3c;
+}
+
+.admin-hamburger-menu > .menu__box > li > ul > li {
+    border-top: 1px solid black;
 }
 
 @media (max-width: 750px) {

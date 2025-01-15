@@ -90,6 +90,16 @@ const router = createRouter({
             props: true
         },
         {
+            path: '/admin/holydays',
+            component: () => import('../views/admin/timeCalculator/holydays/index.vue'),
+            name: 'holyday.index',
+        },
+        {
+            path: '/admin/holydays/create',
+            component: () => import('../views/admin/timeCalculator/holydays/create.vue'),
+            name: 'holyday.create',
+        },
+        {
             path: '/admin/roles',
             component: () => import('../views/admin/roles/index.vue'),
             name: 'role.index',
