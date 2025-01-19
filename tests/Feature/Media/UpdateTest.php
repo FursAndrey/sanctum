@@ -15,7 +15,7 @@ class UpdateTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->withHeaders(
@@ -62,7 +62,7 @@ class UpdateTest extends TestCase
 
     public function test_a_post_with_an_img_can_not_be_updated_by_not_admin_user(): void
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'not_dmin',
@@ -75,7 +75,7 @@ class UpdateTest extends TestCase
         $user->roles()->sync($role->id);
 
         $oldPostModel = Post::factory(1)->create()->each(function ($post) {
-            (new testCreateMediaImgAction())($post);
+            (new testCreateMediaImgAction)($post);
         })->first();
 
         $oldPost = [
@@ -128,7 +128,7 @@ class UpdateTest extends TestCase
 
     public function test_a_post_with_an_img_can_not_be_updated_by_admin_user(): void
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'Admin',
@@ -141,7 +141,7 @@ class UpdateTest extends TestCase
         $user->roles()->sync($role->id);
 
         $oldPostModel = Post::factory(1)->create()->each(function ($post) {
-            (new testCreateMediaImgAction())($post);
+            (new testCreateMediaImgAction)($post);
         })->first();
 
         $oldPost = [
@@ -193,7 +193,7 @@ class UpdateTest extends TestCase
 
     public function test_can_not_update_if_imgs_array_has_not_file()
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'Admin',
@@ -206,7 +206,7 @@ class UpdateTest extends TestCase
         $user->roles()->sync($role->id);
 
         $oldPostModel = Post::factory(1)->create()->each(function ($post) {
-            (new testCreateMediaImgAction())($post);
+            (new testCreateMediaImgAction)($post);
         })->first();
 
         $oldPost = [
@@ -253,7 +253,7 @@ class UpdateTest extends TestCase
 
     public function test_can_not_update_if_imgs_is_not_array()
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'Admin',
@@ -266,7 +266,7 @@ class UpdateTest extends TestCase
         $user->roles()->sync($role->id);
 
         $oldPostModel = Post::factory(1)->create()->each(function ($post) {
-            (new testCreateMediaImgAction())($post);
+            (new testCreateMediaImgAction)($post);
         })->first();
 
         $oldPost = [
@@ -308,7 +308,7 @@ class UpdateTest extends TestCase
 
     public function test_can_not_update_if_imgs_has_one_file_but_deleted_preview_is_empty()
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'Admin',
@@ -321,7 +321,7 @@ class UpdateTest extends TestCase
         $user->roles()->sync($role->id);
 
         $oldPostModel = Post::factory(1)->create()->each(function ($post) {
-            (new testCreateMediaImgAction())($post);
+            (new testCreateMediaImgAction)($post);
         })->first();
 
         $oldPost = [
@@ -371,7 +371,7 @@ class UpdateTest extends TestCase
 
     public function test_can_not_update_if_imgs_has_one_file_but_deleted_preview_has_invalid_id()
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'Admin',
@@ -384,7 +384,7 @@ class UpdateTest extends TestCase
         $user->roles()->sync($role->id);
 
         $oldPostModel = Post::factory(1)->create()->each(function ($post) {
-            (new testCreateMediaImgAction())($post);
+            (new testCreateMediaImgAction)($post);
         })->first();
 
         $oldPost = [
@@ -433,7 +433,7 @@ class UpdateTest extends TestCase
 
     public function test_can_not_update_if_imgs_has_one_file_but_deleted_preview_has_not_int()
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'Admin',
@@ -446,7 +446,7 @@ class UpdateTest extends TestCase
         $user->roles()->sync($role->id);
 
         $oldPostModel = Post::factory(1)->create()->each(function ($post) {
-            (new testCreateMediaImgAction())($post);
+            (new testCreateMediaImgAction)($post);
         })->first();
 
         $oldPost = [
@@ -495,7 +495,7 @@ class UpdateTest extends TestCase
 
     public function test_can_not_update_if_imgs_has_more_than_one_file()
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'Admin',
@@ -508,7 +508,7 @@ class UpdateTest extends TestCase
         $user->roles()->sync($role->id);
 
         $oldPostModel = Post::factory(1)->create()->each(function ($post) {
-            (new testCreateMediaImgAction())($post);
+            (new testCreateMediaImgAction)($post);
         })->first();
 
         $oldPost = [

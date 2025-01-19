@@ -10,7 +10,7 @@ class destroyAllUnjoinedPreviewsAction
     {
         $preview = Preview::where('user_id', '=', auth()->id())->whereNull('post_id')->get();
         foreach ($preview as $preview) {
-            (new destroyOnePreviewAction())($preview);
+            (new destroyOnePreviewAction)($preview);
         }
     }
 }

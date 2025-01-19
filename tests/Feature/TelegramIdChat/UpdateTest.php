@@ -12,7 +12,7 @@ class UpdateTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->withHeaders(
@@ -30,7 +30,7 @@ class UpdateTest extends TestCase
 
         $this->assertDatabaseCount('private_telegrams', 0);
 
-        (new updateChatIdAction())($testChatId, $user->tg_name);
+        (new updateChatIdAction)($testChatId, $user->tg_name);
 
         $this->assertDatabaseCount('private_telegrams', 1);
         $this->assertDatabaseHas('private_telegrams', ['user_id' => $user->id, 'private_chat_id' => $testChatId]);
@@ -49,7 +49,7 @@ class UpdateTest extends TestCase
         $this->assertDatabaseHas('private_telegrams', ['user_id' => $user->id, 'private_chat_id' => $testChatIdOld]);
         $this->assertDatabaseMissing('private_telegrams', ['user_id' => $user->id, 'private_chat_id' => $testChatIdNew]);
 
-        (new updateChatIdAction())($testChatIdNew, $user->tg_name);
+        (new updateChatIdAction)($testChatIdNew, $user->tg_name);
 
         $this->assertDatabaseCount('private_telegrams', 1);
         $this->assertDatabaseHas('private_telegrams', ['user_id' => $user->id, 'private_chat_id' => $testChatIdNew]);
@@ -68,7 +68,7 @@ class UpdateTest extends TestCase
         $this->assertDatabaseCount('private_telegrams', 1);
         $this->assertDatabaseHas('private_telegrams', ['user_id' => $user->id, 'private_chat_id' => $testChatIdOld]);
 
-        (new updateChatIdAction())($testChatIdNew, $user->tg_name);
+        (new updateChatIdAction)($testChatIdNew, $user->tg_name);
 
         $this->assertDatabaseCount('private_telegrams', 1);
         $this->assertDatabaseHas('private_telegrams', ['user_id' => $user->id, 'private_chat_id' => $testChatIdOld]);

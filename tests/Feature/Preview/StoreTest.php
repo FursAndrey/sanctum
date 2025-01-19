@@ -14,7 +14,7 @@ class StoreTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->withHeaders(
@@ -26,7 +26,7 @@ class StoreTest extends TestCase
 
     public function test_an_image_is_file_for_stored(): void
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'Admin',
@@ -40,7 +40,7 @@ class StoreTest extends TestCase
 
         $image = 'test_img.jpg';
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->post('/api/preview', ['image' => $image]);
 
         $response
@@ -104,7 +104,7 @@ class StoreTest extends TestCase
 
     public function test_an_image_can_be_stored_by_admin_user(): void
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'Admin',
@@ -116,11 +116,11 @@ class StoreTest extends TestCase
         $user = User::factory()->create();
         $user->roles()->sync($role->id);
 
-        //подготовка тестового изображения
+        // подготовка тестового изображения
         Storage::fake('public');
         $image = File::create('test_img.jpg');
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->post('/api/preview', ['image' => $image]);
 
         $response->assertStatus(201);
@@ -153,7 +153,7 @@ class StoreTest extends TestCase
 
     public function test_an_image_can_not_be_stored_by_not_admin_user(): void
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'not_dmin',
@@ -165,11 +165,11 @@ class StoreTest extends TestCase
         $user = User::factory()->create();
         $user->roles()->sync($role->id);
 
-        //подготовка тестового изображения
+        // подготовка тестового изображения
         Storage::fake('public');
         $image = File::create('test_img.jpg');
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->post('/api/preview', ['image' => $image]);
 
         $response->assertStatus(403);

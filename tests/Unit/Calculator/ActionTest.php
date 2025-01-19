@@ -11,28 +11,28 @@ use PHPUnit\Framework\TestCase;
 
 class ActionTest extends TestCase
 {
-    public function test_calculate_Inom_action(): void
+    public function test_calculate_inom_action(): void
     {
         $expected = 2.34;
-        $this->assertEquals($expected, (new calculateTermInomAction())(Pnom: 1.54));
+        $this->assertEquals($expected, (new calculateTermInomAction)(Pnom: 1.54));
         $expected = 19.05;
-        $this->assertEquals($expected, (new calculateTermInomAction())(Pnom: 12.54));
+        $this->assertEquals($expected, (new calculateTermInomAction)(Pnom: 12.54));
     }
 
-    public function test_calculate_engine_Inom_action(): void
+    public function test_calculate_engine_inom_action(): void
     {
         $expected = 2.92;
-        $this->assertEquals($expected, (new calculateEngineInomAction())(Pnom: 1.54, cos: 0.8));
+        $this->assertEquals($expected, (new calculateEngineInomAction)(Pnom: 1.54, cos: 0.8));
         $expected = 23.82;
-        $this->assertEquals($expected, (new calculateEngineInomAction())(Pnom: 12.54, cos: 0.8));
+        $this->assertEquals($expected, (new calculateEngineInomAction)(Pnom: 12.54, cos: 0.8));
     }
 
-    public function test_calculate_welding_Inom_action(): void
+    public function test_calculate_welding_inom_action(): void
     {
         $expected = 36.51;
-        $this->assertEquals($expected, (new calculateWeldingInomAction())(Pnom: 38, pv: 0.4));
+        $this->assertEquals($expected, (new calculateWeldingInomAction)(Pnom: 38, pv: 0.4));
         $expected = 2.09;
-        $this->assertEquals($expected, (new calculateWeldingInomAction())(Pnom: 1.54, pv: 0.8));
+        $this->assertEquals($expected, (new calculateWeldingInomAction)(Pnom: 1.54, pv: 0.8));
     }
 
     public function test_calculate_factory(): void
@@ -80,6 +80,6 @@ class ActionTest extends TestCase
             'Psum' => 55.22,
             'Isum' => 62.67,
         ];
-        $this->assertEquals($expected, (new calculateTotalAction())($items));
+        $this->assertEquals($expected, (new calculateTotalAction)($items));
     }
 }

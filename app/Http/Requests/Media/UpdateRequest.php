@@ -21,7 +21,7 @@ class UpdateRequest extends FormRequest
      */
     public function rules(): array
     {
-        //подготовка условия для проверки количества загружаемых файлов
+        // подготовка условия для проверки количества загружаемых файлов
         $post = $this->route()->parameters['post'];
         $countImgs = $post->media->count();
         $countForValidation = 1 - $countImgs;
@@ -29,12 +29,12 @@ class UpdateRequest extends FormRequest
             $countForValidation = $countForValidation + count($this->deleted_preview);
         }
 
-        //подготовка условия для параметра "deleted_preview"
+        // подготовка условия для параметра "deleted_preview"
         if ($countImgs > 0 && ! is_null($this->imgs) && is_array($this->imgs)) {
             $newImgs = count($this->imgs);
 
             if ($newImgs > 0) {
-                $delRequired = 'required';  //если у поста нет картинок или не отправлены новые - удалять старые не нужно
+                $delRequired = 'required';  // если у поста нет картинок или не отправлены новые - удалять старые не нужно
             } else {
                 $delRequired = 'nullable';
             }
@@ -42,7 +42,7 @@ class UpdateRequest extends FormRequest
             $delRequired = 'nullable';
         }
 
-        //если параметр "deleted_preview" обязательный - должен содержать реальные ID
+        // если параметр "deleted_preview" обязательный - должен содержать реальные ID
         if ($delRequired == 'required') {
             $delExists = '|exists:media,id';
         } else {

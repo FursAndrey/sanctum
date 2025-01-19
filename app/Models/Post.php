@@ -44,7 +44,7 @@ class Post extends Model implements HasMedia
         return isset($this->preview) ? $this->preview->url : null;
     }
 
-    public function registerMediaConversions(Media $media = null): void
+    public function registerMediaConversions(?Media $media = null): void
     {
         $this->addMediaConversion('preview')
             ->fit(Manipulations::FIT_CROP, 100, 100)

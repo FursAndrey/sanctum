@@ -84,7 +84,7 @@ class CommentController extends Controller
     public function storeRandomComment()
     {
         $this->authorize('createRandom', Comment::class);
-        $randomComment = (new createRandomCommentAction())();
+        $randomComment = (new createRandomCommentAction)();
 
         return new CommentResource($randomComment);
     }

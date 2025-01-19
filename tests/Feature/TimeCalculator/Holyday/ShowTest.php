@@ -5,16 +5,16 @@ namespace Tests\Feature\TimeCalculator\Holyday;
 use App\Models\Holyday;
 use App\Models\Role;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Str;
-use Carbon\Carbon;
 use Tests\TestCase;
 
 class ShowTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->withHeaders(
@@ -31,7 +31,7 @@ class ShowTest extends TestCase
         ];
         $showHolyday = Holyday::create($holyday);
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->get('/api/holydays/'.$showHolyday->id);
 
         $response->assertStatus(401);
@@ -44,7 +44,7 @@ class ShowTest extends TestCase
 
     public function test_can_not_return_holyday_by_id_for_not_admin_user()
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'not_admin',
@@ -61,7 +61,7 @@ class ShowTest extends TestCase
         ];
         $showHolyday = Holyday::create($holyday);
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->get('/api/holydays/'.$showHolyday->id);
 
         $response->assertStatus(403);
@@ -74,7 +74,7 @@ class ShowTest extends TestCase
 
     public function test_can_not_return_holyday_by_id_for_admin_user()
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'Admin',
@@ -91,7 +91,7 @@ class ShowTest extends TestCase
         ];
         $showHolyday = Holyday::create($holyday);
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->get('/api/holydays/'.$showHolyday->id);
 
         $response->assertStatus(403);

@@ -11,7 +11,7 @@ class createPostWithPreviewAction
     public function __invoke(): Post
     {
         $posts = Post::factory(1)->create()->each(function ($post) {
-            (new createMediaImgAction())($post);
+            (new createMediaImgAction)($post);
         });
 
         return $posts->first();

@@ -13,7 +13,7 @@ class StoreRandomTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->withHeaders(
@@ -26,7 +26,7 @@ class StoreRandomTest extends TestCase
     public function test_a_comment_can_be_stored_by_admin_user()
     {
         $posts = Post::factory(1)->create();
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'Admin',
@@ -49,7 +49,7 @@ class StoreRandomTest extends TestCase
         $userBot = User::factory()->create();
         $userBot->roles()->sync($roleBot->id);
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->post('/api/comments/storeRandomComment');
 
         $response->assertStatus(201);
@@ -59,7 +59,7 @@ class StoreRandomTest extends TestCase
     public function test_a_comment_can_not_be_stored_by_not_admin_user()
     {
         $posts = Post::factory(1)->create();
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'not_admin',
@@ -82,7 +82,7 @@ class StoreRandomTest extends TestCase
         $userBot = User::factory()->create();
         $userBot->roles()->sync($roleBot->id);
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->post('/api/comments/storeRandomComment');
 
         $response->assertStatus(403);

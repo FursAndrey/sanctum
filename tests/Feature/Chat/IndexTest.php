@@ -15,7 +15,7 @@ class IndexTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->withHeaders(
@@ -27,7 +27,7 @@ class IndexTest extends TestCase
 
     public function test_can_not_return_chats_for_unauthorised_user(): void
     {
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->get('/api/chats');
 
         $response->assertStatus(401);
@@ -40,7 +40,7 @@ class IndexTest extends TestCase
 
     public function test_can_return_chats_for_authorised_user(): void
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'not_admin',
@@ -52,11 +52,11 @@ class IndexTest extends TestCase
         $user = User::factory()->create();
         $user->roles()->sync($role->id);
 
-        //создание других пользователей чатов
+        // создание других пользователей чатов
         $anotherUser1 = User::factory()->create();
         $anotherUser2 = User::factory()->create();
 
-        //создание чатов
+        // создание чатов
         $chat1 = [
             'title' => null,
             'users' => $user->id.'-'.$anotherUser1->id,
@@ -73,7 +73,7 @@ class IndexTest extends TestCase
         ChatUser::create(['chat_id' => $createdChat2->id, 'user_id' => $user->id]);
         ChatUser::create(['chat_id' => $createdChat2->id, 'user_id' => $anotherUser2->id]);
 
-        //создание сообщений для чатов
+        // создание сообщений для чатов
         $message1 = Message::create([
             'user_id' => $user->id,
             'chat_id' => $createdChat1->id,
@@ -115,7 +115,7 @@ class IndexTest extends TestCase
             ],
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->get('/api/chats');
 
         $response->assertStatus(200);

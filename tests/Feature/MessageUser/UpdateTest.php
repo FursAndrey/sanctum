@@ -15,7 +15,7 @@ class UpdateTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->withHeaders(
@@ -27,11 +27,11 @@ class UpdateTest extends TestCase
 
     public function test_message_id_attribute_is_required_for_change_message_status()
     {
-        //создание пользователей чатов
+        // создание пользователей чатов
         $user1 = User::factory()->create();
         $user2 = User::factory()->create();
 
-        //создание чата
+        // создание чата
         $chat = [
             'title' => null,
             'users' => $user1->id.'-'.$user2->id,
@@ -40,7 +40,7 @@ class UpdateTest extends TestCase
         ChatUser::create(['chat_id' => $createdChat->id, 'user_id' => $user1->id]);
         ChatUser::create(['chat_id' => $createdChat->id, 'user_id' => $user2->id]);
 
-        //создание сообщений для чатов
+        // создание сообщений для чатов
         $message = Message::create([
             'user_id' => $user2->id,
             'chat_id' => $createdChat->id,
@@ -67,7 +67,7 @@ class UpdateTest extends TestCase
             'is_read' => true,
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user1)->put('/api/messageUsers/'.$createdChat->id, ['message_id1' => $message->id]);
 
         $response
@@ -81,11 +81,11 @@ class UpdateTest extends TestCase
 
     public function test_message_id_attribute_is_numeric_for_change_message_status()
     {
-        //создание пользователей чатов
+        // создание пользователей чатов
         $user1 = User::factory()->create();
         $user2 = User::factory()->create();
 
-        //создание чата
+        // создание чата
         $chat = [
             'title' => null,
             'users' => $user1->id.'-'.$user2->id,
@@ -94,7 +94,7 @@ class UpdateTest extends TestCase
         ChatUser::create(['chat_id' => $createdChat->id, 'user_id' => $user1->id]);
         ChatUser::create(['chat_id' => $createdChat->id, 'user_id' => $user2->id]);
 
-        //создание сообщений для чатов
+        // создание сообщений для чатов
         $message = Message::create([
             'user_id' => $user2->id,
             'chat_id' => $createdChat->id,
@@ -121,7 +121,7 @@ class UpdateTest extends TestCase
             'is_read' => true,
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user1)->put('/api/messageUsers/'.$createdChat->id, ['message_id' => [$message->id]]);
 
         $response
@@ -135,11 +135,11 @@ class UpdateTest extends TestCase
 
     public function test_message_id_attribute_exists_for_change_message_status()
     {
-        //создание пользователей чатов
+        // создание пользователей чатов
         $user1 = User::factory()->create();
         $user2 = User::factory()->create();
 
-        //создание чата
+        // создание чата
         $chat = [
             'title' => null,
             'users' => $user1->id.'-'.$user2->id,
@@ -148,7 +148,7 @@ class UpdateTest extends TestCase
         ChatUser::create(['chat_id' => $createdChat->id, 'user_id' => $user1->id]);
         ChatUser::create(['chat_id' => $createdChat->id, 'user_id' => $user2->id]);
 
-        //создание сообщений для чатов
+        // создание сообщений для чатов
         $message = Message::create([
             'user_id' => $user2->id,
             'chat_id' => $createdChat->id,
@@ -175,7 +175,7 @@ class UpdateTest extends TestCase
             'is_read' => true,
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user1)->put('/api/messageUsers/'.$createdChat->id, ['message_id' => $message->id * 10]);
 
         $response
@@ -189,11 +189,11 @@ class UpdateTest extends TestCase
 
     public function test_message_status_can_change_if_message_id_attribute_is_correct()
     {
-        //создание пользователей чатов
+        // создание пользователей чатов
         $user1 = User::factory()->create();
         $user2 = User::factory()->create();
 
-        //создание чата
+        // создание чата
         $chat = [
             'title' => null,
             'users' => $user1->id.'-'.$user2->id,
@@ -202,7 +202,7 @@ class UpdateTest extends TestCase
         ChatUser::create(['chat_id' => $createdChat->id, 'user_id' => $user1->id]);
         ChatUser::create(['chat_id' => $createdChat->id, 'user_id' => $user2->id]);
 
-        //создание сообщений для чатов
+        // создание сообщений для чатов
         $message = Message::create([
             'user_id' => $user2->id,
             'chat_id' => $createdChat->id,
@@ -232,7 +232,7 @@ class UpdateTest extends TestCase
         $this->assertDatabaseHas('message_users', $unreadable);
         $this->assertDatabaseMissing('message_users', $readable);
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user1)->put('/api/messageUsers/'.$createdChat->id, ['message_id' => $message->id]);
 
         $response->assertStatus(204);
@@ -242,19 +242,19 @@ class UpdateTest extends TestCase
 
     public function test_message_status_can_not_be_updated_by_authorised_user_but_not_owner_of_chat()
     {
-        //создание пользователей чатов
+        // создание пользователей чатов
         $user1 = User::factory()->create();
         $user2 = User::factory()->create();
         $user3 = User::factory()->create();
 
-        //создание чата
+        // создание чата
         $chat = [
             'title' => null,
             'users' => $user1->id.'-'.$user2->id,
         ];
         $createdChat = Chat::create($chat);
 
-        //создание сообщений для чатов
+        // создание сообщений для чатов
         $message = Message::create([
             'user_id' => $user2->id,
             'chat_id' => $createdChat->id,
@@ -280,7 +280,7 @@ class UpdateTest extends TestCase
             'message_id' => $message->id,
             'is_read' => true,
         ];
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user3)->put('/api/messageUsers/'.$createdChat->id, ['message_id' => $message->id]);
 
         $response->assertStatus(403);
@@ -295,18 +295,18 @@ class UpdateTest extends TestCase
 
     public function test_message_status_can_not_be_updated_by_unauthorised_user()
     {
-        //создание пользователей чатов
+        // создание пользователей чатов
         $user1 = User::factory()->create();
         $user2 = User::factory()->create();
 
-        //создание чата
+        // создание чата
         $chat = [
             'title' => null,
             'users' => $user1->id.'-'.$user2->id,
         ];
         $createdChat = Chat::create($chat);
 
-        //создание сообщений для чатов
+        // создание сообщений для чатов
         $message = Message::create([
             'user_id' => $user2->id,
             'chat_id' => $createdChat->id,
@@ -332,7 +332,7 @@ class UpdateTest extends TestCase
             'message_id' => $message->id,
             'is_read' => true,
         ];
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->put('/api/messageUsers/'.$createdChat->id, ['message_id' => $message->id]);
 
         $response->assertStatus(401);

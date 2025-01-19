@@ -11,7 +11,7 @@ class IndexExceptMeTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->withHeaders(
@@ -23,7 +23,7 @@ class IndexExceptMeTest extends TestCase
 
     public function test_can_not_return_users_for_chat_for_unauthorised_user(): void
     {
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->get('/api/users/exceptMe');
 
         $response->assertStatus(401);
@@ -36,7 +36,7 @@ class IndexExceptMeTest extends TestCase
 
     public function test_can_return_users_for_chat_for_authorised_user(): void
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'not_Admin',
@@ -57,7 +57,7 @@ class IndexExceptMeTest extends TestCase
             ];
         })->toArray();
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->get('/api/users/exceptMe');
 
         $response->assertStatus(200);

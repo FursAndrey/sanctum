@@ -12,7 +12,7 @@ class StoreTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->withHeaders(
@@ -24,7 +24,7 @@ class StoreTest extends TestCase
 
     public function test_title_attribute_is_required_for_storing_post()
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'Admin',
@@ -40,7 +40,7 @@ class StoreTest extends TestCase
             'body' => 'some text',
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->post('/api/posts2', $post);
 
         $response
@@ -53,7 +53,7 @@ class StoreTest extends TestCase
 
     public function test_body_attribute_is_required_for_storing_post()
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'Admin',
@@ -69,7 +69,7 @@ class StoreTest extends TestCase
             'title' => 'some text',
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->post('/api/posts2', $post);
 
         $response
@@ -100,7 +100,7 @@ class StoreTest extends TestCase
 
     public function test_a_post_can_be_stored_without_image_by_admin_user(): void
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'Admin',
@@ -117,7 +117,7 @@ class StoreTest extends TestCase
             'body' => 'some text',
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->post('/api/posts2', $post);
 
         $response->assertStatus(201);
@@ -127,7 +127,7 @@ class StoreTest extends TestCase
 
     public function test_a_post_can_not_be_stored_without_image_by_not_admin_user(): void
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'not_dmin',
@@ -144,7 +144,7 @@ class StoreTest extends TestCase
             'body' => 'some text',
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->post('/api/posts2', $post);
 
         $response->assertStatus(403);

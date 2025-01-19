@@ -13,7 +13,7 @@ class TelegramService
         $this->bot_token = config('telegram.bot_token');
     }
 
-    //pdf, zip, gif
+    // pdf, zip, gif
     public function sendDocument($chat_id, $document, $caption = '')
     {
         $url = 'https://api.telegram.org/bot'.$this->bot_token.'/sendDocument';
@@ -50,14 +50,14 @@ class TelegramService
         return $response->collect();
     }
 
-    //отправка сообщений
+    // отправка сообщений
     public function sendMessage($chat_id, $text, $keyboard = [], $resize_keyboard = true, $one_time_keyboard = true)
     {
         $reply_markup = [
             'inline_keyboard' => $keyboard,
             // 'resize_keyboard' => $resize_keyboard,
             // 'one_time_keyboard' => $one_time_keyboard
-        ]; //"one_time_keyboard" - одноразовая
+        ]; // "one_time_keyboard" - одноразовая
 
         $url = 'https://api.telegram.org/bot'.$this->bot_token.'/sendmessage';
 
@@ -71,7 +71,7 @@ class TelegramService
         return $response->collect();
     }
 
-    //отправка сообщений
+    // отправка сообщений
     public function deleteMessage($chat_id, $message_id)
     {
         $url = 'https://api.telegram.org/bot'.$this->bot_token.'/deleteMessage';
@@ -83,7 +83,7 @@ class TelegramService
         return $response->collect();
     }
 
-    //отправка сообщений
+    // отправка сообщений
     public function setWebhook($url, $certificate = null)
     {
         $url = 'https://api.telegram.org/bot'.$this->bot_token.'/setWebhook';

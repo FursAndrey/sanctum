@@ -3,8 +3,8 @@
 namespace App\Http;
 
 use App\Http\Middleware\HasBanChatMiddleware;
-use App\Http\Middleware\IsMyChatMiddleware;
 use App\Http\Middleware\IsAdminMiddleware;
+use App\Http\Middleware\IsMyChatMiddleware;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel

@@ -12,7 +12,7 @@ class ShowTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->withHeaders(
@@ -33,7 +33,7 @@ class ShowTest extends TestCase
             ]
         );
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->get('/api/roles/'.$role->id);
 
         $response->assertStatus(401);
@@ -46,7 +46,7 @@ class ShowTest extends TestCase
 
     public function test_can_not_return_role_by_id_for_not_admin_user()
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'not_admin',
@@ -58,7 +58,7 @@ class ShowTest extends TestCase
         $user = User::factory()->create();
         $user->roles()->sync($role->id);
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->get('/api/roles/'.$role->id);
 
         $response->assertStatus(403);
@@ -71,7 +71,7 @@ class ShowTest extends TestCase
 
     public function test_can_return_role_by_id_for_admin_user()
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'Admin',
@@ -83,7 +83,7 @@ class ShowTest extends TestCase
         $user = User::factory()->create();
         $user->roles()->sync($role->id);
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->get('/api/roles/'.$role->id);
 
         $response->assertStatus(200);

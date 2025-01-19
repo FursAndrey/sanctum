@@ -14,7 +14,7 @@ class ShowTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->withHeaders(
@@ -28,7 +28,7 @@ class ShowTest extends TestCase
     {
         $user = User::factory()->create();
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->get('/api/users/'.$user->id);
 
         $response->assertStatus(401);
@@ -41,7 +41,7 @@ class ShowTest extends TestCase
 
     public function test_not_admin_user_can_see_himself_by_id()
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'not_admin',
@@ -53,7 +53,7 @@ class ShowTest extends TestCase
         $user = User::factory()->create();
         $user->roles()->sync($role->id);
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->get('/api/users/'.$user->id);
 
         $response->assertStatus(200);
@@ -80,7 +80,7 @@ class ShowTest extends TestCase
 
     public function test_not_admin_user_can_see_himself_by_id_if_ban()
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'not_admin',
@@ -94,7 +94,7 @@ class ShowTest extends TestCase
         $ban_chat = BanChat::create(['user_id' => $user->id]);
         $ban_comment = BanComment::create(['user_id' => $user->id]);
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->get('/api/users/'.$user->id);
 
         $response->assertStatus(200);
@@ -123,7 +123,7 @@ class ShowTest extends TestCase
 
     public function test_not_admin_user_can_not_see_another_user_by_id()
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'not_admin',
@@ -138,7 +138,7 @@ class ShowTest extends TestCase
         $anotherUser = User::factory()->create();
         $anotherUser->roles()->sync($role->id);
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->get('/api/users/'.$anotherUser->id);
 
         $response->assertStatus(403);
@@ -151,7 +151,7 @@ class ShowTest extends TestCase
 
     public function test_can_return_user_by_id_for_admin_user()
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'Admin',
@@ -163,7 +163,7 @@ class ShowTest extends TestCase
         $user = User::factory()->create();
         $user->roles()->sync($role->id);
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->get('/api/users/'.$user->id);
 
         $response->assertStatus(200);

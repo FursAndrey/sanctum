@@ -12,7 +12,7 @@ class DestroyTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->withHeaders(
@@ -24,7 +24,7 @@ class DestroyTest extends TestCase
 
     public function test_a_role_has_a_user_and_can_be_deleted_by_admin_user()
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'Admin',
@@ -45,7 +45,7 @@ class DestroyTest extends TestCase
         $anotherUser = User::factory()->create();
         $anotherUser->roles()->sync($delRole->id);
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->delete('/api/roles/'.$delRole->id);
 
         $response->assertStatus(204);
@@ -54,7 +54,7 @@ class DestroyTest extends TestCase
 
     public function test_a_role_can_be_deleted_by_admin_user()
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'Admin',
@@ -72,7 +72,7 @@ class DestroyTest extends TestCase
         ];
         $delRole = Role::create($deletedRole);
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->delete('/api/roles/'.$delRole->id);
 
         $response->assertStatus(204);
@@ -81,7 +81,7 @@ class DestroyTest extends TestCase
 
     public function test_a_role_can_not_be_deleted_by_not_admin_user()
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'not_admin',
@@ -99,7 +99,7 @@ class DestroyTest extends TestCase
         ];
         $delRole = Role::create($deletedRole);
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->delete('/api/roles/'.$delRole->id);
 
         $response->assertStatus(403);
@@ -119,7 +119,7 @@ class DestroyTest extends TestCase
         ];
         $delRole = Role::create($deletedRole);
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->delete('/api/roles/'.$delRole->id);
 
         $response->assertStatus(401);

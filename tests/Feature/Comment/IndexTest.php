@@ -14,7 +14,7 @@ class IndexTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->withHeaders(
@@ -39,7 +39,7 @@ class IndexTest extends TestCase
 
     public function test_return_comments_if_exist_comments(): void
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'bot',

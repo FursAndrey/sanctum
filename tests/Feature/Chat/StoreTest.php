@@ -13,7 +13,7 @@ class StoreTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->withHeaders(
@@ -25,7 +25,7 @@ class StoreTest extends TestCase
 
     public function test_users_attribute_is_required_for_creating_chat()
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'notAdmin',
@@ -41,7 +41,7 @@ class StoreTest extends TestCase
             'title' => '2',
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->post('/api/chats', $chat);
 
         $response
@@ -54,7 +54,7 @@ class StoreTest extends TestCase
 
     public function test_users_attribute_must_be_an_array_for_creating_chat()
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'notAdmin',
@@ -71,7 +71,7 @@ class StoreTest extends TestCase
             'users' => '2',
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->post('/api/chats', $chat);
 
         $response
@@ -84,7 +84,7 @@ class StoreTest extends TestCase
 
     public function test_users_attribute_exists_for_creating_chat()
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'notAdmin',
@@ -101,7 +101,7 @@ class StoreTest extends TestCase
             'users' => [1],
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->post('/api/chats', $chat);
 
         $response
@@ -114,7 +114,7 @@ class StoreTest extends TestCase
 
     public function test_title_attribute_is_not_required_for_creating_chat()
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'notAdmin',
@@ -137,7 +137,7 @@ class StoreTest extends TestCase
             'users' => $user->id.'-'.$anotherUser->id,
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->post('/api/chats', $chat);
 
         $response->assertStatus(200);
@@ -147,7 +147,7 @@ class StoreTest extends TestCase
 
     public function test_user_with_ban_chat_can_not_create_new_chat()
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'notAdmin',
@@ -166,7 +166,7 @@ class StoreTest extends TestCase
             'users' => [$anotherUser->id],
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->post('/api/chats', $chat);
 
         $response->assertStatus(423);
@@ -180,7 +180,7 @@ class StoreTest extends TestCase
 
     public function test_title_attribute_must_be_string_for_creating_chat()
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'notAdmin',
@@ -198,7 +198,7 @@ class StoreTest extends TestCase
             'users' => [$anotherUser->id],
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->post('/api/chats', $chat);
 
         $response
@@ -211,7 +211,7 @@ class StoreTest extends TestCase
 
     public function test_title_attribute_have_max_150_chars_for_creating_chat()
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'notAdmin',
@@ -229,7 +229,7 @@ class StoreTest extends TestCase
             'users' => [$anotherUser->id],
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->post('/api/chats', $chat);
 
         $response
@@ -247,7 +247,7 @@ class StoreTest extends TestCase
             'users' => 2,
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->post('/api/chats', $chat);
 
         $response->assertStatus(401);

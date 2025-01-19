@@ -12,7 +12,7 @@ class CurrentUserTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->withHeaders(
@@ -24,7 +24,7 @@ class CurrentUserTest extends TestCase
 
     public function test_get_current_user_by_admin_user()
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'Admin',
@@ -36,7 +36,7 @@ class CurrentUserTest extends TestCase
         $user = User::factory()->create();
         $user->roles()->sync($role->id);
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->get('/api/currentUser');
 
         $response->assertStatus(200);
@@ -55,7 +55,7 @@ class CurrentUserTest extends TestCase
 
     public function test_get_current_user_by_not_admin_user()
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'not_admin',
@@ -67,7 +67,7 @@ class CurrentUserTest extends TestCase
         $user = User::factory()->create();
         $user->roles()->sync($role->id);
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->get('/api/currentUser');
 
         $response->assertStatus(200);
@@ -86,7 +86,7 @@ class CurrentUserTest extends TestCase
 
     public function test_get_current_user_by_unauthorised_user()
     {
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->get('/api/currentUser');
 
         $response->assertStatus(200);

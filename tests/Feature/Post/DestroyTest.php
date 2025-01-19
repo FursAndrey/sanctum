@@ -14,7 +14,7 @@ class DestroyTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->withHeaders(
@@ -26,7 +26,7 @@ class DestroyTest extends TestCase
 
     public function test_a_post_can_be_deleted_by_admin_user()
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'Admin',
@@ -45,7 +45,7 @@ class DestroyTest extends TestCase
             'body' => $post->body,
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->delete('/api/posts/'.$post->id);
 
         $response->assertStatus(204);
@@ -54,7 +54,7 @@ class DestroyTest extends TestCase
 
     public function test_a_post_can_not_be_deleted_by_not_admin_user()
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'not_admin',
@@ -73,7 +73,7 @@ class DestroyTest extends TestCase
             'body' => $post->body,
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->delete('/api/posts/'.$post->id);
 
         $response->assertStatus(403);
@@ -106,7 +106,7 @@ class DestroyTest extends TestCase
 
     public function test_a_post_can_be_deleted_with_all_if_it_has_comments()
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $botRole = Role::create(
             [
                 'title' => 'bot',
@@ -147,7 +147,7 @@ class DestroyTest extends TestCase
             'body' => $post->body,
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->delete('/api/posts/'.$post->id);
 
         $response->assertStatus(204);

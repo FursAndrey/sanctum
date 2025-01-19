@@ -8,11 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Holyday extends Model
 {
     use HasFactory;
-    
+
     protected $fillable = [
         'holyday',
     ];
 
     protected $table = 'holydays';
-
 }

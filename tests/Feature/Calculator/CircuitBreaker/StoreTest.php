@@ -12,7 +12,7 @@ class StoreTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->withHeaders(
@@ -24,7 +24,7 @@ class StoreTest extends TestCase
 
     public function test_nominal_attribute_is_required_for_storing_circuit_breaker()
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'Admin',
@@ -38,7 +38,7 @@ class StoreTest extends TestCase
 
         $circuit_breaker = [];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->post('/api/circuitBreaker', $circuit_breaker);
 
         $response
@@ -51,7 +51,7 @@ class StoreTest extends TestCase
 
     public function test_nominal_attribute_must_be_a_number_for_storing_circuit_breaker()
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'Admin',
@@ -67,7 +67,7 @@ class StoreTest extends TestCase
             'nominal' => 'erte',
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->post('/api/circuitBreaker', $circuit_breaker);
 
         $response
@@ -80,7 +80,7 @@ class StoreTest extends TestCase
 
     public function test_nominal_attribute_must_be_more_1_for_storing_role()
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'Admin',
@@ -96,7 +96,7 @@ class StoreTest extends TestCase
             'nominal' => 0,
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->post('/api/circuitBreaker', $circuit_breaker);
 
         $response
@@ -109,7 +109,7 @@ class StoreTest extends TestCase
 
     public function test_nominal_attribute_must_be_less_999_for_storing_role()
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'Admin',
@@ -125,7 +125,7 @@ class StoreTest extends TestCase
             'nominal' => 4000.1,
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->post('/api/circuitBreaker', $circuit_breaker);
 
         $response
@@ -155,7 +155,7 @@ class StoreTest extends TestCase
 
     public function test_a_circuit_breaker_can_not_be_stored_by_not_admin_user(): void
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'not_dmin',
@@ -171,7 +171,7 @@ class StoreTest extends TestCase
             'nominal' => 10,
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->post('/api/circuitBreaker', $circuit_breaker);
 
         $response->assertStatus(403);
@@ -186,7 +186,7 @@ class StoreTest extends TestCase
 
     public function test_a_circuit_breaker_can_be_stored_by_admin_user(): void
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'Admin',
@@ -202,7 +202,7 @@ class StoreTest extends TestCase
             'nominal' => 10,
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->post('/api/circuitBreaker', $circuit_breaker);
 
         $response->assertStatus(201);

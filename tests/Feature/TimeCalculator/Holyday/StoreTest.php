@@ -6,15 +6,15 @@ use App\Models\Holyday;
 use App\Models\Role;
 use App\Models\User;
 use Carbon\Carbon;
-use Illuminate\Support\Str;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Str;
 use Tests\TestCase;
 
 class StoreTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->withHeaders(
@@ -43,7 +43,7 @@ class StoreTest extends TestCase
 
     public function test_a_holyday_can_not_be_stored_by_not_admin_user(): void
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'not_dmin',
@@ -59,7 +59,7 @@ class StoreTest extends TestCase
             'holyday' => Carbon::today()->addDays(rand(1, 365)),
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->post('/api/holydays', $holyday);
 
         $response->assertStatus(403);
@@ -74,7 +74,7 @@ class StoreTest extends TestCase
 
     public function test_holyday_attribute_is_required_for_storing_holyday()
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'Admin',
@@ -90,7 +90,7 @@ class StoreTest extends TestCase
             'holyday1' => Carbon::today()->addDays(rand(1, 365)),
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->post('/api/holydays', $holyday);
 
         $response
@@ -103,7 +103,7 @@ class StoreTest extends TestCase
 
     public function test_holyday_attribute_is_date_for_storing_holyday()
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'Admin',
@@ -119,7 +119,7 @@ class StoreTest extends TestCase
             'holyday' => ['some array'],
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->post('/api/holydays', $holyday);
 
         $response
@@ -132,7 +132,7 @@ class StoreTest extends TestCase
 
     public function test_holyday_attribute_is_unique_for_storing_holyday()
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'Admin',
@@ -150,7 +150,7 @@ class StoreTest extends TestCase
 
         Holyday::create($holyday);
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->post('/api/holydays', $holyday);
 
         $response
@@ -163,7 +163,7 @@ class StoreTest extends TestCase
 
     public function test_a_holyday_can_be_stored_by_admin_user(): void
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'Admin',
@@ -179,7 +179,7 @@ class StoreTest extends TestCase
             'holyday' => Carbon::today()->addDays(rand(1, 365)),
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->post('/api/holydays', $holyday);
 
         $response->assertStatus(201);

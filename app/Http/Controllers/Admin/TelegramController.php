@@ -28,7 +28,7 @@ class TelegramController extends Controller
             && isset($event['message']['chat']['id'])
             && isset($event['message']['chat']['username'])
         ) {
-            (new updateChatIdAction())($event['message']['chat']['id'], $event['message']['chat']['username']);
+            (new updateChatIdAction)($event['message']['chat']['id'], $event['message']['chat']['username']);
         }
 
         if (
@@ -68,16 +68,16 @@ class TelegramController extends Controller
             ]);
 
             if (strripos($event['callback_query']['data'], 'create-random-post') !== false) {
-                //создать рандомный пост
-                (new createPostWithPreviewAction())();
-                (new removeMenuAndItsCallActions())($event);
+                // создать рандомный пост
+                (new createPostWithPreviewAction)();
+                (new removeMenuAndItsCallActions)($event);
             } elseif (strripos($event['callback_query']['data'], 'create-random-comment') !== false) {
-                //создать рандомный комментарий
-                (new createRandomCommentAction())();
-                (new removeMenuAndItsCallActions())($event);
+                // создать рандомный комментарий
+                (new createRandomCommentAction)();
+                (new removeMenuAndItsCallActions)($event);
             } elseif (strripos($event['callback_query']['data'], 'cancel') !== false) {
-                //выйти из меню (без изменений)
-                (new removeMenuAndItsCallActions())($event);
+                // выйти из меню (без изменений)
+                (new removeMenuAndItsCallActions)($event);
             }
         } else {
             $this->validate($request, [
@@ -110,7 +110,7 @@ class TelegramController extends Controller
 
             if ($event['message']['text'] == 'admin-control') {
                 $message_id = $event['message']['message_id'].'-';
-                //отправить кнопки управления
+                // отправить кнопки управления
                 $keyboard = [
                     [
                         ['text' => 'Добавить 1 случайный пост', 'callback_data' => $message_id.'create-random-post'],
@@ -123,7 +123,7 @@ class TelegramController extends Controller
                 $message = 'Доступ разрешен.';
                 $admin_id = $event['message']['chat']['id'];
 
-                $telegramService = new TelegramService();
+                $telegramService = new TelegramService;
                 $telegramService->sendMessage($admin_id, $message, $keyboard);
             }
         }
