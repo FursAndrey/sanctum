@@ -155,6 +155,11 @@ const router = createRouter({
             component: () => import('../views/errors/403.vue'),
             name: 'errors.403'
         },
+        {
+            path: '/admin/caheClear',
+            component: () => import('../views/admin/cacheClear.vue'),
+            name: 'cahe.clear'
+        },
     ],
 });
 

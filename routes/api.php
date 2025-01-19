@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\CacheClearController;
 use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\Admin\PreviewController;
 use App\Http\Controllers\Admin\RoleController;
@@ -27,6 +28,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
+    Route::get('/cacheClear', CacheClearController::class)->middleware('isAdmin');
+
     Route::post('/users/storeRandomUser', [UserController::class, 'storeRandomUser'])->name('storeRandomUser');
     Route::get('/users/exceptMe', [UserController::class, 'getUsersExceptMe'])->name('getUsersExceptMe');
     Route::post('/posts/storeRandomPost', [PostController::class, 'storeRandomPost'])->name('storeRandomPost');
