@@ -17,6 +17,9 @@
                         <li class="p-2">
                             <router-link :to="{ name: 'holyday.index'}" class="menu__item">Holydays</router-link>
                         </li>
+                        <li class="p-2">
+                            <router-link :to="{ name: 'calendar.index'}" class="menu__item">Calendars</router-link>
+                        </li>
                     </ul>
                 </li>
                 <li class="develop-menu p-2">

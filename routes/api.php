@@ -13,6 +13,7 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\MessageUserController;
+use App\Http\Controllers\TimeCalculator\Admin\CalendarController;
 use App\Http\Controllers\TimeCalculator\Admin\HolydayController;
 use Illuminate\Support\Facades\Route;
 
@@ -61,6 +62,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 
     Route::apiResource('/circuitBreaker', CircuitBreakerController::class)->only(['index', 'store', 'destroy']);
     Route::apiResource('/holydays', HolydayController::class);
+    Route::apiResource('/calendars', CalendarController::class);
 });
 Route::apiResource('/posts', PostController::class)->only(['index', 'show']);
 Route::get('/comments/{post}/{connemt}', [CommentController::class, 'index'])->name('commentsOfPost')->where(['post' => '[0-9]+', 'connemt' => '[0-9]+']);

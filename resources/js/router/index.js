@@ -90,6 +90,21 @@ const router = createRouter({
             props: true
         },
         {
+            path: '/admin/calendar',
+            component: () => import('../views/admin/timeCalculator/calendar/index.vue'),
+            name: 'calendar.index',
+        },
+        {
+            path: '/admin/calendar',
+            component: () => import('../views/admin/timeCalculator/calendar/create.vue'),
+            name: 'calendar.create',
+        },
+        {
+            path: '/admin/calendars/:id',
+            component: () => import('../views/admin/timeCalculator/calendar/show.vue'),
+            name: 'calendar.show',
+        },
+        {
             path: '/admin/holydays',
             component: () => import('../views/admin/timeCalculator/holydays/index.vue'),
             name: 'holyday.index',
