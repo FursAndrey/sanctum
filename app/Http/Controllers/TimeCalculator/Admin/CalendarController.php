@@ -62,6 +62,9 @@ class CalendarController extends Controller
     {
         $this->authorize('delete', $calendar);
 
+        foreach ($calendar->calendarDays as $key => $calendarDay) {
+            $calendarDay->delete();
+        }
         $calendar->delete();
 
         return response()->noContent();
