@@ -1,15 +1,14 @@
 <?php
 
-namespace Tests\Feature\TimeCalculator\Calendar;
+namespace Tests\Feature\TimeCalculator\CalendarDay;
 
-use App\Models\Calendar;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 
-class DestroyTest extends TestCase
+class IndexTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -23,15 +22,10 @@ class DestroyTest extends TestCase
         );
     }
 
-    public function test_a_calendar_can_not_be_deleted_by_unauthorised_user()
+    public function test_can_not_return_calendar_days_for_unauthorised_user(): void
     {
-        $calendar = [
-            'title' => Str::random(10),
-        ];
-        $deletedCalendar = Calendar::create($calendar);
-
         // тестируемый запрос от имени пользователя
-        $response = $this->delete('/api/calendars/'.$deletedCalendar->id);
+        $response = $this->get('/api/calendarDays');
 
         $response->assertStatus(401);
         $response->assertJson(
@@ -39,10 +33,9 @@ class DestroyTest extends TestCase
                 'message' => 'Unauthenticated.',
             ]
         );
-        $this->assertDatabaseHas('calendars', $calendar);
     }
 
-    public function test_a_calendar_can_not_be_deleted_by_not_admin_user()
+    public function test_can_not_return_calendar_days_for_not_admin_user(): void
     {
         // создание пользователя и присвоение ему роли
         $role = Role::create(
@@ -56,13 +49,8 @@ class DestroyTest extends TestCase
         $user = User::factory()->create();
         $user->roles()->sync($role->id);
 
-        $calendar = [
-            'title' => Str::random(10),
-        ];
-        $deletedCalendar = Calendar::create($calendar);
-
         // тестируемый запрос от имени пользователя
-        $response = $this->actingAs($user)->delete('/api/calendars/'.$deletedCalendar->id);
+        $response = $this->actingAs($user)->get('/api/calendarDays');
 
         $response->assertStatus(403);
         $response->assertJsonFragment(
@@ -70,10 +58,9 @@ class DestroyTest extends TestCase
                 'message' => 'This action is unauthorized.',
             ]
         );
-        $this->assertDatabaseHas('calendars', $calendar);
     }
 
-    public function test_a_calendar_can_be_deleted_by_admin_user()
+    public function test_can_return_calendar_days_for_admin_user(): void
     {
         // создание пользователя и присвоение ему роли
         $role = Role::create(
@@ -87,15 +74,14 @@ class DestroyTest extends TestCase
         $user = User::factory()->create();
         $user->roles()->sync($role->id);
 
-        $calendar = [
-            'title' => Str::random(10),
-        ];
-        $deletedCalendar = Calendar::create($calendar);
-
         // тестируемый запрос от имени пользователя
-        $response = $this->actingAs($user)->delete('/api/calendars/'.$deletedCalendar->id);
+        $response = $this->actingAs($user)->get('/api/calendarDays');
 
-        $response->assertStatus(204);
-        $this->assertDatabaseMissing('calendars', $calendar);
+        $response->assertStatus(403);
+        $response->assertJsonFragment(
+            [
+                'message' => 'This action is unauthorized.',
+            ]
+        );
     }
 }

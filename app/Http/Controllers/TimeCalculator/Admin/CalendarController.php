@@ -16,7 +16,7 @@ class CalendarController extends Controller
     public function index()
     {
         $this->authorize('viewAny', Calendar::class);
-        
+
         $calendars = Calendar::get();
 
         return CalendarResource::collection($calendars);
@@ -41,7 +41,7 @@ class CalendarController extends Controller
     public function show(Calendar $calendar)
     {
         $this->authorize('view', $calendar);
-        
+
         $calendar = Calendar::find($calendar->id);
 
         return new CalendarResource($calendar);
@@ -61,7 +61,7 @@ class CalendarController extends Controller
     public function destroy(Calendar $calendar)
     {
         $this->authorize('delete', $calendar);
-        
+
         $calendar->delete();
 
         return response()->noContent();
