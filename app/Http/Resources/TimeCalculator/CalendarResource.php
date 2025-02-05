@@ -17,6 +17,7 @@ class CalendarResource extends JsonResource
         return [
             'id' => $this->id,
             'title' => $this->title,
+            'calendarDays' => CalendarDayResource::collection($this->whenLoaded('calendarDays')),
         ];
     }
 }

@@ -42,7 +42,7 @@ class CalendarController extends Controller
     {
         $this->authorize('view', $calendar);
 
-        $calendar = Calendar::find($calendar->id);
+        $calendar = Calendar::with(['calendarDays'])->find($calendar->id);
 
         return new CalendarResource($calendar);
     }
