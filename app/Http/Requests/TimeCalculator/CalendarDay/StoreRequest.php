@@ -24,12 +24,12 @@ class StoreRequest extends FormRequest
         return [
             'calendar_id' => 'required|integer|exists:calendars,id',
             'month_day_id' => 'required|integer',
-            'work_start' => 'required|date_format:H:i:s',
-            'work_end' => 'required|date_format:H:i:s',
-            'lunch_start' => 'required|date_format:H:i:s',
-            'lunch_end' => 'required|date_format:H:i:s',
-            'control_start' => 'nullable|date_format:H:i:s',
-            'control_end' => 'nullable|date_format:H:i:s',
+            'work_start' => 'required|date_format:H:i',
+            'work_end' => 'required|date_format:H:i',
+            'lunch_start' => 'required|date_format:H:i',
+            'lunch_end' => 'required|date_format:H:i',
+            'control_start' => 'nullable|date_format:H:i',
+            'control_end' => 'nullable|date_format:H:i',
         ];
     }
 }

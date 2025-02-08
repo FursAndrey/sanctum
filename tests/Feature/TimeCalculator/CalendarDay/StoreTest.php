@@ -63,10 +63,10 @@ class StoreTest extends TestCase
         $calendarDay = [
             'calendar_id' => $createdCalendar->id,
             'month_day_id' => mt_rand(1, 7),
-            'work_start' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i:s'),
-            'work_end' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i:s'),
-            'lunch_start' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i:s'),
-            'lunch_end' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i:s'),
+            'work_start' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i'),
+            'work_end' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i'),
+            'lunch_start' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i'),
+            'lunch_end' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i'),
         ];
 
         // тестируемый запрос от имени пользователя
@@ -99,10 +99,10 @@ class StoreTest extends TestCase
         $calendarDay = [
             'calendar_id1' => Str::random(10),
             'month_day_id' => mt_rand(1, 7),
-            'work_start' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i:s'),
-            'work_end' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i:s'),
-            'lunch_start' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i:s'),
-            'lunch_end' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i:s'),
+            'work_start' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i'),
+            'work_end' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i'),
+            'lunch_start' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i'),
+            'lunch_end' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i'),
         ];
 
         // тестируемый запрос от имени пользователя
@@ -133,10 +133,10 @@ class StoreTest extends TestCase
         $calendarDay = [
             'calendar_id' => Str::random(10),
             'month_day_id' => mt_rand(1, 7),
-            'work_start' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i:s'),
-            'work_end' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i:s'),
-            'lunch_start' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i:s'),
-            'lunch_end' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i:s'),
+            'work_start' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i'),
+            'work_end' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i'),
+            'lunch_start' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i'),
+            'lunch_end' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i'),
         ];
 
         // тестируемый запрос от имени пользователя
@@ -172,10 +172,10 @@ class StoreTest extends TestCase
         $calendarDay = [
             'calendar_id' => $createdCalendar->id + mt_rand(1, 7),
             'month_day_id' => mt_rand(1, 7),
-            'work_start' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i:s'),
-            'work_end' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i:s'),
-            'lunch_start' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i:s'),
-            'lunch_end' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i:s'),
+            'work_start' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i'),
+            'work_end' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i'),
+            'lunch_start' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i'),
+            'lunch_end' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i'),
         ];
 
         // тестируемый запрос от имени пользователя
@@ -210,10 +210,10 @@ class StoreTest extends TestCase
 
         $calendarDay = [
             'calendar_id' => $createdCalendar->id,
-            'work_start' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i:s'),
-            'work_end' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i:s'),
-            'lunch_start' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i:s'),
-            'lunch_end' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i:s'),
+            'work_start' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i'),
+            'work_end' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i'),
+            'lunch_start' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i'),
+            'lunch_end' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i'),
         ];
 
         // тестируемый запрос от имени пользователя
@@ -249,10 +249,10 @@ class StoreTest extends TestCase
         $calendarDay = [
             'calendar_id' => $createdCalendar->id,
             'month_day_id' => Str::random(10),
-            'work_start' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i:s'),
-            'work_end' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i:s'),
-            'lunch_start' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i:s'),
-            'lunch_end' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i:s'),
+            'work_start' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i'),
+            'work_end' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i'),
+            'lunch_start' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i'),
+            'lunch_end' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i'),
         ];
 
         // тестируемый запрос от имени пользователя
@@ -288,9 +288,9 @@ class StoreTest extends TestCase
         $calendarDay = [
             'calendar_id' => $createdCalendar->id,
             'month_day_id' => mt_rand(1, 7),
-            'work_end' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i:s'),
-            'lunch_start' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i:s'),
-            'lunch_end' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i:s'),
+            'work_end' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i'),
+            'lunch_start' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i'),
+            'lunch_end' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i'),
         ];
 
         // тестируемый запрос от имени пользователя
@@ -326,9 +326,9 @@ class StoreTest extends TestCase
         $calendarDay = [
             'calendar_id' => $createdCalendar->id,
             'month_day_id' => mt_rand(1, 7),
-            'work_start' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i:s'),
-            'lunch_start' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i:s'),
-            'lunch_end' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i:s'),
+            'work_start' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i'),
+            'lunch_start' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i'),
+            'lunch_end' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i'),
         ];
 
         // тестируемый запрос от имени пользователя
@@ -364,9 +364,9 @@ class StoreTest extends TestCase
         $calendarDay = [
             'calendar_id' => $createdCalendar->id,
             'month_day_id' => mt_rand(1, 7),
-            'work_start' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i:s'),
-            'work_end' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i:s'),
-            'lunch_end' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i:s'),
+            'work_start' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i'),
+            'work_end' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i'),
+            'lunch_end' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i'),
         ];
 
         // тестируемый запрос от имени пользователя
@@ -402,9 +402,9 @@ class StoreTest extends TestCase
         $calendarDay = [
             'calendar_id' => $createdCalendar->id,
             'month_day_id' => mt_rand(1, 7),
-            'work_start' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i:s'),
-            'work_end' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i:s'),
-            'lunch_start' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i:s'),
+            'work_start' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i'),
+            'work_end' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i'),
+            'lunch_start' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i'),
         ];
 
         // тестируемый запрос от имени пользователя
@@ -440,10 +440,10 @@ class StoreTest extends TestCase
         $calendarDay = [
             'calendar_id' => $createdCalendar->id,
             'month_day_id' => mt_rand(1, 7),
-            'work_start' => '55:86:70',
-            'work_end' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i:s'),
-            'lunch_start' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i:s'),
-            'lunch_end' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i:s'),
+            'work_start' => '55:860',
+            'work_end' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i'),
+            'lunch_start' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i'),
+            'lunch_end' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i'),
         ];
 
         // тестируемый запрос от имени пользователя
@@ -453,7 +453,7 @@ class StoreTest extends TestCase
             ->assertStatus(422)
             ->assertInvalid('work_start')
             ->assertJsonValidationErrors([
-                'work_start' => 'The work start field must match the format H:i:s.',
+                'work_start' => 'The work start field must match the format H:i.',
             ]);
     }
 
@@ -479,10 +479,10 @@ class StoreTest extends TestCase
         $calendarDay = [
             'calendar_id' => $createdCalendar->id,
             'month_day_id' => mt_rand(1, 7),
-            'work_start' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i:s'),
-            'work_end' => '55:86:70',
-            'lunch_start' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i:s'),
-            'lunch_end' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i:s'),
+            'work_start' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i'),
+            'work_end' => '55:86',
+            'lunch_start' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i'),
+            'lunch_end' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i'),
         ];
 
         // тестируемый запрос от имени пользователя
@@ -492,7 +492,7 @@ class StoreTest extends TestCase
             ->assertStatus(422)
             ->assertInvalid('work_end')
             ->assertJsonValidationErrors([
-                'work_end' => 'The work end field must match the format H:i:s.',
+                'work_end' => 'The work end field must match the format H:i.',
             ]);
     }
 
@@ -518,10 +518,10 @@ class StoreTest extends TestCase
         $calendarDay = [
             'calendar_id' => $createdCalendar->id,
             'month_day_id' => mt_rand(1, 7),
-            'work_start' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i:s'),
-            'work_end' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i:s'),
-            'lunch_start' => '55:86:70',
-            'lunch_end' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i:s'),
+            'work_start' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i'),
+            'work_end' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i'),
+            'lunch_start' => '55:86',
+            'lunch_end' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i'),
         ];
 
         // тестируемый запрос от имени пользователя
@@ -531,7 +531,7 @@ class StoreTest extends TestCase
             ->assertStatus(422)
             ->assertInvalid('lunch_start')
             ->assertJsonValidationErrors([
-                'lunch_start' => 'The lunch start field must match the format H:i:s.',
+                'lunch_start' => 'The lunch start field must match the format H:i.',
             ]);
     }
 
@@ -557,10 +557,10 @@ class StoreTest extends TestCase
         $calendarDay = [
             'calendar_id' => $createdCalendar->id,
             'month_day_id' => mt_rand(1, 7),
-            'work_start' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i:s'),
-            'work_end' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i:s'),
-            'lunch_start' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i:s'),
-            'lunch_end' => '55:86:70',
+            'work_start' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i'),
+            'work_end' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i'),
+            'lunch_start' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i'),
+            'lunch_end' => '55:86',
         ];
 
         // тестируемый запрос от имени пользователя
@@ -570,7 +570,7 @@ class StoreTest extends TestCase
             ->assertStatus(422)
             ->assertInvalid('lunch_end')
             ->assertJsonValidationErrors([
-                'lunch_end' => 'The lunch end field must match the format H:i:s.',
+                'lunch_end' => 'The lunch end field must match the format H:i.',
             ]);
     }
 
@@ -596,10 +596,10 @@ class StoreTest extends TestCase
         $calendarDay = [
             'calendar_id' => $createdCalendar->id,
             'month_day_id' => mt_rand(1, 7),
-            'work_start' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i:s'),
-            'work_end' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i:s'),
-            'lunch_start' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i:s'),
-            'lunch_end' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i:s'),
+            'work_start' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i'),
+            'work_end' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i'),
+            'lunch_start' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i'),
+            'lunch_end' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i'),
             'control_start' => 1,
         ];
 
@@ -610,7 +610,7 @@ class StoreTest extends TestCase
             ->assertStatus(422)
             ->assertInvalid('control_start')
             ->assertJsonValidationErrors([
-                'control_start' => 'The control start field must match the format H:i:s.',
+                'control_start' => 'The control start field must match the format H:i.',
             ]);
     }
 
@@ -636,11 +636,11 @@ class StoreTest extends TestCase
         $calendarDay = [
             'calendar_id' => $createdCalendar->id,
             'month_day_id' => mt_rand(1, 7),
-            'work_start' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i:s'),
-            'work_end' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i:s'),
-            'lunch_start' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i:s'),
-            'lunch_end' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i:s'),
-            'control_end' => '55:86:70',
+            'work_start' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i'),
+            'work_end' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i'),
+            'lunch_start' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i'),
+            'lunch_end' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i'),
+            'control_end' => '55:86',
         ];
 
         // тестируемый запрос от имени пользователя
@@ -650,7 +650,7 @@ class StoreTest extends TestCase
             ->assertStatus(422)
             ->assertInvalid('control_end')
             ->assertJsonValidationErrors([
-                'control_end' => 'The control end field must match the format H:i:s.',
+                'control_end' => 'The control end field must match the format H:i.',
             ]);
     }
 
@@ -676,12 +676,12 @@ class StoreTest extends TestCase
         $calendarDay = [
             'calendar_id' => $createdCalendar->id,
             'month_day_id' => mt_rand(1, 7),
-            'work_start' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i:s'),
-            'work_end' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i:s'),
-            'lunch_start' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i:s'),
-            'lunch_end' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i:s'),
-            'control_start' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i:s'),
-            'control_end' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i:s'),
+            'work_start' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i'),
+            'work_end' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i'),
+            'lunch_start' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i'),
+            'lunch_end' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i'),
+            'control_start' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i'),
+            'control_end' => Carbon::now()->subSeconds(rand(0, 30 * 24 * 60 * 60))->format('H:i'),
         ];
 
         // тестируемый запрос от имени пользователя

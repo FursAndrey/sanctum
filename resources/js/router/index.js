@@ -103,6 +103,13 @@ const router = createRouter({
             path: '/admin/calendars/:id',
             component: () => import('../views/admin/timeCalculator/calendar/show.vue'),
             name: 'calendar.show',
+            props: true
+        },
+        {
+            path: '/admin/calendarDays/:id',
+            component: () => import('../views/admin/timeCalculator/calendarDays/create.vue'),
+            name: 'calendarDays.create',
+            props: true
         },
         {
             path: '/admin/holydays',
