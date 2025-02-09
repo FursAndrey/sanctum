@@ -14,7 +14,7 @@ class CommentToggleTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->withHeaders(
@@ -37,7 +37,7 @@ class CommentToggleTest extends TestCase
     {
         Post::factory(1)->create()->first();
 
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'bot',
@@ -55,7 +55,7 @@ class CommentToggleTest extends TestCase
 
         $response->assertStatus(200);
         $this->assertDatabaseCount('likes', 1);
-        //точное соответствие
+        // точное соответствие
         $response->assertExactJson(
             [
                 'is_liked' => true,
@@ -66,7 +66,7 @@ class CommentToggleTest extends TestCase
         $response = $this->actingAs($user)->post('/api/commentLike/'.$comments->id);
 
         $this->assertDatabaseCount('likes', 0);
-        //точное соответствие
+        // точное соответствие
         $response->assertExactJson(
             [
                 'is_liked' => false,

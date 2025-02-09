@@ -12,7 +12,7 @@ class GetForFormTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->withHeaders(
@@ -24,7 +24,7 @@ class GetForFormTest extends TestCase
 
     public function test_can_not_return_roles_for_unauthorised_user(): void
     {
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->get('/api/roles/forForm');
 
         $response->assertStatus(401);
@@ -37,7 +37,7 @@ class GetForFormTest extends TestCase
 
     public function test_can_not_return_roles_for_not_admin_user(): void
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'not_admin',
@@ -49,7 +49,7 @@ class GetForFormTest extends TestCase
         $user = User::factory()->create();
         $user->roles()->sync($role->id);
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->get('/api/roles/forForm');
 
         $response->assertStatus(403);
@@ -71,7 +71,7 @@ class GetForFormTest extends TestCase
             ]
         );
 
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'Admin',
@@ -83,7 +83,7 @@ class GetForFormTest extends TestCase
         $user = User::factory()->create();
         $user->roles()->sync($role->id);
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->get('/api/roles/forForm');
 
         $response->assertStatus(200);

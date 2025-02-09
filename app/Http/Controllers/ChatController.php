@@ -93,7 +93,7 @@ class ChatController extends Controller
      */
     public function destroy(Chat $chat)
     {
-        (new deleteOneChatWithAllMessagesAction())($chat);
+        (new deleteOneChatWithAllMessagesAction)($chat);
         broadcast(new DestroyChatEvent($chat))->toOthers();
 
         return response()->noContent();

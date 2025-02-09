@@ -88,10 +88,10 @@ class PostController extends Controller
             DB::beginTransaction();
 
             $data = $request->validated();
-            $imageId = (new cutImageIdAction())($data);
+            $imageId = (new cutImageIdAction)($data);
             $post = Post::create($data);
-            (new joinPostPreviewAction())($post->id, $imageId);
-            (new destroyAllUnjoinedPreviewsAction())();
+            (new joinPostPreviewAction)($post->id, $imageId);
+            (new destroyAllUnjoinedPreviewsAction)();
 
             DB::commit();
         } catch (Exception $exception) {
@@ -242,13 +242,13 @@ class PostController extends Controller
 
             $data = $request->validated();
             if (isset($post->preview) && $post->preview->id != $data['image_id']) {
-                (new destroyOnePreviewAction())($post->preview);
+                (new destroyOnePreviewAction)($post->preview);
             }
 
-            $imageId = (new cutImageIdAction())($data);
+            $imageId = (new cutImageIdAction)($data);
             $post->fill($data)->save();
-            (new joinPostPreviewAction())($post->id, $imageId);
-            (new destroyAllUnjoinedPreviewsAction())();
+            (new joinPostPreviewAction)($post->id, $imageId);
+            (new destroyAllUnjoinedPreviewsAction)();
 
             DB::commit();
         } catch (Exception $exception) {
@@ -327,7 +327,7 @@ class PostController extends Controller
 
             $updatedPost = $request->validated();
 
-            //удалить выбранные для этого картинки
+            // удалить выбранные для этого картинки
             if (isset($updatedPost['deleted_preview'])) {
                 $deleted_preview = $updatedPost['deleted_preview'];
                 unset($updatedPost['deleted_preview']);
@@ -339,7 +339,7 @@ class PostController extends Controller
                     }
                 }
             }
-            //сохранить новые
+            // сохранить новые
             if (isset($updatedPost['imgs'])) {
                 $storedImgs = $updatedPost['imgs'];
                 unset($updatedPost['imgs']);
@@ -387,7 +387,7 @@ class PostController extends Controller
         $this->authorize('delete', $post);
 
         if (isset($post->preview)) {
-            (new destroyOnePreviewAction())($post->preview);
+            (new destroyOnePreviewAction)($post->preview);
         }
         $post->delete();
 
@@ -397,7 +397,7 @@ class PostController extends Controller
     public function storeRandomPost()
     {
         $this->authorize('create', Post::class);
-        $randomPost = (new createPostWithPreviewAction())();
+        $randomPost = (new createPostWithPreviewAction)();
 
         return new PostResource($randomPost);
     }

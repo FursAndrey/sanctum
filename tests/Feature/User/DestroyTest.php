@@ -18,7 +18,7 @@ class DestroyTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->withHeaders(
@@ -30,7 +30,7 @@ class DestroyTest extends TestCase
 
     public function test_user_has_role_and_can_be_deleted_by_admin_user()
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'Admin',
@@ -42,7 +42,7 @@ class DestroyTest extends TestCase
         $user = User::factory()->create();
         $user->roles()->sync($role->id);
 
-        //подготовка юзера к удалению
+        // подготовка юзера к удалению
         $deletingUser = User::factory()->create();
         $deletingUserArray = [
             'id' => $deletingUser->id,
@@ -51,7 +51,7 @@ class DestroyTest extends TestCase
         ];
         $deletingUser->roles()->sync($role->id);
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->delete('/api/users/'.$deletingUser->id);
 
         $response->assertStatus(204);
@@ -60,7 +60,7 @@ class DestroyTest extends TestCase
 
     public function test_user_without_bans_can_be_deleted_by_admin_user()
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'Admin',
@@ -72,7 +72,7 @@ class DestroyTest extends TestCase
         $user = User::factory()->create();
         $user->roles()->sync($role->id);
 
-        //подготовка юзера к удалению
+        // подготовка юзера к удалению
         $deletingUser = User::factory()->create();
         $deletingUserArray = [
             'id' => $deletingUser->id,
@@ -80,7 +80,7 @@ class DestroyTest extends TestCase
             'email' => $deletingUser->email,
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->delete('/api/users/'.$deletingUser->id);
 
         $response->assertStatus(204);
@@ -89,7 +89,7 @@ class DestroyTest extends TestCase
 
     public function test_user_with_bans_can_be_deleted_by_admin_user()
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'Admin',
@@ -101,7 +101,7 @@ class DestroyTest extends TestCase
         $user = User::factory()->create();
         $user->roles()->sync($role->id);
 
-        //подготовка юзера к удалению
+        // подготовка юзера к удалению
         $deletingUser = User::factory()->create();
         $deletingUserArray = [
             'id' => $deletingUser->id,
@@ -111,7 +111,7 @@ class DestroyTest extends TestCase
         BanChat::create(['user_id' => $deletingUser->id]);
         BanComment::create(['user_id' => $deletingUser->id]);
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->delete('/api/users/'.$deletingUser->id);
 
         $response->assertStatus(204);
@@ -120,7 +120,7 @@ class DestroyTest extends TestCase
 
     public function test_a_role_can_not_be_deleted_by_not_admin_user()
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'not_admin',
@@ -132,7 +132,7 @@ class DestroyTest extends TestCase
         $user = User::factory()->create();
         $user->roles()->sync($role->id);
 
-        //подготовка юзера к удалению
+        // подготовка юзера к удалению
         $deletingUser = User::factory()->create();
         $deletingUserArray = [
             'id' => $deletingUser->id,
@@ -140,7 +140,7 @@ class DestroyTest extends TestCase
             'email' => $deletingUser->email,
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->delete('/api/users/'.$deletingUser->id);
 
         $response->assertStatus(403);
@@ -154,7 +154,7 @@ class DestroyTest extends TestCase
 
     public function test_a_role_can_not_be_deleted_by_unauthorised_user()
     {
-        //подготовка юзера к удалению
+        // подготовка юзера к удалению
         $deletingUser = User::factory()->create();
         $deletingUserArray = [
             'id' => $deletingUser->id,
@@ -162,7 +162,7 @@ class DestroyTest extends TestCase
             'email' => $deletingUser->email,
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->delete('/api/users/'.$deletingUser->id);
 
         $response->assertStatus(401);
@@ -176,7 +176,7 @@ class DestroyTest extends TestCase
 
     public function test_user_has_chat_and_can_be_deleted_by_admin_user()
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'Admin',
@@ -188,7 +188,7 @@ class DestroyTest extends TestCase
         $user = User::factory()->create();
         $user->roles()->sync($role->id);
 
-        //подготовка юзера к удалению
+        // подготовка юзера к удалению
         $deletingUser = User::factory()->create();
         $deletingUserArray = [
             'id' => $deletingUser->id,
@@ -196,7 +196,7 @@ class DestroyTest extends TestCase
             'email' => $deletingUser->email,
         ];
 
-        //создание чата
+        // создание чата
         $chat = [
             'title' => null,
             'users' => $user->id.'-'.$deletingUser->id,
@@ -204,7 +204,7 @@ class DestroyTest extends TestCase
         $createdChat = Chat::create($chat);
         ChatUser::create(['chat_id' => $createdChat->id, 'user_id' => $deletingUser->id]);
 
-        //добавление сообщения
+        // добавление сообщения
         $message1 = Message::create([
             'user_id' => $deletingUser->id,
             'chat_id' => $createdChat->id,
@@ -216,7 +216,7 @@ class DestroyTest extends TestCase
             'message_id' => $message1->id,
         ]);
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->delete('/api/users/'.$deletingUser->id);
         $response->assertStatus(204);
         $this->assertDatabaseMissing('users', $deletingUserArray);

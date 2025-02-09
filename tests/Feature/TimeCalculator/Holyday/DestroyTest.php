@@ -5,16 +5,16 @@ namespace Tests\Feature\TimeCalculator\Holyday;
 use App\Models\Holyday;
 use App\Models\Role;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Str;
-use Carbon\Carbon;
 use Tests\TestCase;
 
 class DestroyTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->withHeaders(
@@ -31,7 +31,7 @@ class DestroyTest extends TestCase
         ];
         $delHolyday = Holyday::create($holyday);
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->delete('/api/holydays/'.$delHolyday->id);
 
         $response->assertStatus(401);
@@ -45,7 +45,7 @@ class DestroyTest extends TestCase
 
     public function test_a_holyday_can_not_be_deleted_by_not_admin_user()
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'not_admin',
@@ -62,7 +62,7 @@ class DestroyTest extends TestCase
         ];
         $delHolyday = Holyday::create($holyday);
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->delete('/api/holydays/'.$delHolyday->id);
 
         $response->assertStatus(403);
@@ -76,7 +76,7 @@ class DestroyTest extends TestCase
 
     public function test_a_holyday_can_be_deleted_by_admin_user()
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'Admin',
@@ -93,7 +93,7 @@ class DestroyTest extends TestCase
         ];
         $delHolyday = Holyday::create($holyday);
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->delete('/api/holydays/'.$delHolyday->id);
 
         $response->assertStatus(204);

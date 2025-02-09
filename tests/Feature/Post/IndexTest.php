@@ -10,7 +10,7 @@ class IndexTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->withHeaders(
@@ -64,7 +64,7 @@ class IndexTest extends TestCase
 
         $response->assertStatus(200);
 
-        //описанные аттрибуты должны быть обязательно, кроме них могут быть и другие
+        // описанные аттрибуты должны быть обязательно, кроме них могут быть и другие
         $response->assertJson(
             [
                 'data' => [

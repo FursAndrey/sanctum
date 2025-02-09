@@ -15,7 +15,7 @@ class UpdateTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->withHeaders(
@@ -27,7 +27,7 @@ class UpdateTest extends TestCase
 
     public function test_comment_can_be_updated_by_not_admin_user_without_ban()
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'bot',
@@ -52,7 +52,7 @@ class UpdateTest extends TestCase
             'body' => Str::random(100),
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->put('/api/comments/'.$comment->id, $newComment);
 
         $response->assertStatus(200);
@@ -63,7 +63,7 @@ class UpdateTest extends TestCase
 
     public function test_comment_can_be_updated_by_admin_user_without_ban()
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $roleAdmin = Role::create(
             [
                 'title' => 'Admin',
@@ -90,7 +90,7 @@ class UpdateTest extends TestCase
             'body' => Str::random(100),
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($userAdmin)->put('/api/comments/'.$comment->id, $newComment);
 
         $response->assertStatus(200);
@@ -101,7 +101,7 @@ class UpdateTest extends TestCase
 
     public function test_comment_can_not_be_updated_by_not_admin_user_with_ban()
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'bot',
@@ -128,7 +128,7 @@ class UpdateTest extends TestCase
             'body' => Str::random(100),
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->put('/api/comments/'.$comment->id, $newComment);
 
         $response->assertStatus(403);
@@ -139,7 +139,7 @@ class UpdateTest extends TestCase
 
     public function test_body_attribute_is_required_for_updating_comment()
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $roleAdmin = Role::create(
             [
                 'title' => 'Admin',
@@ -151,7 +151,7 @@ class UpdateTest extends TestCase
         $userAdmin = User::factory()->create();
         $userAdmin->roles()->sync($roleAdmin->id);
 
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'bot',
@@ -176,7 +176,7 @@ class UpdateTest extends TestCase
             'qwe',
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($userAdmin)->put('/api/comments/'.$comment->id, $newComment);
 
         $response
@@ -190,7 +190,7 @@ class UpdateTest extends TestCase
 
     public function test_body_attribute_is_string_for_updating_comment()
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $roleAdmin = Role::create(
             [
                 'title' => 'Admin',
@@ -202,7 +202,7 @@ class UpdateTest extends TestCase
         $userAdmin = User::factory()->create();
         $userAdmin->roles()->sync($roleAdmin->id);
 
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'bot',
@@ -227,7 +227,7 @@ class UpdateTest extends TestCase
             'body' => ['qwerty'],
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($userAdmin)->put('/api/comments/'.$comment->id, $newComment);
 
         $response
@@ -241,7 +241,7 @@ class UpdateTest extends TestCase
 
     public function test_comment_can_not_updated_by_unauthorised_user()
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'bot',
@@ -266,7 +266,7 @@ class UpdateTest extends TestCase
             'body' => Str::random(100),
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->put('/api/comments/'.$comment->id, $newComment);
 
         $response->assertStatus(401);
@@ -281,7 +281,7 @@ class UpdateTest extends TestCase
 
     public function test_comment_can_not_updated_by_another_authorised_user()
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'bot',
@@ -309,7 +309,7 @@ class UpdateTest extends TestCase
             'body' => Str::random(100),
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($anotherUser)->put('/api/comments/'.$comment->id, $newComment);
 
         $response->assertStatus(403);

@@ -17,6 +17,17 @@
                         <li class="p-2">
                             <router-link :to="{ name: 'holyday.index'}" class="menu__item">Holydays</router-link>
                         </li>
+                        <li class="p-2">
+                            <router-link :to="{ name: 'calendar.index'}" class="menu__item">Calendars</router-link>
+                        </li>
+                    </ul>
+                </li>
+                <li class="develop-menu p-2">
+                    <span class="menu__item cursor-pointer">Develop</span>
+                    <ul>
+                        <li class="p-2">
+                            <router-link :to="{ name: 'cahe.clear'}" class="menu__item">Cache clear</router-link>
+                        </li>
                     </ul>
                 </li>
                 <li class="p-2"><router-link :to="{ name: 'breaker.index'}" class="menu__item">AB</router-link></li>
@@ -94,7 +105,7 @@ export default {
                         }
                     }
 
-                    //если пользователь авторизован, но не имеет роли "админ" и лезет в админку или в профиль
+                    //если пользователь авторизован, но не имеет роли "админ" и лезет в админку
                     if (fullPath.indexOf('admin/') != -1) {
                         if (!this.isAdmin()) {
                             this.$router.push({name: 'errors.403'})
@@ -187,6 +198,10 @@ div.admin-menu,
 
 .admin-hamburger-menu > .menu__box > li > ul > li {
     border-top: 1px solid black;
+}
+
+.develop-menu > ul {
+    width: 10rem;
 }
 
 @media (max-width: 750px) {

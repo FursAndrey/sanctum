@@ -9,7 +9,7 @@ class deleteAllChatsWithAllMessagesAction
     public function __invoke(User $user): void
     {
         foreach ($user->chats as $chat) {
-            (new deleteOneChatWithAllMessagesAction())($chat);
+            (new deleteOneChatWithAllMessagesAction)($chat);
         }
     }
 }

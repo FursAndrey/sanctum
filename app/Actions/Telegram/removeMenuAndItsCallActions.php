@@ -14,7 +14,7 @@ class removeMenuAndItsCallActions
         $id = $callback_data[0];
         $admin_id = $event['callback_query']['message']['chat']['id'];
 
-        $telegramService = new TelegramService();
+        $telegramService = new TelegramService;
         $telegramService->deleteMessage($admin_id, $message_id);
         $telegramService->deleteMessage($admin_id, $id);
     }

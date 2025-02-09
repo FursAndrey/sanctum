@@ -19,7 +19,7 @@ class CommentObserver
         $message = "К посту <b>опубликован новый комментарий.</b>\n<a href='$finalUrl'>$finalUrl</a>";
 
         $administartion_group_id = config('telegram.administartion_group_id');
-        $telegramService = new TelegramService();
+        $telegramService = new TelegramService;
         $telegramService->sendMessage($administartion_group_id, $message);
     }
 

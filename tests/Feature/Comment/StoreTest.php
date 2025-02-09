@@ -15,7 +15,7 @@ class StoreTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->withHeaders(
@@ -27,7 +27,7 @@ class StoreTest extends TestCase
 
     public function test_post_id_attribute_is_required_for_storing_comment()
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'Admin',
@@ -45,7 +45,7 @@ class StoreTest extends TestCase
             'body' => 'some text',
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->post('/api/comments', $comment);
 
         $response
@@ -58,7 +58,7 @@ class StoreTest extends TestCase
 
     public function test_post_id_attribute_is_not_string_for_storing_comment()
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'Admin',
@@ -77,7 +77,7 @@ class StoreTest extends TestCase
             'post_id' => 'some text',
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->post('/api/comments', $comment);
 
         $response
@@ -90,7 +90,7 @@ class StoreTest extends TestCase
 
     public function test_post_id_attribute_is_integer_but_not_exists_table_for_storing_comment()
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'Admin',
@@ -110,7 +110,7 @@ class StoreTest extends TestCase
             'post_id' => $postId,
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->post('/api/comments', $comment);
 
         $response
@@ -123,7 +123,7 @@ class StoreTest extends TestCase
 
     public function test_post_id_attribute_is_integer_and_exists_table_for_storing_comment()
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'Admin',
@@ -142,7 +142,7 @@ class StoreTest extends TestCase
             'post_id' => $post->id,
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->post('/api/comments', $comment);
 
         $response->assertStatus(201);
@@ -152,7 +152,7 @@ class StoreTest extends TestCase
 
     public function test_body_attribute_is_required_for_storing_comment()
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'Admin',
@@ -170,7 +170,7 @@ class StoreTest extends TestCase
             'post_id' => $post->id,
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->post('/api/comments', $comment);
 
         $response
@@ -183,7 +183,7 @@ class StoreTest extends TestCase
 
     public function test_body_attribute_is_not_string_for_storing_comment()
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'Admin',
@@ -202,7 +202,7 @@ class StoreTest extends TestCase
             'post_id' => $post->id,
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->post('/api/comments', $comment);
 
         $response
@@ -230,7 +230,7 @@ class StoreTest extends TestCase
 
     public function test_comment_can_be_storing_by_not_admin_user_without_ban_comment()
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'notAdmin',
@@ -249,7 +249,7 @@ class StoreTest extends TestCase
             'post_id' => $post->id,
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->post('/api/comments', $comment);
 
         $response->assertStatus(201);
@@ -259,7 +259,7 @@ class StoreTest extends TestCase
 
     public function test_comment_can_not_be_storing_by_not_admin_user_with_ban_comment()
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'notAdmin',
@@ -280,7 +280,7 @@ class StoreTest extends TestCase
             'post_id' => $post->id,
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->post('/api/comments', $comment);
 
         $response->assertStatus(403);
@@ -295,7 +295,7 @@ class StoreTest extends TestCase
 
     public function test_comment_can_have_answer()
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'bot',
@@ -316,7 +316,7 @@ class StoreTest extends TestCase
             'parent_id' => $comment->id,
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->post('/api/comments', $answer);
 
         $response->assertStatus(201);
@@ -326,7 +326,7 @@ class StoreTest extends TestCase
 
     public function test_parent_id_attribute_is_not_integer_for_storing_comment()
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'bot',
@@ -347,7 +347,7 @@ class StoreTest extends TestCase
             'parent_id' => 'qwert',
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->post('/api/comments', $answer);
 
         $response
@@ -362,7 +362,7 @@ class StoreTest extends TestCase
 
     public function test_parent_id_attribute_is_not_exists_in_table_for_storing_comment()
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'bot',
@@ -383,7 +383,7 @@ class StoreTest extends TestCase
             'parent_id' => $comment->id * 10,
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->post('/api/comments', $answer);
 
         $response

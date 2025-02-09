@@ -75,13 +75,13 @@ class CalculatorController extends Controller
         foreach ($data['items'] as $key => $item) {
             $calculator = calculateInomFactory::make($item['type']);
             $data['items'][$key]['i'] = $calculator($item['p'], $item['cos'], $item['pv']);
-            $breakerNominal = (new getInomAction())($data['items'][$key]['i']);
+            $breakerNominal = (new getInomAction)($data['items'][$key]['i']);
             $data['items'][$key]['breakerNominal'] = $breakerNominal;
         }
 
-        $total = (new calculateTotalAction())($data['items']);
+        $total = (new calculateTotalAction)($data['items']);
 
-        $breakerNominal = (new getInomAction())($total['Isum']);
+        $breakerNominal = (new getInomAction)($total['Isum']);
         $total['breakerNominal'] = $breakerNominal;
 
         return response()->json(

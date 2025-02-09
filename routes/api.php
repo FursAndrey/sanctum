@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\CacheClearController;
 use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\Admin\PreviewController;
 use App\Http\Controllers\Admin\RoleController;
@@ -12,6 +13,8 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\MessageUserController;
+use App\Http\Controllers\TimeCalculator\Admin\CalendarController;
+use App\Http\Controllers\TimeCalculator\Admin\CalendarDayController;
 use App\Http\Controllers\TimeCalculator\Admin\HolydayController;
 use Illuminate\Support\Facades\Route;
 
@@ -27,6 +30,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
+    Route::get('/cacheClear', CacheClearController::class)->middleware('isAdmin');
+
     Route::post('/users/storeRandomUser', [UserController::class, 'storeRandomUser'])->name('storeRandomUser');
     Route::get('/users/exceptMe', [UserController::class, 'getUsersExceptMe'])->name('getUsersExceptMe');
     Route::post('/posts/storeRandomPost', [PostController::class, 'storeRandomPost'])->name('storeRandomPost');
@@ -34,7 +39,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::apiResource('/users', UserController::class)->only(['index', 'show', 'update', 'destroy']);
     Route::get('/roles/forForm', [RoleController::class, 'forForm'])->name('forForm');
     Route::apiResource('/roles', RoleController::class);
-    Route::apiResource('/posts', PostController::class)->only([/*'store','update',*/ 'destroy']);
+    Route::apiResource('/posts', PostController::class)->only([/* 'store','update', */ 'destroy']);
     Route::post('/posts2', [PostController::class, 'store2'])->name('postStore2');
     Route::patch('/posts2/{post}', [PostController::class, 'update2'])->name('postUpdate2');
     Route::post('/preview', [PreviewController::class, 'store'])->name('store');
@@ -58,6 +63,8 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 
     Route::apiResource('/circuitBreaker', CircuitBreakerController::class)->only(['index', 'store', 'destroy']);
     Route::apiResource('/holydays', HolydayController::class);
+    Route::apiResource('/calendars', CalendarController::class);
+    Route::apiResource('/calendarDays', CalendarDayController::class);
 });
 Route::apiResource('/posts', PostController::class)->only(['index', 'show']);
 Route::get('/comments/{post}/{connemt}', [CommentController::class, 'index'])->name('commentsOfPost')->where(['post' => '[0-9]+', 'connemt' => '[0-9]+']);

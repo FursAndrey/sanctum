@@ -15,7 +15,7 @@ class ShowTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->withHeaders(
@@ -27,11 +27,11 @@ class ShowTest extends TestCase
 
     public function test_can_not_return_chat_by_id_for_unauthorised_user()
     {
-        //создание пользователей чатов
+        // создание пользователей чатов
         $user1 = User::factory()->create();
         $user2 = User::factory()->create();
 
-        //создание чата
+        // создание чата
         $chat = [
             'title' => null,
             'users' => $user1->id.'-'.$user2->id,
@@ -40,7 +40,7 @@ class ShowTest extends TestCase
         ChatUser::create(['chat_id' => $createdChat->id, 'user_id' => $user1->id]);
         ChatUser::create(['chat_id' => $createdChat->id, 'user_id' => $user2->id]);
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->get('/api/chats/'.$createdChat->id);
 
         $response->assertStatus(401);
@@ -53,12 +53,12 @@ class ShowTest extends TestCase
 
     public function test_can_not_return_chat_by_id_for_not_owner_user()
     {
-        //создание пользователей чатов
+        // создание пользователей чатов
         $user1 = User::factory()->create();
         $user2 = User::factory()->create();
         $user3 = User::factory()->create();
 
-        //создание чата
+        // создание чата
         $chat = [
             'title' => null,
             'users' => $user1->id.'-'.$user2->id,
@@ -67,7 +67,7 @@ class ShowTest extends TestCase
         ChatUser::create(['chat_id' => $createdChat->id, 'user_id' => $user1->id]);
         ChatUser::create(['chat_id' => $createdChat->id, 'user_id' => $user2->id]);
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user3)->get('/api/chats/'.$createdChat->id);
 
         $response->assertStatus(403);
@@ -80,11 +80,11 @@ class ShowTest extends TestCase
 
     public function test_can_return_chat_by_id_for_owher_user_without_messages()
     {
-        //создание пользователей чатов
+        // создание пользователей чатов
         $user1 = User::factory()->create();
         $user2 = User::factory()->create();
 
-        //создание чата
+        // создание чата
         $chat = [
             'title' => null,
             'users' => $user1->id.'-'.$user2->id,
@@ -99,21 +99,21 @@ class ShowTest extends TestCase
             'users' => $user1->id.'-'.$user2->id,
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user1)->get('/api/chats/'.$createdChat->id);
 
         $response->assertStatus(200);
-        //точное соответствие
+        // точное соответствие
         $response->assertExactJson($expectedJson);
     }
 
     public function test_change_is_read_by_for_owher_user_after_open_chat()
     {
-        //создание пользователей чатов
+        // создание пользователей чатов
         $user1 = User::factory()->create();
         $user2 = User::factory()->create();
 
-        //создание чата
+        // создание чата
         $chat = [
             'title' => null,
             'users' => $user1->id.'-'.$user2->id,
@@ -122,7 +122,7 @@ class ShowTest extends TestCase
         ChatUser::create(['chat_id' => $createdChat->id, 'user_id' => $user1->id]);
         ChatUser::create(['chat_id' => $createdChat->id, 'user_id' => $user2->id]);
 
-        //создание сообщений для чатов
+        // создание сообщений для чатов
         $message = Message::create([
             'user_id' => $user2->id,
             'chat_id' => $createdChat->id,
@@ -157,11 +157,11 @@ class ShowTest extends TestCase
             'users' => $user1->id.'-'.$user2->id,
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user1)->get('/api/chats/'.$createdChat->id);
 
         $response->assertStatus(200);
-        //точное соответствие
+        // точное соответствие
         $response->assertExactJson($expectedJson);
 
         $this->assertDatabaseHas('message_users', $readable);

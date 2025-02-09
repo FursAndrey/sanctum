@@ -12,7 +12,7 @@ class UpdateTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->withHeaders(
@@ -24,7 +24,7 @@ class UpdateTest extends TestCase
 
     public function test_roles_attribute_is_required_for_updating_user()
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'Admin',
@@ -36,7 +36,7 @@ class UpdateTest extends TestCase
         $user = User::factory()->create();
         $user->roles()->sync($role->id);
 
-        //подготовка юзера к обновлению
+        // подготовка юзера к обновлению
         $updatingUser = User::factory()->create();
         $updatingUser->roles()->sync($role->id);
 
@@ -44,7 +44,7 @@ class UpdateTest extends TestCase
             'roles' => '',
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->put('/api/users/'.$updatingUser->id, $newRole);
 
         $response
@@ -57,7 +57,7 @@ class UpdateTest extends TestCase
 
     public function test_roles_attribute_is_aray_for_updating_user()
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'Admin',
@@ -69,7 +69,7 @@ class UpdateTest extends TestCase
         $user = User::factory()->create();
         $user->roles()->sync($role->id);
 
-        //подготовка юзера к обновлению
+        // подготовка юзера к обновлению
         $updatingUser = User::factory()->create();
         $updatingUser->roles()->sync($role->id);
 
@@ -77,7 +77,7 @@ class UpdateTest extends TestCase
             'roles' => 'string',
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->put('/api/users/'.$updatingUser->id, $newRole);
 
         $response
@@ -90,7 +90,7 @@ class UpdateTest extends TestCase
 
     public function test_role_id_attribute_is_required_for_updating_user()
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'Admin',
@@ -102,7 +102,7 @@ class UpdateTest extends TestCase
         $user = User::factory()->create();
         $user->roles()->sync($role->id);
 
-        //подготовка юзера к обновлению
+        // подготовка юзера к обновлению
         $updatingUser = User::factory()->create();
         $updatingUser->roles()->sync($role->id);
 
@@ -114,7 +114,7 @@ class UpdateTest extends TestCase
             ],
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->put('/api/users/'.$updatingUser->id, $newRole);
 
         $response
@@ -127,7 +127,7 @@ class UpdateTest extends TestCase
 
     public function test_has_ban_chat_and_has_ban_comment_attributes_boolean_for_updating_user()
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'Admin',
@@ -139,7 +139,7 @@ class UpdateTest extends TestCase
         $user = User::factory()->create();
         $user->roles()->sync($role->id);
 
-        //подготовка юзера к обновлению
+        // подготовка юзера к обновлению
         $updatingUser = User::factory()->create();
         $updatingUser->roles()->sync($role->id);
 
@@ -153,7 +153,7 @@ class UpdateTest extends TestCase
             'has_ban_comment' => [true],
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->put('/api/users/'.$updatingUser->id, $newRole);
 
         $response
@@ -168,7 +168,7 @@ class UpdateTest extends TestCase
 
     public function test_has_ban_chat_attribute_is_required_for_updating_user()
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'Admin',
@@ -180,7 +180,7 @@ class UpdateTest extends TestCase
         $user = User::factory()->create();
         $user->roles()->sync($role->id);
 
-        //подготовка юзера к обновлению
+        // подготовка юзера к обновлению
         $updatingUser = User::factory()->create();
         $updatingUser->roles()->sync($role->id);
 
@@ -193,7 +193,7 @@ class UpdateTest extends TestCase
             'has_ban_comment' => false,
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->put('/api/users/'.$updatingUser->id, $newRole);
 
         $response
@@ -206,7 +206,7 @@ class UpdateTest extends TestCase
 
     public function test_has_ban_comment_attribute_is_required_for_updating_user()
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'Admin',
@@ -218,7 +218,7 @@ class UpdateTest extends TestCase
         $user = User::factory()->create();
         $user->roles()->sync($role->id);
 
-        //подготовка юзера к обновлению
+        // подготовка юзера к обновлению
         $updatingUser = User::factory()->create();
         $updatingUser->roles()->sync($role->id);
 
@@ -231,7 +231,7 @@ class UpdateTest extends TestCase
             'has_ban_chat' => false,
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->put('/api/users/'.$updatingUser->id, $newRole);
 
         $response
@@ -244,7 +244,7 @@ class UpdateTest extends TestCase
 
     public function test_role_id_attribute_is_integer_for_updating_user()
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'Admin',
@@ -256,7 +256,7 @@ class UpdateTest extends TestCase
         $user = User::factory()->create();
         $user->roles()->sync($role->id);
 
-        //подготовка юзера к обновлению
+        // подготовка юзера к обновлению
         $updatingUser = User::factory()->create();
         $updatingUser->roles()->sync($role->id);
 
@@ -268,7 +268,7 @@ class UpdateTest extends TestCase
             ],
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->put('/api/users/'.$updatingUser->id, $newRole);
 
         $response
@@ -281,7 +281,7 @@ class UpdateTest extends TestCase
 
     public function test_role_id_attribute_is_exists_for_updating_user()
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'Admin',
@@ -293,7 +293,7 @@ class UpdateTest extends TestCase
         $user = User::factory()->create();
         $user->roles()->sync($role->id);
 
-        //подготовка юзера к обновлению
+        // подготовка юзера к обновлению
         $updatingUser = User::factory()->create();
         $updatingUser->roles()->sync($role->id);
 
@@ -305,7 +305,7 @@ class UpdateTest extends TestCase
             ],
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->put('/api/users/'.$updatingUser->id, $newRole);
 
         $response
@@ -318,7 +318,7 @@ class UpdateTest extends TestCase
 
     public function test_user_can_be_updated_by_admin_user_without_bans()
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'Admin',
@@ -338,7 +338,7 @@ class UpdateTest extends TestCase
         $user = User::factory()->create();
         $user->roles()->sync($role->id);
 
-        //подготовка юзера к обновлению
+        // подготовка юзера к обновлению
         $updatingUser = User::factory()->create();
         $updatingUser->roles()->sync($role->id);
 
@@ -355,7 +355,7 @@ class UpdateTest extends TestCase
             'has_ban_comment' => false,
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->put('/api/users/'.$updatingUser->id, $newRole);
 
         $response->assertStatus(200);
@@ -377,7 +377,7 @@ class UpdateTest extends TestCase
 
     public function test_user_can_be_updated_by_admin_user_with_bans()
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'Admin',
@@ -397,7 +397,7 @@ class UpdateTest extends TestCase
         $user = User::factory()->create();
         $user->roles()->sync($role->id);
 
-        //подготовка юзера к обновлению
+        // подготовка юзера к обновлению
         $updatingUser = User::factory()->create();
         $updatingUser->roles()->sync($role->id);
 
@@ -414,7 +414,7 @@ class UpdateTest extends TestCase
             'has_ban_comment' => true,
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->put('/api/users/'.$updatingUser->id, $newRole);
 
         $response->assertStatus(200);
@@ -448,7 +448,7 @@ class UpdateTest extends TestCase
 
     public function test_user_if_not_admin_can_not_update_others_fields_except_tg_name()
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'not_admin',
@@ -468,7 +468,7 @@ class UpdateTest extends TestCase
         $user = User::factory()->create();
         $user->roles()->sync($role->id);
 
-        //подготовка юзера к обновлению
+        // подготовка юзера к обновлению
         $updatingUser = User::factory()->create();
         $updatingUser->roles()->sync($role->id);
 
@@ -485,7 +485,7 @@ class UpdateTest extends TestCase
             'has_ban_comment' => false,
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->put('/api/users/'.$updatingUser->id, $newRole);
 
         $response
@@ -512,7 +512,7 @@ class UpdateTest extends TestCase
 
     public function test_user_can_update_tg_name_for_himself_if_not_admin()
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'not_Admin',
@@ -531,7 +531,7 @@ class UpdateTest extends TestCase
             'tg_name' => $newTgName,
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->put('/api/users/'.$user->id, $forUpdate);
 
         $response->assertStatus(200);
@@ -556,7 +556,7 @@ class UpdateTest extends TestCase
 
     public function test_user_can_update_tg_name_for_another_user_if_not_admin()
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'not_Admin',
@@ -578,7 +578,7 @@ class UpdateTest extends TestCase
             'tg_name' => $newTgName,
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->put('/api/users/'.$user2->id, $forUpdate);
 
         $response->assertStatus(403);
@@ -623,7 +623,7 @@ class UpdateTest extends TestCase
                 'updated_at' => null,
             ]
         );
-        //подготовка юзера к обновлению
+        // подготовка юзера к обновлению
         $updatingUser = User::factory()->create();
         $updatingUser->roles()->sync($role->id);
 
@@ -638,7 +638,7 @@ class UpdateTest extends TestCase
             ],
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->put('/api/users/'.$updatingUser->id, $newRole);
 
         $response->assertStatus(401);
@@ -665,7 +665,7 @@ class UpdateTest extends TestCase
 
     public function test_tg_name_must_be_a_string()
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'Admin',
@@ -686,7 +686,7 @@ class UpdateTest extends TestCase
             ],
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->put('/api/users/'.$user->id, $newTgName);
 
         $response
@@ -699,7 +699,7 @@ class UpdateTest extends TestCase
 
     public function test_tg_name_not_have_more_than_100_symbols()
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'Admin',
@@ -720,7 +720,7 @@ class UpdateTest extends TestCase
             ],
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->put('/api/users/'.$user->id, $newTgName);
 
         $response
@@ -733,7 +733,7 @@ class UpdateTest extends TestCase
 
     public function test_tg_name_must_be_unique()
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'Admin',
@@ -745,7 +745,7 @@ class UpdateTest extends TestCase
         $user = User::factory()->create(['tg_name' => 'tg_name']);
         $user->roles()->sync($role->id);
 
-        //подготовка юзера к обновлению
+        // подготовка юзера к обновлению
         $updatingUser = User::factory()->create(['tg_name' => 'test1']);
         $updatingUser->roles()->sync($role->id);
 
@@ -757,7 +757,7 @@ class UpdateTest extends TestCase
                 ],
             ],
         ];
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->put('/api/users/'.$updatingUser->id, $forUpdate);
 
         $response
@@ -770,7 +770,7 @@ class UpdateTest extends TestCase
 
     public function test_tg_name_may_not_be_unique_for_same_user()
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'Admin',
@@ -804,7 +804,7 @@ class UpdateTest extends TestCase
             'has_ban_comment' => false,
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->put('/api/users/'.$user->id, $forUpdate);
 
         $response->assertStatus(200);
@@ -812,7 +812,7 @@ class UpdateTest extends TestCase
 
     public function test_second_user_take_same_tg_name()
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'not_Admin',
@@ -831,7 +831,7 @@ class UpdateTest extends TestCase
             'tg_name' => 'tg_name',
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user2)->put('/api/users/'.$user2->id, $forUpdate);
 
         $response

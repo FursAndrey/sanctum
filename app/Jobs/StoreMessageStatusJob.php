@@ -45,14 +45,14 @@ class StoreMessageStatusJob implements ShouldQueue
                 'message_id' => $this->message->id,
             ];
 
-            //если сообщение моё - оно прочитано
+            // если сообщение моё - оно прочитано
             if ((int) auth()->user()->id === (int) $user_id) {
                 $messageUser['is_read'] = true;
             }
 
             MessageUser::create($messageUser);
 
-            //отправляем пользователям через сокет
+            // отправляем пользователям через сокет
             $countMessages = MessageUser::where('chat_id', '=', $this->message->chat_id)
                 ->where('user_id', '=', $user_id)
                 ->where('is_read', false)
@@ -67,7 +67,7 @@ class StoreMessageStatusJob implements ShouldQueue
                 }
 
                 $message = 'В чате byfirst.xyz пользователь <b>'.$this->message->user->name."</b> отправил вам следующее сообщение:\n<i>".$this->message->body.'</i>';
-                $telegramService = new TelegramService();
+                $telegramService = new TelegramService;
                 $telegramService->sendMessage($telegramChatId, $message);
             }
         }

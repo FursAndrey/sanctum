@@ -13,7 +13,7 @@ class DestroyTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->withHeaders(
@@ -25,11 +25,11 @@ class DestroyTest extends TestCase
 
     public function test_can_not_delete_chat_by_id_for_unauthorised_user()
     {
-        //создание пользователей чатов
+        // создание пользователей чатов
         $user1 = User::factory()->create();
         $user2 = User::factory()->create();
 
-        //создание чата
+        // создание чата
         $chat = [
             'title' => null,
             'users' => $user1->id.'-'.$user2->id,
@@ -38,7 +38,7 @@ class DestroyTest extends TestCase
         ChatUser::create(['chat_id' => $createdChat->id, 'user_id' => $user1->id]);
         ChatUser::create(['chat_id' => $createdChat->id, 'user_id' => $user2->id]);
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->delete('/api/chats/'.$createdChat->id);
 
         $response->assertStatus(401);
@@ -52,12 +52,12 @@ class DestroyTest extends TestCase
 
     public function test_can_not_delete_chat_by_id_for_not_owner_user()
     {
-        //создание пользователей чатов
+        // создание пользователей чатов
         $user1 = User::factory()->create();
         $user2 = User::factory()->create();
         $user3 = User::factory()->create();
 
-        //создание чата
+        // создание чата
         $chat = [
             'title' => null,
             'users' => $user1->id.'-'.$user2->id,
@@ -66,7 +66,7 @@ class DestroyTest extends TestCase
         ChatUser::create(['chat_id' => $createdChat->id, 'user_id' => $user1->id]);
         ChatUser::create(['chat_id' => $createdChat->id, 'user_id' => $user2->id]);
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user3)->delete('/api/chats/'.$createdChat->id);
 
         $response->assertStatus(403);
@@ -80,11 +80,11 @@ class DestroyTest extends TestCase
 
     public function test_can_delete_chat_by_id_for_owher_user()
     {
-        //создание пользователей чатов
+        // создание пользователей чатов
         $user1 = User::factory()->create();
         $user2 = User::factory()->create();
 
-        //создание чата
+        // создание чата
         $chat = [
             'title' => null,
             'users' => $user1->id.'-'.$user2->id,
@@ -93,7 +93,7 @@ class DestroyTest extends TestCase
         ChatUser::create(['chat_id' => $createdChat->id, 'user_id' => $user1->id]);
         ChatUser::create(['chat_id' => $createdChat->id, 'user_id' => $user2->id]);
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user1)->delete('/api/chats/'.$createdChat->id);
 
         $response->assertStatus(204);
@@ -102,11 +102,11 @@ class DestroyTest extends TestCase
 
     public function test_can_not_delete_chat_by_id_for_owher_user_if_has_ban()
     {
-        //создание пользователей чатов
+        // создание пользователей чатов
         $user1 = User::factory()->create();
         $user2 = User::factory()->create();
 
-        //создание чата
+        // создание чата
         $chat = [
             'title' => null,
             'users' => $user1->id.'-'.$user2->id,
@@ -117,7 +117,7 @@ class DestroyTest extends TestCase
 
         BanChat::create(['user_id' => $user1->id]);
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user1)->delete('/api/chats/'.$createdChat->id);
 
         $response->assertStatus(423);
@@ -131,11 +131,11 @@ class DestroyTest extends TestCase
 
     public function test_delete_chat_for_invalid_chat_id()
     {
-        //создание пользователей чатов
+        // создание пользователей чатов
         $user1 = User::factory()->create();
         $user2 = User::factory()->create();
 
-        //создание чата
+        // создание чата
         $chat = [
             'title' => null,
             'users' => $user1->id.'-'.$user2->id,
@@ -144,7 +144,7 @@ class DestroyTest extends TestCase
         ChatUser::create(['chat_id' => $createdChat->id, 'user_id' => $user1->id]);
         ChatUser::create(['chat_id' => $createdChat->id, 'user_id' => $user2->id]);
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user1)->delete('/api/chats/'.($createdChat->id * 10));
 
         $response->assertStatus(404);

@@ -31,8 +31,8 @@ class EventServiceProvider extends ServiceProvider
     public function boot(): void
     {
         if ((new checkEnvIsProdAction)(config('app.env'))) {
-            Post::observe(new PostObserver());
-            Comment::observe(new CommentObserver());
+            Post::observe(new PostObserver);
+            Comment::observe(new CommentObserver);
         }
     }
 

@@ -15,7 +15,7 @@ class IndexTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->withHeaders(
@@ -27,7 +27,7 @@ class IndexTest extends TestCase
 
     public function test_can_not_return_messages_for_unauthorised_user(): void
     {
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->get('/api/messages/1');
 
         $response->assertStatus(401);
@@ -40,12 +40,12 @@ class IndexTest extends TestCase
 
     public function test_can_not_return_messages_for_authorised_user_but_not_owner_chat(): void
     {
-        //создание пользователей чатов
+        // создание пользователей чатов
         $user1 = User::factory()->create();
         $user2 = User::factory()->create();
         $user3 = User::factory()->create();
 
-        //создание чата
+        // создание чата
         $chat = [
             'title' => null,
             'users' => $user1->id.'-'.$user2->id,
@@ -54,7 +54,7 @@ class IndexTest extends TestCase
         ChatUser::create(['chat_id' => $createdChat->id, 'user_id' => $user1->id]);
         ChatUser::create(['chat_id' => $createdChat->id, 'user_id' => $user2->id]);
 
-        //добавление сообщения
+        // добавление сообщения
         $message = Message::create([
             'user_id' => $user1->id,
             'chat_id' => $createdChat->id,
@@ -71,7 +71,7 @@ class IndexTest extends TestCase
             'message_id' => $message->id,
         ]);
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user3)->get('/api/messages/'.$createdChat->id);
 
         $response->assertStatus(403);
@@ -84,11 +84,11 @@ class IndexTest extends TestCase
 
     public function test_can_return_messages_for_owner_user(): void
     {
-        //создание пользователей чатов
+        // создание пользователей чатов
         $user1 = User::factory()->create();
         $user2 = User::factory()->create();
 
-        //создание чата
+        // создание чата
         $chat = [
             'title' => null,
             'users' => $user1->id.'-'.$user2->id,
@@ -97,7 +97,7 @@ class IndexTest extends TestCase
         ChatUser::create(['chat_id' => $createdChat->id, 'user_id' => $user1->id]);
         ChatUser::create(['chat_id' => $createdChat->id, 'user_id' => $user2->id]);
 
-        //добавление сообщения
+        // добавление сообщения
         $message = Message::create([
             'user_id' => $user1->id,
             'chat_id' => $createdChat->id,
@@ -114,11 +114,11 @@ class IndexTest extends TestCase
             'message_id' => $message->id,
         ]);
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user1)->get('/api/messages/'.$createdChat->id);
 
         $response->assertStatus(200);
-        //точное соответствие
+        // точное соответствие
         $response->assertExactJson(
             [
                 'messages' => [
@@ -139,11 +139,11 @@ class IndexTest extends TestCase
 
     public function test_can_return_messages_for_owner_user_from_second_page(): void
     {
-        //создание пользователей чатов
+        // создание пользователей чатов
         $user1 = User::factory()->create();
         $user2 = User::factory()->create();
 
-        //создание чата
+        // создание чата
         $chat = [
             'title' => null,
             'users' => $user1->id.'-'.$user2->id,
@@ -151,7 +151,7 @@ class IndexTest extends TestCase
         $createdChat = Chat::create($chat);
         ChatUser::create(['chat_id' => $createdChat->id, 'user_id' => $user1->id]);
 
-        //добавление сообщения
+        // добавление сообщения
         $message1 = Message::create([
             'user_id' => $user1->id,
             'chat_id' => $createdChat->id,
@@ -233,11 +233,11 @@ class IndexTest extends TestCase
             'message_id' => $message8->id,
         ]);
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user1)->get('/api/messages/'.$createdChat->id.'?page=2');
 
         $response->assertStatus(200);
-        //точное соответствие
+        // точное соответствие
         $response->assertExactJson(
             [
                 'messages' => [
@@ -274,11 +274,11 @@ class IndexTest extends TestCase
 
     public function test_can_return_messages_for_owner_user_if_page_is_invalid(): void
     {
-        //создание пользователей чатов
+        // создание пользователей чатов
         $user1 = User::factory()->create();
         $user2 = User::factory()->create();
 
-        //создание чата
+        // создание чата
         $chat = [
             'title' => null,
             'users' => $user1->id.'-'.$user2->id,
@@ -286,7 +286,7 @@ class IndexTest extends TestCase
         $createdChat = Chat::create($chat);
         ChatUser::create(['chat_id' => $createdChat->id, 'user_id' => $user1->id]);
 
-        //добавление сообщения
+        // добавление сообщения
         $message1 = Message::create([
             'user_id' => $user1->id,
             'chat_id' => $createdChat->id,
@@ -318,11 +318,11 @@ class IndexTest extends TestCase
             'message_id' => $message3->id,
         ]);
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user1)->get('/api/messages/'.$createdChat->id.'?page=qwerty');
 
         $response->assertStatus(200);
-        //точное соответствие
+        // точное соответствие
         $response->assertExactJson(
             [
                 'messages' => [

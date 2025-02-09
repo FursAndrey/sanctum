@@ -13,7 +13,7 @@ class UpdateTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->withHeaders(
@@ -25,7 +25,7 @@ class UpdateTest extends TestCase
 
     public function test_title_attribute_is_required_for_updating_post()
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'Admin',
@@ -48,7 +48,7 @@ class UpdateTest extends TestCase
             'body' => 'some text',
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->patch('/api/posts2/'.$post->id, $newPost);
 
         $response
@@ -62,7 +62,7 @@ class UpdateTest extends TestCase
 
     public function test_body_attribute_is_required_for_updating_post()
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'Admin',
@@ -85,7 +85,7 @@ class UpdateTest extends TestCase
             'body' => '',
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->patch('/api/posts2/'.$post->id, $newPost);
 
         $response
@@ -99,7 +99,7 @@ class UpdateTest extends TestCase
 
     public function test_a_post_can_be_updated_by_admin_user()
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'Admin',
@@ -122,7 +122,7 @@ class UpdateTest extends TestCase
             'body' => 'some text',
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->patch('/api/posts2/'.$post->id, $newPost);
 
         $response->assertStatus(200);
@@ -132,7 +132,7 @@ class UpdateTest extends TestCase
 
     public function test_a_post_can_not_be_updated_by_not_admin_user()
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'not_admin',
@@ -155,7 +155,7 @@ class UpdateTest extends TestCase
             'body' => 'some text',
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->patch('/api/posts2/'.$post->id, $newPost);
 
         $response->assertStatus(403);
@@ -181,7 +181,7 @@ class UpdateTest extends TestCase
             'body' => 'some text',
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->patch('/api/posts2/'.$post->id, $newPost);
 
         $response->assertStatus(401);

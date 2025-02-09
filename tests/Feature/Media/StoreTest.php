@@ -13,7 +13,7 @@ class StoreTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->withHeaders(
@@ -44,7 +44,7 @@ class StoreTest extends TestCase
 
     public function test_a_post_with_an_img_can_not_be_stored_by_not_admin_user(): void
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'not_dmin',
@@ -61,7 +61,7 @@ class StoreTest extends TestCase
             'body' => 'some text',
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->post('/api/posts2', $post);
 
         $response->assertStatus(403);
@@ -76,7 +76,7 @@ class StoreTest extends TestCase
 
     public function test_a_post_with_an_image_can_be_stored_by_admin_user(): void
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'Admin',
@@ -88,7 +88,7 @@ class StoreTest extends TestCase
         $user = User::factory()->create();
         $user->roles()->sync($role->id);
 
-        //подготовка тестового изображения
+        // подготовка тестового изображения
         $image = UploadedFile::fake()->image('avatar.jpg');
 
         $post = [
@@ -113,7 +113,7 @@ class StoreTest extends TestCase
 
     public function test_can_not_store_more_than_one_img()
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'Admin',
@@ -125,7 +125,7 @@ class StoreTest extends TestCase
         $user = User::factory()->create();
         $user->roles()->sync($role->id);
 
-        //подготовка тестового изображения
+        // подготовка тестового изображения
         $image = UploadedFile::fake()->image('avatar.jpg');
         $image2 = UploadedFile::fake()->image('avatar2.jpg');
 
@@ -152,7 +152,7 @@ class StoreTest extends TestCase
 
     public function test_can_not_store_empty_imgs_array()
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'Admin',

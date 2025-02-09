@@ -13,7 +13,7 @@ class DestroyTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->withHeaders(
@@ -25,7 +25,7 @@ class DestroyTest extends TestCase
 
     public function test_a_circuit_breaker_can_be_deleted_by_admin_user()
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'Admin',
@@ -42,7 +42,7 @@ class DestroyTest extends TestCase
         ];
         $delCircuitBreaker = CircuitBreaker::create($circuitBreaker);
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->delete('/api/circuitBreaker/'.$delCircuitBreaker->id);
 
         $response->assertStatus(204);
@@ -52,7 +52,7 @@ class DestroyTest extends TestCase
 
     public function test_a_circuit_breaker_can_not_be_deleted_by_not_admin_user()
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'not_admin',
@@ -69,7 +69,7 @@ class DestroyTest extends TestCase
         ];
         $delCircuitBreaker = CircuitBreaker::create($circuitBreaker);
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->delete('/api/circuitBreaker/'.$delCircuitBreaker->id);
 
         $response->assertStatus(403);
@@ -88,7 +88,7 @@ class DestroyTest extends TestCase
         ];
         $delCircuitBreaker = CircuitBreaker::create($circuitBreaker);
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->delete('/api/circuitBreaker/'.$delCircuitBreaker->id);
 
         $response->assertStatus(401);

@@ -15,7 +15,7 @@ class PostSeeder extends Seeder
     {
         // Post::factory(20)->create();
         Post::factory(3)->create()->each(function ($post) {
-            (new createMediaImgAction())($post);
+            (new createMediaImgAction)($post);
         });
     }
 }

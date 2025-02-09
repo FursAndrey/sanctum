@@ -90,6 +90,28 @@ const router = createRouter({
             props: true
         },
         {
+            path: '/admin/calendar',
+            component: () => import('../views/admin/timeCalculator/calendar/index.vue'),
+            name: 'calendar.index',
+        },
+        {
+            path: '/admin/calendar',
+            component: () => import('../views/admin/timeCalculator/calendar/create.vue'),
+            name: 'calendar.create',
+        },
+        {
+            path: '/admin/calendars/:id',
+            component: () => import('../views/admin/timeCalculator/calendar/show.vue'),
+            name: 'calendar.show',
+            props: true
+        },
+        {
+            path: '/admin/calendarDays/:id',
+            component: () => import('../views/admin/timeCalculator/calendarDays/create.vue'),
+            name: 'calendarDays.create',
+            props: true
+        },
+        {
             path: '/admin/holydays',
             component: () => import('../views/admin/timeCalculator/holydays/index.vue'),
             name: 'holyday.index',
@@ -154,6 +176,11 @@ const router = createRouter({
             path: '/403',
             component: () => import('../views/errors/403.vue'),
             name: 'errors.403'
+        },
+        {
+            path: '/admin/caheClear',
+            component: () => import('../views/admin/cacheClear.vue'),
+            name: 'cahe.clear'
         },
     ],
 });

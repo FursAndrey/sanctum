@@ -10,7 +10,7 @@ class IndexTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->withHeaders(
@@ -22,7 +22,7 @@ class IndexTest extends TestCase
 
     public function test_items_is_required(): void
     {
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->post('/api/calculator');
 
         $response
@@ -39,7 +39,7 @@ class IndexTest extends TestCase
             'items' => 'title',
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->post('/api/calculator', $items);
 
         $response
@@ -58,7 +58,7 @@ class IndexTest extends TestCase
             ],
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->post('/api/calculator', $items);
 
         $response
@@ -81,7 +81,7 @@ class IndexTest extends TestCase
             ],
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->post('/api/calculator', $items);
 
         $response
@@ -104,7 +104,7 @@ class IndexTest extends TestCase
             ],
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->post('/api/calculator', $items);
 
         $response
@@ -127,7 +127,7 @@ class IndexTest extends TestCase
             ],
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->post('/api/calculator', $items);
 
         $response
@@ -150,7 +150,7 @@ class IndexTest extends TestCase
             ],
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->post('/api/calculator', $items);
 
         $response
@@ -174,7 +174,7 @@ class IndexTest extends TestCase
             ],
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->post('/api/calculator', $items);
 
         $response
@@ -198,7 +198,7 @@ class IndexTest extends TestCase
             ],
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->post('/api/calculator', $items);
 
         $response
@@ -223,7 +223,7 @@ class IndexTest extends TestCase
             ],
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->post('/api/calculator', $items);
 
         $response
@@ -247,7 +247,7 @@ class IndexTest extends TestCase
             ],
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->post('/api/calculator', $items);
 
         $response
@@ -271,7 +271,7 @@ class IndexTest extends TestCase
             ],
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->post('/api/calculator', $items);
 
         $response
@@ -295,7 +295,7 @@ class IndexTest extends TestCase
             ],
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->post('/api/calculator', $items);
 
         $response
@@ -319,7 +319,7 @@ class IndexTest extends TestCase
             ],
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->post('/api/calculator', $items);
 
         $response
@@ -343,7 +343,7 @@ class IndexTest extends TestCase
             ],
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->post('/api/calculator', $items);
 
         $response
@@ -367,7 +367,7 @@ class IndexTest extends TestCase
             ],
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->post('/api/calculator', $items);
 
         $response
@@ -391,7 +391,7 @@ class IndexTest extends TestCase
             ],
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->post('/api/calculator', $items);
 
         $response
@@ -416,7 +416,7 @@ class IndexTest extends TestCase
             ],
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->post('/api/calculator', $items);
 
         $response
@@ -469,7 +469,7 @@ class IndexTest extends TestCase
             ],
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->post('/api/calculator', $items);
 
         $expectedJson = [

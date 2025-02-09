@@ -14,7 +14,7 @@ class StoreTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->withHeaders(
@@ -45,12 +45,12 @@ class StoreTest extends TestCase
 
     public function test_a_message_can_not_be_stored_by_not_owner_user()
     {
-        //создание пользователей чатов
+        // создание пользователей чатов
         $user1 = User::factory()->create();
         $user2 = User::factory()->create();
         $user3 = User::factory()->create();
 
-        //создание чата
+        // создание чата
         $chat = [
             'title' => null,
             'users' => $user1->id.'-'.$user2->id,
@@ -64,7 +64,7 @@ class StoreTest extends TestCase
             'chat_id' => Str::random(1),
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user3)->post('/api/messages/'.$createdChat->id, $message);
 
         $response->assertStatus(403);
@@ -79,11 +79,11 @@ class StoreTest extends TestCase
 
     public function test_body_attribute_is_required_for_storing_message()
     {
-        //создание пользователей чатов
+        // создание пользователей чатов
         $user1 = User::factory()->create();
         $user2 = User::factory()->create();
 
-        //создание чата
+        // создание чата
         $chat = [
             'title' => null,
             'users' => $user1->id.'-'.$user2->id,
@@ -96,7 +96,7 @@ class StoreTest extends TestCase
             'chat_id' => $createdChat->id,
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user1)->post('/api/messages/'.$createdChat->id, $message);
 
         $response
@@ -109,11 +109,11 @@ class StoreTest extends TestCase
 
     public function test_title_attribute_is_string_for_storing_message()
     {
-        //создание пользователей чатов
+        // создание пользователей чатов
         $user1 = User::factory()->create();
         $user2 = User::factory()->create();
 
-        //создание чата
+        // создание чата
         $chat = [
             'title' => null,
             'users' => $user1->id.'-'.$user2->id,
@@ -127,7 +127,7 @@ class StoreTest extends TestCase
             'chat_id' => $createdChat->id,
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user1)->post('/api/messages/'.$createdChat->id, $message);
 
         $response
@@ -140,11 +140,11 @@ class StoreTest extends TestCase
 
     public function test_chat_id_attribute_is_required_for_storing_message()
     {
-        //создание пользователей чатов
+        // создание пользователей чатов
         $user1 = User::factory()->create();
         $user2 = User::factory()->create();
 
-        //создание чата
+        // создание чата
         $chat = [
             'title' => null,
             'users' => $user1->id.'-'.$user2->id,
@@ -157,7 +157,7 @@ class StoreTest extends TestCase
             'body' => Str::random(30),
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user1)->post('/api/messages/'.$createdChat->id, $message);
 
         $response
@@ -170,11 +170,11 @@ class StoreTest extends TestCase
 
     public function test_chat_id_attribute_is_integer_for_storing_message()
     {
-        //создание пользователей чатов
+        // создание пользователей чатов
         $user1 = User::factory()->create();
         $user2 = User::factory()->create();
 
-        //создание чата
+        // создание чата
         $chat = [
             'title' => null,
             'users' => $user1->id.'-'.$user2->id,
@@ -188,7 +188,7 @@ class StoreTest extends TestCase
             'chat_id' => [$createdChat->id],
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user1)->post('/api/messages/'.$createdChat->id, $message);
 
         $response
@@ -201,11 +201,11 @@ class StoreTest extends TestCase
 
     public function test_chat_id_attribute_exists_for_storing_message()
     {
-        //создание пользователей чатов
+        // создание пользователей чатов
         $user1 = User::factory()->create();
         $user2 = User::factory()->create();
 
-        //создание чата
+        // создание чата
         $chat = [
             'title' => null,
             'users' => $user1->id.'-'.$user2->id,
@@ -219,7 +219,7 @@ class StoreTest extends TestCase
             'chat_id' => $createdChat->id * 10,
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user1)->post('/api/messages/'.$createdChat->id, $message);
 
         $response
@@ -232,11 +232,11 @@ class StoreTest extends TestCase
 
     public function test_send_correct_message_for_storing_message()
     {
-        //создание пользователей чатов
+        // создание пользователей чатов
         $user1 = User::factory()->create();
         $user2 = User::factory()->create();
 
-        //создание чата
+        // создание чата
         $chat = [
             'title' => null,
             'users' => $user1->id.'-'.$user2->id,
@@ -259,7 +259,7 @@ class StoreTest extends TestCase
 
         $this->assertDatabaseCount('messages', 0);
         $this->assertDatabaseCount('message_users', 0);
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user1)->post('/api/messages/'.$createdChat->id, $message);
 
         $response->assertStatus(200);
@@ -270,11 +270,11 @@ class StoreTest extends TestCase
 
     public function test_send_correct_message_for_storing_if_user_has_ban_chat()
     {
-        //создание пользователей чатов
+        // создание пользователей чатов
         $user1 = User::factory()->create();
         $user2 = User::factory()->create();
 
-        //создание чата
+        // создание чата
         $chat = [
             'title' => null,
             'users' => $user1->id.'-'.$user2->id,
@@ -291,7 +291,7 @@ class StoreTest extends TestCase
 
         $this->assertDatabaseCount('messages', 0);
         $this->assertDatabaseCount('message_users', 0);
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user1)->post('/api/messages/'.$createdChat->id, $message);
 
         $response->assertStatus(423);
@@ -306,11 +306,11 @@ class StoreTest extends TestCase
 
     public function test_send_correct_message_for_invalid_chat()
     {
-        //создание пользователей чатов
+        // создание пользователей чатов
         $user1 = User::factory()->create();
         $user2 = User::factory()->create();
 
-        //создание чата
+        // создание чата
         $chat = [
             'title' => null,
             'users' => $user1->id.'-'.$user2->id,
@@ -326,7 +326,7 @@ class StoreTest extends TestCase
 
         $this->assertDatabaseCount('messages', 0);
         $this->assertDatabaseCount('message_users', 0);
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user1)->post('/api/messages/'.($createdChat->id * 10), $message);
 
         $response->assertStatus(404);

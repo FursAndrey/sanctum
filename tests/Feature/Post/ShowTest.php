@@ -10,7 +10,7 @@ class ShowTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->withHeaders(
@@ -26,7 +26,7 @@ class ShowTest extends TestCase
         $response = $this->get('/api/posts/'.$post->id);
 
         $response->assertStatus(200);
-        //точное соответствие
+        // точное соответствие
         $response->assertExactJson(
             [
                 'data' => [

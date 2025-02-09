@@ -60,13 +60,13 @@ class UserController extends Controller
         $roles = $user->roles->pluck('title')->toArray();
         /** эти изменения может делать только админ */
         if (in_array('Admin', $roles)) {
-            $preparedRoles = (new prepareRolesBeforeSyncAction())($data);
+            $preparedRoles = (new prepareRolesBeforeSyncAction)($data);
             $user->roles()->sync($preparedRoles);
 
-            (new toggleBanChatAction())($user->id, $data['has_ban_chat']);
+            (new toggleBanChatAction)($user->id, $data['has_ban_chat']);
             unset($data['has_ban_chat']);
 
-            (new toggleBanCommentAction())($user->id, $data['has_ban_comment']);
+            (new toggleBanCommentAction)($user->id, $data['has_ban_comment']);
             unset($data['has_ban_comment']);
         }
 
@@ -91,9 +91,9 @@ class UserController extends Controller
 
         $user->roles()->detach();
 
-        //удаление всех чатов в которых был этот пользователь со всеми сообщениями
+        // удаление всех чатов в которых был этот пользователь со всеми сообщениями
         if ($user->chats->count() != 0) {
-            (new deleteAllChatsWithAllMessagesAction())($user);
+            (new deleteAllChatsWithAllMessagesAction)($user);
         }
 
         if (! is_null($user->banChat) && $user->banChat->count() != 0) {
@@ -116,7 +116,7 @@ class UserController extends Controller
     public function storeRandomUser()
     {
         $this->authorize('create', User::class);
-        $randomUser = (new createRandomUserAction())();
+        $randomUser = (new createRandomUserAction)();
 
         return new UserResource($randomUser);
     }

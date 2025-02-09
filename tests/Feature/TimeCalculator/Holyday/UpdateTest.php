@@ -5,16 +5,16 @@ namespace Tests\Feature\TimeCalculator\Holyday;
 use App\Models\Holyday;
 use App\Models\Role;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Str;
-use Carbon\Carbon;
 use Tests\TestCase;
 
 class UpdateTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->withHeaders(
@@ -35,7 +35,7 @@ class UpdateTest extends TestCase
             'holyday' => Carbon::today()->addDays(rand(1, 365)),
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->put('/api/holydays/'.$oldHolyday->id, $newHolyday);
 
         $response->assertStatus(401);
@@ -50,7 +50,7 @@ class UpdateTest extends TestCase
 
     public function test_a_holyday_can_not_be_updated_by_not_admin_user()
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'not_admin',
@@ -71,7 +71,7 @@ class UpdateTest extends TestCase
             'holyday' => Carbon::today()->addDays(rand(1, 365)),
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->put('/api/holydays/'.$oldHolyday->id, $newHolyday);
 
         $response->assertStatus(403);
@@ -86,7 +86,7 @@ class UpdateTest extends TestCase
 
     public function test_a_holyday_can_not_be_updated_by_admin_user()
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'Admin',
@@ -107,7 +107,7 @@ class UpdateTest extends TestCase
             'holyday' => Carbon::today()->addDays(rand(1, 365)),
         ];
 
-        //тестируемый запрос от имени пользователя
+        // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->put('/api/holydays/'.$oldHolyday->id, $newHolyday);
 
         $response->assertStatus(403);

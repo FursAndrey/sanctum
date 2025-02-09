@@ -14,7 +14,7 @@ class DestroyTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->withHeaders(
@@ -26,7 +26,7 @@ class DestroyTest extends TestCase
 
     public function test_a_comment_can_be_deleted_by_admin_user()
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $roleAdmin = Role::create(
             [
                 'title' => 'Admin',
@@ -38,7 +38,7 @@ class DestroyTest extends TestCase
         $userAdmin = User::factory()->create();
         $userAdmin->roles()->sync($roleAdmin->id);
 
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'bot',
@@ -66,7 +66,7 @@ class DestroyTest extends TestCase
 
     public function test_a_comment_can_not_be_deleted_by_not_admin_user()
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'bot',
@@ -99,7 +99,7 @@ class DestroyTest extends TestCase
 
     public function test_a_comment_can_not_be_deleted_by_unauthorised_user()
     {
-        //создание пользователя и присвоение ему роли
+        // создание пользователя и присвоение ему роли
         $role = Role::create(
             [
                 'title' => 'bot',
