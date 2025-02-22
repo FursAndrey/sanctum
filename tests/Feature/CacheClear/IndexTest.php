@@ -55,7 +55,7 @@ class IndexTest extends TestCase
         $response->assertStatus(403);
         $response->assertJsonFragment(
             [
-                'message' => 'You are not administrator of this site.',
+                'message' => 'This action is unauthorized.',
             ]
         );
     }

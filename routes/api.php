@@ -15,6 +15,7 @@ use App\Http\Controllers\MessageController;
 use App\Http\Controllers\MessageUserController;
 use App\Http\Controllers\TimeCalculator\Admin\CalendarController;
 use App\Http\Controllers\TimeCalculator\Admin\CalendarDayController;
+use App\Http\Controllers\TimeCalculator\Admin\CalendarUserController;
 use App\Http\Controllers\TimeCalculator\Admin\HolydayController;
 use Illuminate\Support\Facades\Route;
 
@@ -30,8 +31,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
-    Route::get('/cacheClear', CacheClearController::class)->middleware('isAdmin');
-
     Route::post('/users/storeRandomUser', [UserController::class, 'storeRandomUser'])->name('storeRandomUser');
     Route::get('/users/exceptMe', [UserController::class, 'getUsersExceptMe'])->name('getUsersExceptMe');
     Route::post('/posts/storeRandomPost', [PostController::class, 'storeRandomPost'])->name('storeRandomPost');
@@ -65,6 +64,12 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::apiResource('/holydays', HolydayController::class);
     Route::apiResource('/calendars', CalendarController::class);
     Route::apiResource('/calendarDays', CalendarDayController::class);
+
+    Route::group(['middleware' => 'isAdmin'], function () {
+        Route::get('/cacheClear', CacheClearController::class);
+        Route::post('/setCalendarUser', [CalendarUserController::class, 'set']);
+        Route::post('/unsetCalendarUser', [CalendarUserController::class, 'unset']);
+    });
 });
 Route::apiResource('/posts', PostController::class)->only(['index', 'show']);
 Route::get('/comments/{post}/{connemt}', [CommentController::class, 'index'])->name('commentsOfPost')->where(['post' => '[0-9]+', 'connemt' => '[0-9]+']);

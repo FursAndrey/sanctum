@@ -19,7 +19,7 @@ class IsAdminMiddleware
         $roles = Auth::user()->roles->pluck('title')->toArray();
 
         if (! in_array('Admin', $roles)) {
-            return response(status: 403, content: json_encode(['message' => 'You are not administrator of this site.']));
+            return response(status: 403, content: json_encode(['message' => 'This action is unauthorized.']));
         }
 
         return $next($request);

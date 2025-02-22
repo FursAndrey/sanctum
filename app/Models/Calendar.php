@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Calendar extends Model
@@ -19,5 +20,10 @@ class Calendar extends Model
     public function calendarDays(): HasMany
     {
         return $this->hasMany(CalendarDay::class);
+    }
+    
+    public function users(): HasMany
+    {
+        return $this->hasMany(User::class);
     }
 }

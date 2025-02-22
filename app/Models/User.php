@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -94,5 +95,10 @@ class User extends Authenticatable
     public function privateTelegram(): HasOne
     {
         return $this->hasOne(PrivateTelegram::class);
+    }
+
+    public function calendar(): BelongsTo
+    {
+        return $this->belongsTo(Calendar::class);
     }
 }
