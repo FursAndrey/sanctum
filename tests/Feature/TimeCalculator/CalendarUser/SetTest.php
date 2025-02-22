@@ -36,7 +36,7 @@ class SetTest extends TestCase
         );
         $user = User::factory()->create();
         $user->roles()->sync($role->id);
-    
+
         $calendarArray = [
             'title' => Str::random(10),
         ];

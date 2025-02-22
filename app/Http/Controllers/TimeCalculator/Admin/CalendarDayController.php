@@ -53,7 +53,7 @@ class CalendarDayController extends Controller
     public function destroy(CalendarDay $calendarDay)
     {
         $this->authorize('delete', $calendarDay);
-        
+
         $calendarDay->delete();
 
         return response()->noContent();

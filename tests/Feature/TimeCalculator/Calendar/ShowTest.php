@@ -105,6 +105,7 @@ class ShowTest extends TestCase
             ]
         );
     }
+
     public function test_can_return_calendar_with_calendar_days_by_id_for_admin_user()
     {
         // создание пользователя и присвоение ему роли
@@ -156,7 +157,7 @@ class ShowTest extends TestCase
                     'calendarDays' => [
                         $calendarDayArray1,
                         $calendarDayArray2,
-                    ]
+                    ],
                 ],
             ]
         );
