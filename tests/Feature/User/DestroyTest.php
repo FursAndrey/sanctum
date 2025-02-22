@@ -118,7 +118,7 @@ class DestroyTest extends TestCase
         $this->assertDatabaseMissing('users', $deletingUserArray);
     }
 
-    public function test_a_role_can_not_be_deleted_by_not_admin_user()
+    public function test_a_user_can_not_be_deleted_by_not_admin_user()
     {
         // создание пользователя и присвоение ему роли
         $role = Role::create(
@@ -152,7 +152,7 @@ class DestroyTest extends TestCase
         $this->assertDatabaseHas('users', $deletingUserArray);
     }
 
-    public function test_a_role_can_not_be_deleted_by_unauthorised_user()
+    public function test_a_user_can_not_be_deleted_by_unauthorised_user()
     {
         // подготовка юзера к удалению
         $deletingUser = User::factory()->create();
