@@ -137,4 +137,38 @@ class DestroyTest extends TestCase
         $this->assertDatabaseMissing('calendars', $calendar);
         $this->assertDatabaseMissing('calendar_days', $calendarDayArray);
     }
+
+    public function test_calendar_with_users_can_by_deleted_by_admin_user()
+    {
+        // создание пользователя и присвоение ему роли
+        $role = Role::create(
+            [
+                'title' => 'Admin',
+                'discription' => 'Creator of this site',
+                'created_at' => null,
+                'updated_at' => null,
+            ]
+        );
+        $user = User::factory()->create();
+        $user->roles()->sync($role->id);
+
+        $calendarArray = [
+            'title' => Str::random(10),
+        ];
+        $deletedCalendar = Calendar::create($calendarArray);
+
+        $user1 = User::factory()->create();
+        $user2 = User::factory()->create();
+
+        $user1->calendar_id = $deletedCalendar->id;
+        $user1->save();
+        $user2->calendar_id = $deletedCalendar->id;
+        $user2->save();
+
+        // тестируемый запрос от имени пользователя
+        $response = $this->actingAs($user)->delete('/api/calendars/'.$deletedCalendar->id);
+
+        $response->assertStatus(204);
+        $this->assertDatabaseMissing('calendars', $calendarArray);
+    }
 }

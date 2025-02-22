@@ -4,6 +4,7 @@ namespace Tests\Feature\User;
 
 use App\Models\BanChat;
 use App\Models\BanComment;
+use App\Models\Calendar;
 use App\Models\Chat;
 use App\Models\ChatUser;
 use App\Models\Message;
@@ -50,6 +51,43 @@ class DestroyTest extends TestCase
             'email' => $deletingUser->email,
         ];
         $deletingUser->roles()->sync($role->id);
+
+        // тестируемый запрос от имени пользователя
+        $response = $this->actingAs($user)->delete('/api/users/'.$deletingUser->id);
+
+        $response->assertStatus(204);
+        $this->assertDatabaseMissing('users', $deletingUserArray);
+    }
+
+    public function test_user_has_calendar_and_can_be_deleted_by_admin_user()
+    {
+        // создание пользователя и присвоение ему роли
+        $role = Role::create(
+            [
+                'title' => 'Admin',
+                'discription' => 'Creator of this site',
+                'created_at' => null,
+                'updated_at' => null,
+            ]
+        );
+        $user = User::factory()->create();
+        $user->roles()->sync($role->id);
+
+        // подготовка юзера к удалению
+        $deletingUser = User::factory()->create();
+        $deletingUserArray = [
+            'id' => $deletingUser->id,
+            'name' => $deletingUser->name,
+            'email' => $deletingUser->email,
+        ];
+
+        $calendarArray = [
+            'title' => Str::random(10),
+        ];
+        $calendar = Calendar::create($calendarArray);
+
+        $deletingUser->calendar_id = $calendar->id;
+        $deletingUser->save();
 
         // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->delete('/api/users/'.$deletingUser->id);
