@@ -21,4 +21,9 @@ class CalendarUserController extends Controller
 
         return new UserResource($user);
     }
+
+    public function getUserCalendar(User $user)
+    {
+        return response()->json(['calendar_id' => $user->calendar_id]);
+    }
 }

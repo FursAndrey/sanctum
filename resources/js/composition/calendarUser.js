@@ -14,9 +14,8 @@ export default function useCalendarUser() {
     }
 
     const getCalendarUser = async (userId) => {
-        // let response = await axios.get('/api/calendars');
-        // calendars.value = response.data.data;
-        calendarUser.value = null;
+        let response = await axios.get('/api/getUserCalendar/'+userId);
+        calendarUser.value = response.data.calendar_id;
     }
 
     const storeCalendarUser = async (userId, calendarId) => {

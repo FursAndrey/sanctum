@@ -37,11 +37,6 @@ class UnsetTest extends TestCase
         $user = User::factory()->create();
         $user->roles()->sync($role->id);
 
-        $calendarArray = [
-            'title' => Str::random(10),
-        ];
-        $calendar = Calendar::create($calendarArray);
-
         $sync = [
             'user' => $user->id,
         ];
