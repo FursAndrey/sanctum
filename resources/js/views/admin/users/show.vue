@@ -17,6 +17,9 @@
             </div>
             <div v-else>отсутствуют</div>
         </div>
+        <div>
+            Календарь: {{ user.calendar }}
+        </div>
         <router-link :to="{ name: 'user.index'}" class="block w-48 p-2 font-bold bg-sky-700 text-white rounded-lg text-center mt-10">Return to users</router-link>
     </div>
 </template>

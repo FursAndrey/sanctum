@@ -23,7 +23,7 @@ class UserController extends Controller
     {
         $this->authorize('viewAny', User::class);
 
-        $users = User::with(['roles', 'banChat', 'banComment'])->get();
+        $users = User::with(['roles', 'banChat', 'banComment', 'calendar'])->get();
 
         return UserResource::collection($users);
     }
@@ -43,7 +43,7 @@ class UserController extends Controller
     {
         $this->authorize('view', $user);
 
-        $user = User::with(['roles', 'banChat', 'banComment'])->find($user->id);
+        $user = User::with(['roles', 'banChat', 'banComment', 'calendar'])->find($user->id);
 
         return new UserResource($user);
     }

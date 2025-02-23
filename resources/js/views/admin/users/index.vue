@@ -14,6 +14,7 @@
                                     <th scope="col" class=" px-6 py-4">Name</th>
                                     <th scope="col" class=" px-6 py-4">Email</th>
                                     <th scope="col" class=" px-6 py-4">Roles</th>
+                                    <th scope="col" class=" px-6 py-4">Calendar</th>
                                     <th scope="col" class=" px-6 py-4">Ban</th>
                                     <th scope="col" class=" px-6 py-4">Created</th>
                                     <th scope="col"></th>
@@ -30,6 +31,9 @@
                                         <div v-for="role in user.roles" :key="role.id">
                                             {{ role.title }}
                                         </div>
+                                    </td>
+                                    <td>
+                                        {{ user.calendar }}
                                     </td>
                                     <td class="whitespace-nowrap px-6 py-4">
                                         <span v-if="user.ban_chat" class="text-left block">Чаты заблокированы: {{ user.ban_chat }}</span>
