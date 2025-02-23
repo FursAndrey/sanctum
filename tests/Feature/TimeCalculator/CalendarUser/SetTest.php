@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\TimeCalculator\setCalendarUser;
+namespace Tests\Feature\TimeCalculator\CalendarUser;
 
 use App\Models\Calendar;
 use App\Models\Role;
@@ -46,7 +46,7 @@ class SetTest extends TestCase
             'user' => $user->id,
             'calendar' => $calendar->id,
         ];
-        $response = $this->post('/api/setCalendarUser', $sync);
+        $response = $this->post('/api/calendarUser', $sync);
 
         $response->assertStatus(401);
         $response->assertJson(
@@ -81,7 +81,7 @@ class SetTest extends TestCase
         ];
 
         // тестируемый запрос от имени пользователя
-        $response = $this->actingAs($user)->post('/api/setCalendarUser', $sync);
+        $response = $this->actingAs($user)->post('/api/calendarUser', $sync);
 
         $response->assertStatus(403);
         $response->assertJsonFragment(
@@ -115,42 +115,13 @@ class SetTest extends TestCase
         ];
 
         // тестируемый запрос от имени пользователя
-        $response = $this->actingAs($user)->post('/api/setCalendarUser', $sync);
+        $response = $this->actingAs($user)->post('/api/calendarUser', $sync);
 
         $response
             ->assertStatus(422)
             ->assertInvalid('user_id')
             ->assertJsonValidationErrors([
                 'user_id' => 'The user id field is required.',
-            ]);
-    }
-
-    public function test_calendar_id_attribute_is_required_for_set_calendar_user()
-    {
-        // создание пользователя и присвоение ему роли
-        $role = Role::create(
-            [
-                'title' => 'Admin',
-                'discription' => Str::random(10),
-                'created_at' => null,
-                'updated_at' => null,
-            ]
-        );
-        $user = User::factory()->create();
-        $user->roles()->sync($role->id);
-
-        $sync = [
-            'user_id' => $user->id,
-        ];
-
-        // тестируемый запрос от имени пользователя
-        $response = $this->actingAs($user)->post('/api/setCalendarUser', $sync);
-
-        $response
-            ->assertStatus(422)
-            ->assertInvalid('calendar_id')
-            ->assertJsonValidationErrors([
-                'calendar_id' => 'The calendar id field is required.',
             ]);
     }
 
@@ -174,7 +145,7 @@ class SetTest extends TestCase
         ];
 
         // тестируемый запрос от имени пользователя
-        $response = $this->actingAs($user)->post('/api/setCalendarUser', $sync);
+        $response = $this->actingAs($user)->post('/api/calendarUser', $sync);
 
         $response
             ->assertStatus(422)
@@ -209,7 +180,7 @@ class SetTest extends TestCase
         ];
 
         // тестируемый запрос от имени пользователя
-        $response = $this->actingAs($user)->post('/api/setCalendarUser', $sync);
+        $response = $this->actingAs($user)->post('/api/calendarUser', $sync);
 
         $response
             ->assertStatus(422)
@@ -244,7 +215,7 @@ class SetTest extends TestCase
         ];
 
         // тестируемый запрос от имени пользователя
-        $response = $this->actingAs($user)->post('/api/setCalendarUser', $sync);
+        $response = $this->actingAs($user)->post('/api/calendarUser', $sync);
 
         $response
             ->assertStatus(422)
@@ -282,7 +253,7 @@ class SetTest extends TestCase
         ];
 
         // тестируемый запрос от имени пользователя
-        $response = $this->actingAs($user)->post('/api/setCalendarUser', $sync);
+        $response = $this->actingAs($user)->post('/api/calendarUser', $sync);
 
         $response
             ->assertStatus(422)
@@ -320,7 +291,7 @@ class SetTest extends TestCase
         ];
 
         // тестируемый запрос от имени пользователя
-        $response = $this->actingAs($user)->post('/api/setCalendarUser', $sync);
+        $response = $this->actingAs($user)->post('/api/calendarUser', $sync);
 
         $response->assertStatus(200);
         $sync['id'] = $sync['user_id'];

@@ -22,7 +22,7 @@ class SetRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'calendar_id' => 'required|integer|exists:calendars,id',
+            'calendar_id' => 'nullable|integer|exists:calendars,id',
             'user_id' => 'required|integer|exists:users,id',
         ];
     }

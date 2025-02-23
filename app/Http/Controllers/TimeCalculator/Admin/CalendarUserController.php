@@ -22,14 +22,4 @@ class CalendarUserController extends Controller
 
         return new UserResource($user);
     }
-
-    public function unset(UnsetRequest $request)
-    {
-        $data = $request->validated();
-        $user = User::find($data['user_id']);
-        $user->calendar_id = null;
-        $user->save();
-
-        return response()->noContent();
-    }
 }

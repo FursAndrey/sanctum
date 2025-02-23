@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\TimeCalculator\unsetCalendarUser;
+namespace Tests\Feature\TimeCalculator\CalendarUser;
 
 use App\Models\Calendar;
 use App\Models\Role;
@@ -45,7 +45,7 @@ class UnsetTest extends TestCase
         $sync = [
             'user' => $user->id,
         ];
-        $response = $this->post('/api/unsetCalendarUser', $sync);
+        $response = $this->post('/api/calendarUser', $sync);
 
         $response->assertStatus(401);
         $response->assertJson(
@@ -74,7 +74,7 @@ class UnsetTest extends TestCase
         ];
 
         // тестируемый запрос от имени пользователя
-        $response = $this->actingAs($user)->post('/api/unsetCalendarUser', $sync);
+        $response = $this->actingAs($user)->post('/api/calendarUser', $sync);
 
         $response->assertStatus(403);
         $response->assertJsonFragment(
@@ -103,7 +103,7 @@ class UnsetTest extends TestCase
         ];
 
         // тестируемый запрос от имени пользователя
-        $response = $this->actingAs($user)->post('/api/unsetCalendarUser', $sync);
+        $response = $this->actingAs($user)->post('/api/calendarUser', $sync);
 
         $response
             ->assertStatus(422)
@@ -132,7 +132,7 @@ class UnsetTest extends TestCase
         ];
 
         // тестируемый запрос от имени пользователя
-        $response = $this->actingAs($user)->post('/api/unsetCalendarUser', $sync);
+        $response = $this->actingAs($user)->post('/api/calendarUser', $sync);
 
         $response
             ->assertStatus(422)
@@ -161,7 +161,7 @@ class UnsetTest extends TestCase
         ];
 
         // тестируемый запрос от имени пользователя
-        $response = $this->actingAs($user)->post('/api/unsetCalendarUser', $sync);
+        $response = $this->actingAs($user)->post('/api/calendarUser', $sync);
 
         $response
             ->assertStatus(422)
@@ -195,15 +195,20 @@ class UnsetTest extends TestCase
 
         $sync = [
             'user_id' => $user->id,
+            'calendar_id' => null,
+        ];
+        $old = [
+            'id' => $sync['user_id'],
             'calendar_id' => $calendar->id,
         ];
 
         // тестируемый запрос от имени пользователя
-        $response = $this->actingAs($user)->post('/api/unsetCalendarUser', $sync);
+        $response = $this->actingAs($user)->post('/api/calendarUser', $sync);
 
-        $response->assertStatus(204);
+        $response->assertStatus(200);
         $sync['id'] = $sync['user_id'];
         unset($sync['user_id']);
-        $this->assertDatabaseMissing('users', $sync);
+        $this->assertDatabaseHas('users', $sync);
+        $this->assertDatabaseMissing('users', $old);
     }
 }

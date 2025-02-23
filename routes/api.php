@@ -67,8 +67,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 
     Route::group(['middleware' => 'isAdmin'], function () {
         Route::get('/cacheClear', CacheClearController::class);
-        Route::post('/setCalendarUser', [CalendarUserController::class, 'set']);
-        Route::post('/unsetCalendarUser', [CalendarUserController::class, 'unset']);
+        Route::post('/calendarUser', [CalendarUserController::class, 'set']);
     });
 });
 Route::apiResource('/posts', PostController::class)->only(['index', 'show']);
