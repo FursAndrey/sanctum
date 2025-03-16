@@ -7,10 +7,12 @@ use App\Models\BanComment;
 use App\Models\Calendar;
 use App\Models\Chat;
 use App\Models\ChatUser;
+use App\Models\Event;
 use App\Models\Message;
 use App\Models\MessageUser;
 use App\Models\Role;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Str;
 use Tests\TestCase;
@@ -117,6 +119,58 @@ class DestroyTest extends TestCase
             'name' => $deletingUser->name,
             'email' => $deletingUser->email,
         ];
+
+        // тестируемый запрос от имени пользователя
+        $response = $this->actingAs($user)->delete('/api/users/'.$deletingUser->id);
+
+        $response->assertStatus(204);
+        $this->assertDatabaseMissing('users', $deletingUserArray);
+    }
+
+    public function test_user_with_events_can_be_deleted_by_admin_user()
+    {
+        // создание пользователя и присвоение ему роли
+        $role = Role::create(
+            [
+                'title' => 'Admin',
+                'discription' => 'Creator of this site',
+                'created_at' => null,
+                'updated_at' => null,
+            ]
+        );
+        $user = User::factory()->create();
+        $user->roles()->sync($role->id);
+
+        // подготовка юзера к удалению
+        $deletingUser = User::factory()->create();
+        $deletingUserArray = [
+            'id' => $deletingUser->id,
+            'name' => $deletingUser->name,
+            'email' => $deletingUser->email,
+        ];
+
+        $calendarArray = [
+            'title' => Str::random(10),
+        ];
+        $calendar = Calendar::create($calendarArray);
+
+        $deletingUser->calendar_id = $calendar->id;
+        $deletingUser->save();
+
+        $createdEvent = [
+            'user_id' => $deletingUser->id,
+            'month_day_id' => 1,
+            'event_type' => 'enter',
+            'event_time' => Carbon::now()->subSeconds(rand(60, 60 * 60))->format('H:i:s'),
+        ];
+        Event::create($createdEvent);
+        $createdEvent = [
+            'user_id' => $deletingUser->id,
+            'month_day_id' => 1,
+            'event_type' => 'exit',
+            'event_time' => Carbon::now()->subSeconds(rand(60 * 60, 2 * 60 * 60))->format('H:i:s'),
+        ];
+        Event::create($createdEvent);
 
         // тестируемый запрос от имени пользователя
         $response = $this->actingAs($user)->delete('/api/users/'.$deletingUser->id);

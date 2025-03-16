@@ -88,7 +88,7 @@ class GetUserCalendarTest extends TestCase
         $response->assertStatus(200);
         $response->assertJson(['calendar_id' => $calendar->id]);
     }
-    
+
     public function test_get_null_user_calendar_by_admin_user(): void
     {
         // создание пользователя и присвоение ему роли

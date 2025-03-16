@@ -16,6 +16,7 @@ use App\Http\Controllers\MessageUserController;
 use App\Http\Controllers\TimeCalculator\Admin\CalendarController;
 use App\Http\Controllers\TimeCalculator\Admin\CalendarDayController;
 use App\Http\Controllers\TimeCalculator\Admin\CalendarUserController;
+use App\Http\Controllers\TimeCalculator\Admin\EventGenController;
 use App\Http\Controllers\TimeCalculator\Admin\HolydayController;
 use Illuminate\Support\Facades\Route;
 
@@ -67,6 +68,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 
     Route::group(['middleware' => 'isAdmin'], function () {
         Route::get('/cacheClear', CacheClearController::class);
+        Route::get('/eventGenerate', [EventGenController::class, 'generate']);
         Route::post('/calendarUser', [CalendarUserController::class, 'set']);
         Route::get('/getUserCalendar/{user}', [CalendarUserController::class, 'getUserCalendar']);
     });

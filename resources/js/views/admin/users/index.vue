@@ -6,7 +6,8 @@
                 <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
                     <div class="overflow-hidden">
                         <div class="flex mx-auto mb-4 w-96">
-                            <span @click="storeRandomUser()" class="block p-2 w-44 font-bold bg-amber-700 text-white rounded-lg text-center cursor-pointer">Create random user</span>
+                            <span @click="storeRandomUser()" class="block p-2 me-4 w-44 font-bold bg-amber-700 text-white rounded-lg text-center cursor-pointer">Create random user</span>
+                            <span @click="addEvents()" class="block p-2 w-44 font-bold bg-amber-700 text-white rounded-lg text-center cursor-pointer">Add events to users</span>
                         </div>
                         <table class="min-w-full text-center text-sm font-light">
                             <thead class="border-b bg-neutral-800 font-medium text-white dark:border-neutral-500 dark:bg-neutral-900">
@@ -80,10 +81,20 @@ export default {
             await getUsers();
         }
 
+        const addEvents = async () => {
+            await axios.get('/api/eventGenerate')
+            .then(res => {
+                // getPosts();
+            // }).catch(e => {
+            //     console.log(e);
+            });
+        }
+
         return {
             users,
             deleteUser,
-            storeRandomUser
+            storeRandomUser,
+            addEvents
         }
     },
 }

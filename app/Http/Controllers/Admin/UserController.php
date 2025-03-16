@@ -103,6 +103,9 @@ class UserController extends Controller
             $user->banComment->delete();
         }
 
+        foreach ($user->events as $event) {
+            $event->delete();
+        }
         $user->delete();
 
         return response()->noContent();
